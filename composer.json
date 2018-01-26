@@ -1,0 +1,13 @@
+{
+    "name": "baizeenterprise/g-c-a-s-timesheet",
+    "description": "Description of project GCASTimesheet.",
+    "authors": [
+        {
+            "name": "Jim Baize",
+            "email": "pavulon@hotmail.com"
+        }
+    ],
+    "require": {
+        "pds/skeleton": "1.x-dev"
+    }
+}
