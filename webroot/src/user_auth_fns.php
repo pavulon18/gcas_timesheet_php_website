@@ -2,33 +2,35 @@
 
 require_once('db_fns.php');
 
+function register($username, $email, $password)
+{
+    // register new person with db
+    // return true or error message
+    // connect to db
+    $conn = db_connect();
 
-  function register($username, $email, $password) {
-  // register new person with db
-  // return true or error message
+    // check if username is unique
+    $result = $conn->query("select * from employees where username='" . $username . "'");
+    if (!$result)
+    {
+        throw new Exception('Could not execute query');
+    }
 
-  // connect to db
-  $conn = db_connect();
+    if ($result->num_rows > 0)
+    {
+        throw new Exception('That username is taken - go back and choose another one.');
+    }
 
-  // check if username is unique
-  $result = $conn->query("select * from employees where username='".$username."'");
-  if (!$result) {
-  throw new Exception('Could not execute query');
-  }
+    // if ok, put in db
+    $result = $conn->query("insert into employees values
+  ('" . $username . "', sha1('" . $password . "'), '" . $email . "')");
+    if (!$result)
+    {
+        throw new Exception('Could not register you in database - please try again later.');
+    }
 
-  if ($result->num_rows>0) {
-  throw new Exception('That username is taken - go back and choose another one.');
-  }
-
-  // if ok, put in db
-  $result = $conn->query("insert into employees values
-  ('".$username."', sha1('".$password."'), '".$email."')");
-  if (!$result) {
-  throw new Exception('Could not register you in database - please try again later.');
-  }
-
-  return true;
-  }
+    return true;
+}
 
 function login($username, $password)
 {
@@ -67,7 +69,7 @@ function check_valid_user()
         // they are not logged in
         do_html_header('Problem:');
         echo 'You are not logged in.<br>';
-        do_html_url('login.php', 'Login');
+        do_html_url('../../login.php', 'Login');
         do_html_footer();
         exit;
     }
@@ -101,7 +103,7 @@ function get_random_word($min_length, $max_length)
     // generate a random word
     $word = '';
     // remember to change this path to suit your system
-    $dictionary = '/usr/dict/words';  // the ispell dictionary
+    $dictionary = 'src/default.dic';  // the ispell dictionary
     $fp = @fopen($dictionary, 'r');
     if (!$fp)
     {

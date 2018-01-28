@@ -25,6 +25,7 @@ THE SOFTWARE.
 
 <?php
 require("webroot/index.php");
+
 ?>
 
 <html>

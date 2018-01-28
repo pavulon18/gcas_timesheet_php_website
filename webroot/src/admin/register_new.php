@@ -1,6 +1,6 @@
 <?php
   // include function files for this application
-  require_once('timesheet_fns.php');
+  require_once('src/timesheet_fns.php');
 
   //create short variable names
   $email=$_POST['email'];
@@ -43,7 +43,7 @@
     // provide link to members page
     do_html_header('Registration successful');
     echo 'Your registration was successful.  Go to the members page to start setting up your bookmarks!';
-    do_html_url('member.php', 'Go to members page');
+    do_html_url('employees/member.php', 'Go to members page');
 
    // end page
    do_html_footer();

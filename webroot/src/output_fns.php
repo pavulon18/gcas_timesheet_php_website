@@ -70,9 +70,10 @@ function display_site_info()
 
 function display_login_form()
 {
+
     ?>
-    <!--<p><a href="register_form.php">Not a member?</a></p>
-    //<form method="post" action="member.php"> -->
+    <!--<p><a href="register_form.php">Not a member?</a></p> -->
+    <form method="post" action="\webroot\src\employees\member.php">
 
         <div class="formblock">
             <h2>Members Log In Here</h2>
@@ -91,6 +92,8 @@ function display_login_form()
     </form>
     <?php
 }
+
+
 
 function display_registration_form()
 {
@@ -124,6 +127,7 @@ function display_registration_form()
     </form>
     <?php
 }
+
 
 function display_user_urls($url_array)
 {
@@ -169,11 +173,16 @@ function display_user_urls($url_array)
 function display_user_menu()
 {
     // display the menu options on this page
+    
+ 
+    
     ?>
     <hr>
     <a href="member.php">Home</a> &nbsp;|&nbsp;
     <!--<a href="add_bm_form.php">Add BM</a> &nbsp;|&nbsp; -->
     <?php
+    
+ 
     /*
     // only offer the delete option if bookmark table is on this page
     global $bm_table;
@@ -188,8 +197,8 @@ function display_user_menu()
      */
     
     ?>
-    <a href="change_passwd_form.php">Change password</a><br>
-    <a href="recommend.php">Recommend URLs to me</a> &nbsp;|&nbsp;
+    <a href="/webroot/src/change_passwd_form.php">Change password</a><br>
+    <!-- <a href="recommend.php">Recommend URLs to me</a> &nbsp;|&nbsp; -->
     <a href="logout.php">Logout</a>
     <hr>
 

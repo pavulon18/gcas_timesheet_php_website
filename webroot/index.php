@@ -5,6 +5,7 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <?php
+
 require('templates\PageTemplate.php');
 
 $homepage = new PageTemplate();

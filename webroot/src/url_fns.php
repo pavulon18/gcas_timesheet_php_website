@@ -1,5 +1,5 @@
 <?php
-require_once('general/db_fns.php');
+require_once('db_fns.php');
 
 function get_user_urls($username) {
   //extract from the database all the URLs this user has stored

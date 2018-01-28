@@ -32,6 +32,7 @@
  *
  * @author Jim Baize <pavulon@hotmail.com>
  */
+
 class PageTemplate
 {
 
@@ -72,8 +73,9 @@ class PageTemplate
     public function DisplayStyles()
     {
         ?>   
-        <link href="styles.css" type="text/css" rel="stylesheet">
+        <link href="templates/styles.css" type="text/css" rel="stylesheet">
         <?php
+
     }
 
     public function DisplayHeader()
@@ -121,7 +123,7 @@ class PageTemplate
                     <span class="menutext"><?= $name ?></span>
                 </a>
             </div>
-        <?php
+            <?php
         } else
         {
             ?>

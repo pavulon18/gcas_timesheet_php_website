@@ -1,7 +1,8 @@
 <?php
 
 // include function files for this application
-require_once('../timesheet_fns.php');
+        
+require_once('..\timesheet_fns.php');
 session_start();
 
 //create short variable names
@@ -32,7 +33,7 @@ if ($username && $passwd)
         do_html_header('Problem:');
         echo 'You could not be logged in.<br>
           You must be logged in to view this page.';
-        do_html_url('../login.php', 'Login');
+        do_html_url('../../login.php', 'Login');
         do_html_footer();
         exit;
     }
