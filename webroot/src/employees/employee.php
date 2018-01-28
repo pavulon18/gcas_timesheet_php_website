@@ -37,9 +37,46 @@
  */
 class employee
 {
+
+    //declare variables
+    private $employeeNumber;
+
     //put your code here
     function __construct()
     {
         // My constructor function;
+    }
+
+    //Every employee will have an Employee Number.  This number is assigned to 
+    //each employee by the county.  Although it is an integer, it might be a 
+    //good idea to manage the value as a string instead of an integer.
+    function __getEmployeeNumber($employeeNumber)
+    {
+        return $this->$employeeNumber;
+    }
+
+    function __setEmployeeNumber($employeeNumber, $empNum)
+    {
+        $re = '/\d\d\d\d\d\d\d\d\d/'; //My regex code
+        if (empty($empNumber))
+        {
+            //error handling routine
+        } elseif (preg_match_all($re, $empNum, PREG_SET_ORDER, 0))
+        {
+            $this->$employeeNumber = $empNum;
+        } else
+        {
+            //another error handling routine
+        }
+    }
+    
+    function __getFirstName($firstName)
+    {
+        return $this->$firstName;
+    }
+
+    function __getMiddleName($middleName)
+    {
+        return $this->$middleName;
     }
 }
