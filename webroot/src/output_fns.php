@@ -109,7 +109,7 @@ function display_login_form()
 
             <button type="submit">Log In</button>
 
-            <p><a href="forgot_form.php">Forgot your password?</a></p>
+            <p><a href="\webroot\src\forgot_form.php">Forgot your password?</a></p>
         </div>
 
     </form>
@@ -121,7 +121,7 @@ function display_login_form()
 function display_registration_form()
 {
     ?>
-    <form method="post" action="register_new.php">
+    <form method="post" action="admin/register_new.php">
 
         <div class="formblock">
             <h2>Register Now</h2>
@@ -134,12 +134,12 @@ function display_registration_form()
                 <input type="text" name="username" id="username" 
                        size="16" maxlength="16" required /></p>
 
-            <p><label for="passwd">Password <br>(between 6 and 16 chars):</label><br/>
-                <input type="password" name="passwd" id="passwd" 
+            <p><label for="password">Password <br>(between 6 and 16 chars):</label><br/>
+                <input type="password" name="password" id="passwd" 
                        size="16" maxlength="16" required /></p>
 
-            <p><label for="passwd2">Confirm Password:</label><br/>
-                <input type="password" name="passwd2" id="passwd2" 
+            <p><label for="password2">Confirm Password:</label><br/>
+                <input type="password" name="password2" id="passwd2" 
                        size="16" maxlength="16" required /></p>
 
 
@@ -228,6 +228,9 @@ function display_user_menu()
     <?php
 }
 
+/*
+ * This function was part of the original bookmark project.  It will be deleted
+ * once I have everything I need from it.
 function display_add_bm_form()
 {
     // display the form for people to ener a new bookmark in
@@ -248,6 +251,8 @@ function display_add_bm_form()
     </form>
     <?php
 }
+ * 
+ */
 
 function display_password_form()
 {

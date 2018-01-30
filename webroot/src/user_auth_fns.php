@@ -1,4 +1,5 @@
 <?php
+
 /*
  * The MIT License
  *
@@ -22,6 +23,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 require_once('db_fns.php');
 
 function register($username, $email, $password)
@@ -29,6 +31,11 @@ function register($username, $email, $password)
     // register new person with db
     // return true or error message
     // connect to db
+
+    echo "<pre>";   //remove this line
+    print_r();      //remove this line
+    echo "</pre>";  //remove this line
+
     $conn = db_connect();
 
     // check if username is unique
@@ -60,12 +67,16 @@ function login($username, $password)
 // if yes, return true
 // else throw exception
     // connect to db
+
     $conn = db_connect();
 
     // check if username is unique
+    echo $username;
+    echo $password;
     $result = $conn->query("select * from employees
                          where username='" . $username . "'
                          and password = sha1('" . $password . "')");
+
     if (!$result)
     {
         throw new Exception('Could not log you in.');
@@ -76,6 +87,9 @@ function login($username, $password)
         return true;
     } else
     {
+
+        echo $username;
+        echo $password;
         throw new Exception('Could not log you in.');
     }
 }

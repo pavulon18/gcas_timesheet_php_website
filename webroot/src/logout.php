@@ -1,5 +1,4 @@
 <?php
-
 /*
  * The MIT License
  *
@@ -23,17 +22,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+// include function files for this application
+require_once('timesheet_fns.php');
+session_start();
+$old_user = $_SESSION['valid_user'];
 
-function db_connect()
-{
-    $result = new mysqli('localhost', 'gcems', 'password', 'gcas_payroll');
-    if (!$result)
-    {
-        throw new Exception('Could not connect to database server');
-    } else
-    {
-        return $result;
-    }
+// store  to test if they *were* logged in
+unset($_SESSION['valid_user']);
+$result_dest = session_destroy();
+
+// start output html
+do_html_header('Logging Out');
+
+if (!empty($old_user)) {
+  if ($result_dest)  {
+    // if they were logged in and are now logged out
+    echo 'Logged out.<br>';
+    do_html_url('..\login.php', 'Login');
+  } else {
+   // they were logged in and could not be logged out
+    echo 'Could not log you out.<br>';
+  }
+} else {
+  // if they weren't logged in but came to this page somehow
+  echo 'You were not logged in, and so have not been logged out.<br>';
+  do_html_url('..\login.php', 'Login');
 }
+
+do_html_footer();
 
 ?>

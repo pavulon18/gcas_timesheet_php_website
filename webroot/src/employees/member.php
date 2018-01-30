@@ -34,19 +34,19 @@ if (!isset($_POST['username']))
     $_POST['username'] = " ";
 }
 $username = $_POST['username'];
-if (!isset($_POST['passwd']))
+if (!isset($_POST['password']))
 {
     //if not isset -> set with dummy value 
-    $_POST['passwd'] = " ";
+    $_POST['password'] = " ";
 }
-$passwd = $_POST['passwd'];
+$password = $_POST['password'];
 
-if ($username && $passwd)
+if ($username && $password)
 {
 // they have just tried logging in
     try
     {
-        login($username, $passwd);
+        login($username, $password);
         // if they are in the database register the user id
         $_SESSION['valid_user'] = $username;
     } catch (Exception $e)

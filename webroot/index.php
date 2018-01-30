@@ -27,6 +27,7 @@
 <?php
 
 require('templates\PageTemplate.php');
+require_once('src\dump_variables.php');
 
 $homepage = new PageTemplate();
 
