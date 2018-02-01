@@ -32,10 +32,6 @@ function register($username, $email, $password)
     // return true or error message
     // connect to db
 
-    echo "<pre>";   //remove this line
-    print_r();      //remove this line
-    echo "</pre>";  //remove this line
-
     $conn = db_connect();
 
     // check if username is unique
@@ -71,8 +67,7 @@ function login($username, $password)
     $conn = db_connect();
 
     // check if username is unique
-    echo $username;
-    echo $password;
+
     $result = $conn->query("select * from employees
                          where username='" . $username . "'
                          and password = sha1('" . $password . "')");
@@ -87,9 +82,6 @@ function login($username, $password)
         return true;
     } else
     {
-
-        echo $username;
-        echo $password;
         throw new Exception('Could not log you in.');
     }
 }

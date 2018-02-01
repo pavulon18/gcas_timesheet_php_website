@@ -27,6 +27,8 @@ The basis of this page came from https://www.w3schools.com/howto/howto_js_tabs.a
 -->
 <html>
     <head>
+        <link rel="stylesheet" href="../../templates/styles.css" type="text/css"/>
+
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,9 +36,10 @@ The basis of this page came from https://www.w3schools.com/howto/howto_js_tabs.a
     <body>
         <!-- Tab links -->
         <div class="tab">
-            <button class="tablinks" onclick="openCity(event, 'currtimesheet')">Current Time Sheet</button>
-            <button class="tablinks" onclick="openCity(event, 'oldtimesheet')">Previous Time Sheets</button>
-            <button class="tablinks" onclick="openCity(event, 'daysoffremaining')">PTO Days Remaining</button>
+            <button class="tablinks" onclick="openUser(event, 'currtimesheet')">Current Time Sheet</button>
+            <button class="tablinks" onclick="openUser(event, 'oldtimesheet')">Previous Time Sheets</button>
+            <button class="tablinks" onclick="openUser(event, 'daysoffremaining')">PTO Days Remaining</button>
+            <button class="tablinks" onclick="openUser(event, 'dayoffrequest')">Day Off Request Form</button>
         </div>
 
         <!-- Tab content -->
@@ -52,7 +55,16 @@ The basis of this page came from https://www.w3schools.com/howto/howto_js_tabs.a
 
         <div id="daysoffremaining" class="tabcontent">
             <h3>PTO Days</h3>
+
             <p>This will display a current accounting of the user's PTO days</p>
-        </div> 
+        </div>
+        
+        <div id="dayoffrequest" class="tabcontent">
+            <h3>Day Off Request Form</h3>
+            <p>This functionality is planned for a future version.</p>
+            <p>This page will display a day off request form</p>
+        </div>
+        
+        <script src="employee_base.js"></script>
     </body>
 </html>

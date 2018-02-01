@@ -1,5 +1,4 @@
-<?php
-/*
+/* 
  * The MIT License
  *
  * Copyright 2018 Jim Baize <pavulon@hotmail.com>.
@@ -23,12 +22,24 @@
  * THE SOFTWARE.
  */
 
-// We can include this file in all our files
-// this way, every file will contain all our functions and exceptions
 
-require_once('data_valid_fns.php');
-require_once('db_fns.php');
-require_once('user_auth_fns.php');
-require_once('output_fns.php');
-require_once('url_fns.php');
-?>
+function openUser(evt, actionName) {
+    // Declare all variables
+    var i, tabcontent, tablinks;
+
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    // Show the current tab, and add an "active" class to the button that opened the tab
+    document.getElementById(actionName).style.display = "block";
+    evt.currentTarget.className += " active";
+}

@@ -54,8 +54,8 @@ function do_html_header($title)
             }
         }
 
-        function do_html_footer()
-        {
+function do_html_footer()
+{
             // print an HTML footer
             ?>
         </body>
@@ -93,7 +93,6 @@ function display_site_info()
 
 function display_login_form()
 {
-
     ?>
     <!--<p><a href="register_form.php">Not a member?</a></p> -->
     <form method="post" action="\webroot\src\employees\member.php">
@@ -115,8 +114,6 @@ function display_login_form()
     </form>
     <?php
 }
-
-
 
 function display_registration_form()
 {
@@ -151,7 +148,6 @@ function display_registration_form()
     <?php
 }
 
-
 function display_user_urls($url_array)
 {
     // display the table of URLs
@@ -162,63 +158,59 @@ function display_user_urls($url_array)
     <br>
     <form name="bm_table" action="delete_bms.php" method="post">
         <table width="300" cellpadding="2" cellspacing="0">
-            <?php
-            $color = "#cccccc";
-            echo "<tr bgcolor=\"" . $color . "\"><td><strong>Bookmark</strong></td>";
-            echo "<td><strong>Delete?</strong></td></tr>";
-            if ((is_array($url_array)) && (count($url_array) > 0))
+    <?php
+    $color = "#cccccc";
+    echo "<tr bgcolor=\"" . $color . "\"><td><strong>Bookmark</strong></td>";
+    echo "<td><strong>Delete?</strong></td></tr>";
+    if ((is_array($url_array)) && (count($url_array) > 0))
+    {
+        foreach ($url_array as $url)
+        {
+            if ($color == "#cccccc")
             {
-                foreach ($url_array as $url)
-                {
-                    if ($color == "#cccccc")
-                    {
-                        $color = "#ffffff";
-                    } else
-                    {
-                        $color = "#cccccc";
-                    }
-                    //remember to call htmlspecialchars() when we are displaying user data
-                    echo "<tr bgcolor=\"" . $color . "\"><td><a href=\"" . $url . "\">" . htmlspecialchars($url) . "</a></td>
+                $color = "#ffffff";
+            } else
+            {
+                $color = "#cccccc";
+            }
+            //remember to call htmlspecialchars() when we are displaying user data
+            echo "<tr bgcolor=\"" . $color . "\"><td><a href=\"" . $url . "\">" . htmlspecialchars($url) . "</a></td>
             <td><input type=\"checkbox\" name=\"del_me[]\"
                 value=\"" . $url . "\"></td>
             </tr>";
-                }
-            } else
-            {
-                echo "<tr><td>No data on record</td></tr>";
-            }
-            ?>
+        }
+    } else
+    {
+        echo "<tr><td>No data on record</td></tr>";
+    }
+    ?>
         </table>
     </form>
-    <?php
-}
+            <?php
+        }
 
 function display_user_menu()
-{
-    // display the menu options on this page
-    
- 
-    
-    ?>
+        {
+            // display the menu options on this page
+            ?>
     <hr>
     <a href="member.php">Home</a> &nbsp;|&nbsp;
     <!--<a href="add_bm_form.php">Add BM</a> &nbsp;|&nbsp; -->
     <?php
-    
- 
+    require_once ('employees\employee_base.html');
+
     /*
-    // only offer the delete option if bookmark table is on this page
-    global $bm_table;
-    if ($bm_table == true)
-    {
-        echo "<a href=\"#\" onClick=\"bm_table.submit();\">Delete BM</a> &nbsp;|&nbsp;";
-    } else
-    {
-        echo "<span style=\"color: #cccccc\">Delete BM</span> &nbsp;|&nbsp;";
-    }
+      // only offer the delete option if bookmark table is on this page
+      global $bm_table;
+      if ($bm_table == true)
+      {
+      echo "<a href=\"#\" onClick=\"bm_table.submit();\">Delete BM</a> &nbsp;|&nbsp;";
+      } else
+      {
+      echo "<span style=\"color: #cccccc\">Delete BM</span> &nbsp;|&nbsp;";
+      }
      * 
      */
-    
     ?>
     <a href="/webroot/src/change_passwd_form.php">Change password</a><br>
     <!-- <a href="recommend.php">Recommend URLs to me</a> &nbsp;|&nbsp; -->
@@ -228,9 +220,6 @@ function display_user_menu()
     <?php
 }
 
-/*
- * This function was part of the original bookmark project.  It will be deleted
- * once I have everything I need from it.
 function display_add_bm_form()
 {
     // display the form for people to ener a new bookmark in
@@ -251,8 +240,6 @@ function display_add_bm_form()
     </form>
     <?php
 }
- * 
- */
 
 function display_password_form()
 {
@@ -302,14 +289,14 @@ function display_forgot_form()
 
             </div>
             <br>
-                <?php
-            }
+    <?php
+}
 
-            function display_recommended_urls($url_array)
-            {
-                // similar output to display_user_urls
-                // instead of displaying the users bookmarks, display recomendation
-                ?>
+function display_recommended_urls($url_array)
+{
+    // similar output to display_user_urls
+    // instead of displaying the users bookmarks, display recomendation
+    ?>
             <br>
             <table width="300" cellpadding="2" cellspacing="0">
             <?php
@@ -336,6 +323,6 @@ function display_forgot_form()
             }
             ?>
             </table>
-    <?php
+<?php
 }
 ?>

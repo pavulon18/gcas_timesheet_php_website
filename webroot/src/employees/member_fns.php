@@ -1,4 +1,5 @@
 <?php
+
 /*
  * The MIT License
  *
@@ -23,12 +24,32 @@
  * THE SOFTWARE.
  */
 
-// We can include this file in all our files
-// this way, every file will contain all our functions and exceptions
-
-require_once('data_valid_fns.php');
+ //open a connection to the DB
 require_once('db_fns.php');
-require_once('user_auth_fns.php');
-require_once('output_fns.php');
-require_once('url_fns.php');
-?>
+
+
+function get_user_pto($pto_array)
+{
+    // retrieve the user's PTO days information
+    $conn = db_connect();
+
+    // check if username is unique
+    $result = $conn->query("select sick_days_remaining, vacation_days_remaining, personal_days_reamaining"
+            . "from employees"
+            . "where username='" . $username . "'"
+            . "order by Inserted_at desc limit 1");
+    if (!$result)
+    {
+        throw new Exception('Could not execute query');
+    }
+
+    
+
+   
+    //
+    //select sick_days_remaining, vacation_days_remaining, personal_days_reamaining
+    //from employees
+    //where username = current user and date is most recent (not sure if I need the most recent effective date or inserted date or some combination)
+    //close DB connection
+    //send information to be displayed
+}

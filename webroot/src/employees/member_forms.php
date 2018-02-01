@@ -1,5 +1,6 @@
 <?php
-/*
+
+/* 
  * The MIT License
  *
  * Copyright 2018 Jim Baize <pavulon@hotmail.com>.
@@ -23,12 +24,16 @@
  * THE SOFTWARE.
  */
 
-// We can include this file in all our files
-// this way, every file will contain all our functions and exceptions
+do_html_header('PTO Days Report');
 
-require_once('data_valid_fns.php');
-require_once('db_fns.php');
-require_once('user_auth_fns.php');
-require_once('output_fns.php');
-require_once('url_fns.php');
-?>
+function show_pto($ptoArray)
+{
+    //Print a report of the users remaining PTO days
+    ?>
+        <body>
+            <p>Current PTO days for $username.</p>
+        </body>
+    <?php
+}
+
+do_html_footer();
