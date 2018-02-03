@@ -30,8 +30,9 @@ require_once('db_fns.php');
 
 function get_user_pto($pto_array)
 {
+    
     // retrieve the user's PTO days information
-    $conn = db_connect();
+    //$conn = db_connect();
 
     // check if username is unique
     $result = $conn->query("select sick_days_remaining, vacation_days_remaining, personal_days_reamaining"
