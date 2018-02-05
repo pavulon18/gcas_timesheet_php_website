@@ -38,18 +38,38 @@
 class employees
 {
 
-    //declare variables
+//declare variables
     private $employeeNumber;
+    private $firstName;
+    private $middleName;
+    private $lastName;
+    private $payRate;
+    private $sickDaysRemaining;
+    private $vacationDaysRemaining;
+    private $personalDaysRemaining;
+    private $FMLADaysRemaining;
+    private $isCurrentlyEmployed;
+    private $isOnShortTerm_Disability;
+    private $isOnLongTermDisability;
+    private $isOnFMLA;
+    private $username;
+    private $password;
+    private $rememberMe;
+    private $email;
+    private $effectiveStartDateTime;
+    private $effectiveEndDateTime;
+    private $insertedAt;
+    private $deletedAt;
 
-    //put your code here
+//put your code here
     function __construct()
     {
-        // My constructor function;
+// My constructor function;
     }
 
-    //Every employee will have an Employee Number.  This number is assigned to 
-    //each employee by the county.  Although it is an integer, it might be a 
-    //good idea to manage the value as a string instead of an integer.
+//Every employee will have an Employee Number.  This number is assigned to 
+//each employee by the county.  Although it is an integer, it might be a 
+//good idea to manage the value as a string instead of an integer.
     function __getEmployeeNumber($employeeNumber)
     {
         return $this->$employeeNumber;
@@ -58,15 +78,15 @@ class employees
     function __setEmployeeNumber($employeeNumber, $empNum)
     {
         $re = '/\d\d\d\d\d\d\d\d\d/'; //My regex code
-        if (empty($empNumber))
+        if (empty($empNum))
         {
-            //error handling routine
+//error handling routine
         } elseif (preg_match_all($re, $empNum, PREG_SET_ORDER, 0))
         {
             $this->$employeeNumber = $empNum;
         } else
         {
-            //another error handling routine
+//another error handling routine
         }
     }
 
@@ -75,186 +95,204 @@ class employees
         return $this->$firstName;
     }
 
+    function __setFirstName($firstName, $newFirstName)
+    {
+        $this->$firstName = $newFirstName;
+    }
+
     function __getMiddleName($middleName)
     {
         return $this->$middleName;
+    }
+
+    function __setMiddleName($middleName, $newMiddleName)
+    {
+        $this->$middleName = $newMiddleName;
     }
 
     function __getLastName($lastName)
     {
         return $this->$lastName;
     }
+
+    function __setLastName($lastName, $newLastName)
+    {
+        $this->$lastName = newLastName;
+    }
+
+// Feb 3, 2018
+// I've updated some of the scripts below and a couple above.
+// 
 // From here on down, I should fix the variable names to keep the same
 // variable conventions.  These were all made from my script.  The script
 // still needs some work but at least it is operational.
-    function __getPay_Rate($Pay_Rate)
+    function __getPayRate($payRate)
     {
-        return $this->$Pay_Rate;
+        return $this->$payRate;
     }
 
-    function __setPay_Rate($Pay_Rate, $new_Pay_Rate)
+    function __setPayRate($payRate, $newPayRate)
     {
-        $this->$Pay_Rate = $new_Pay_Rate;
+        $this->$payRate = $newPayRate;
     }
 
-    function __getSick_Days_Remaining($Sick_Days_Remaining)
+    function __getSickDaysRemaining($sickDaysRemaining)
     {
-        return $this->$Sick_Days_Remaining;
+        return $this->$sickDaysRemaining;
     }
 
-    function __setSick_Days_Remaining($Sick_Days_Remaining, $new_Sick_Days_Remaining)
+    function __setSickDaysRemaining($sickDaysRemaining, $newSickDaysRemaining)
     {
-        $this->$Sick_Days_Remaining = $new_Sick_Days_Remaining;
+        $this->$sickDaysRemaining = $newSickDaysRemaining;
     }
 
-    function __getVacation_Days_Remaining($Vacation_Days_Remaining)
+    function __getVacationDaysRemaining($vacationDaysRemaining)
     {
-        return $this->$Vacation_Days_Remaining;
+        return $this->$vacationDaysRemaining;
     }
 
-    function __setVacation_Days_Remaining($Vacation_Days_Remaining, $new_Vacation_Days_Remaining)
+    function __setVacationDaysRemaining($vacationDaysRemaining, $newVacationDaysRemaining)
     {
-        $this->$Vacation_Days_Remaining = $new_Vacation_Days_Remaining;
+        $this->$vacationDaysRemaining = $newVacationDaysRemaining;
     }
 
-    function __getPersonal_Days_Remaining($Personal_Days_Remaining)
+    function __getPersonalDaysRemaining($personalDaysRemaining)
     {
-        return $this->$Personal_Days_Remaining;
+        return $this->$personalDaysRemaining;
     }
 
-    function __setPersonal_Days_Remaining($Personal_Days_Remaining, $new_Personal_Days_Remaining)
+    function __setPersonalDaysRemaining($personalDaysRemaining, $newPersonalDaysRemaining)
     {
-        $this->$Personal_Days_Remaining = $new_Personal_Days_Remaining;
+        $this->$personalDaysRemaining = $newPersonalDaysRemaining;
     }
 
-    function __getFMLA_Days_Remaining($FMLA_Days_Remaining)
+    function __getFMLADaysRemaining($FMLADaysRemaining)
     {
-        return $this->$FMLA_Days_Remaining;
+        return $this->$FMLADaysRemaining;
     }
 
-    function __setFMLA_Days_Remaining($FMLA_Days_Remaining, $new_FMLA_Days_Remaining)
+    function __setFMLADaysRemaining($FMLADaysRemaining, $newFMLADaysRemaining)
     {
-        $this->$FMLA_Days_Remaining = $new_FMLA_Days_Remaining;
+        $this->$FMLADaysRemaining = $newFMLADaysRemaining;
     }
 
-    function __getIs_Currently_Employed($Is_Currently_Employed)
+    function __getIsCurrentlyEmployed($isCurrentlyEmployed)
     {
         return $this->$Is_Currently_Employed;
     }
 
-    function __setIs_Currently_Employed($Is_Currently_Employed, $new_Is_Currently_Employed)
+    function __setIsCurrentlyEmployed($isCurrentlyEmployed, $newIsCurrentlyEmployed)
     {
-        $this->$Is_Currently_Employed = $new_Is_Currently_Employed;
+        $this->$isCurrentlyEmployed = $newIsCurrentlyEmployed;
     }
 
-    function __getIs_On_Short_Term_Disability($Is_On_Short_Term_Disability)
+    function __getIsOnShortTermDisability($isOnShortTermDisability)
     {
-        return $this->$Is_On_Short_Term_Disability;
+        return $this->$isOnShortTerm_Disability;
     }
 
-    function __setIs_On_Short_Term_Disability($Is_On_Short_Term_Disability, $new_Is_On_Short_Term_Disability)
+    function __setIsOnShortTermDisability($isOnShortTermDisability, $newIsOnShortTermDisability)
     {
-        $this->$Is_On_Short_Term_Disability = $new_Is_On_Short_Term_Disability;
+        $this->$isOnShortTermDisability = $newIsOnShortTermDisability;
     }
 
-    function __getIs_On_Long_Term_Disability($Is_On_Long_Term_Disability)
+    function __getIsOnLongTermDisability($isOnLongTermDisability)
     {
-        return $this->$Is_On_Long_Term_Disability;
+        return $this->$isOnLongTermDisability;
     }
 
-    function __setIs_On_Long_Term_Disability($Is_On_Long_Term_Disability, $new_Is_On_Long_Term_Disability)
+    function __setIsOnLongTermDisability($isOnLongTermDisability, $newIsOnLongTermDisability)
     {
-        $this->$Is_On_Long_Term_Disability = $new_Is_On_Long_Term_Disability;
+        $this->$isOnLongTermDisability = $newIsOnLongTermDisability;
     }
 
-    function __getIs_On_FMLA($Is_On_FMLA)
+    function __getIsOnFMLA($isOnFMLA)
     {
-        return $this->$Is_On_FMLA;
+        return $this->$IsOnFMLA;
     }
 
-    function __setIs_On_FMLA($Is_On_FMLA, $new_Is_On_FMLA)
+    function __setIsOnFMLA($isOnFMLA, $newIsOnFMLA)
     {
-        $this->$Is_On_FMLA = $new_Is_On_FMLA;
+        $this->$isOnFMLA = $newIsOnFMLA;
     }
 
-    function __getusername($username)
+    function __getUsername($username)
     {
         return $this->$username;
     }
 
-    function __setusername($username, $new_username)
+    function __setUsername($username, $newUsername)
     {
-        $this->$username = $new_username;
+        $this->$username = $newUsername;
     }
 
-    function __getpassword($password)
+    function __getPassword($password)
     {
         return $this->$password;
     }
 
-    function __setpassword($password, $new_password)
+    function __setPassword($password, $newPassword)
     {
-        $this->$password = $new_password;
+        $this->$password = $newpassword;
     }
 
-    function __getremember_me($remember_me)
+    function __getRememberMe($rememberMe)
     {
-        return $this->$remember_me;
+        return $this->$rememberMe;
     }
 
-    function __setremember_me($remember_me, $new_remember_me)
+    function __setRememberMe($rememberMe, $newRememberMe)
     {
-        $this->$remember_me = $new_remember_me;
+        $this->$rememberMe = $newRememberMe;
     }
 
-    function __getemail($email)
+    function __getEmail($email)
     {
         return $this->$email;
     }
 
-    function __setemail($email, $new_email)
+    function __setEmail($email, $newEmail)
     {
-        $this->$email = $new_email;
+        $this->$email = $newEmail;
     }
 
-    function __getEffective_Start_DateTime($Effective_Start_DateTime)
+    function __getEffectiveStartDateTime($effectiveStartDateTime)
     {
-        return $this->$Effective_Start_DateTime;
+        return $this->$effectiveStartDateTime;
     }
 
-    function __setEffective_Start_DateTime($Effective_Start_DateTime, $new_Effective_Start_DateTime)
+    function __setEffectiveStartDateTime($effectiveStartDateTime, $newEffectiveStartDateTime)
     {
-        $this->$Effective_Start_DateTime = $new_Effective_Start_DateTime;
+        $this->$effectiveStartDateTime = $newEffectiveStartDateTime;
     }
 
-    function __getEffective_End_DateTime($Effective_End_DateTime)
+    function __getEffectiveEndDateTime($effectiveEndDateTime)
     {
-        return $this->$Effective_End_DateTime;
+        return $this->$effectiveEndDateTime;
     }
 
-    function __setEffective_End_DateTime($Effective_End_DateTime, $new_Effective_End_DateTime)
+    function __setEffectiveEndDateTime($effectiveEndDateTime, $newEffectiveEndDateTime)
     {
-        $this->$Effective_End_DateTime = $new_Effective_End_DateTime;
+        $this->$effectiveEndDateTime = $newEffectiveEndDateTime;
     }
 
-    function __getInserted_at($Inserted_at)
+    function __getInsertedAt($insertedAt)
     {
-        return $this->$Inserted_at;
+        return $this->$Insertedat;
     }
 
-    function __setInserted_at($Inserted_at, $new_Inserted_at)
+    function __setInsertedAt($insertedAt, $newInsertedAt)
     {
-        $this->$Inserted_at = $new_Inserted_at;
+        $this->$insertedAt = $newInsertedAt;
     }
 
-    function __getDeleted_at($Deleted_at)
+    function __getDeletedAt($deletedAt)
     {
-        return $this->$Deleted_at;
+        return $this->$deletedAt;
     }
 
-    function __setDeleted_at($Deleted_at, $new_Deleted_at)
+    function __setDeletedAt($deletedAt, $newDeletedAt)
     {
-        $this->$Deleted_at = $new_Deleted_at;
+        $this->$deletedAt = $newDeletedAt;
     }
-
 }
