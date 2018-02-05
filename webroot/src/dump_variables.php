@@ -1,5 +1,5 @@
 <?php
-//start_session();
+// This is a debugging tool.
 session_start();
   // these lines format the output as HTML comments
   // and call dump_array repeatedly
