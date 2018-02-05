@@ -117,7 +117,7 @@ class employees
 
     function __setLastName($lastName, $newLastName)
     {
-        $this->$lastName = newLastName;
+        $this->$lastName = $newLastName;
     }
 
 // Feb 3, 2018
@@ -178,7 +178,7 @@ class employees
 
     function __getIsCurrentlyEmployed($isCurrentlyEmployed)
     {
-        return $this->$Is_Currently_Employed;
+        return $this->$isCurrentlyEmployed;
     }
 
     function __setIsCurrentlyEmployed($isCurrentlyEmployed, $newIsCurrentlyEmployed)
@@ -188,7 +188,7 @@ class employees
 
     function __getIsOnShortTermDisability($isOnShortTermDisability)
     {
-        return $this->$isOnShortTerm_Disability;
+        return $this->$isOnShortTermDisability;
     }
 
     function __setIsOnShortTermDisability($isOnShortTermDisability, $newIsOnShortTermDisability)
@@ -208,7 +208,7 @@ class employees
 
     function __getIsOnFMLA($isOnFMLA)
     {
-        return $this->$IsOnFMLA;
+        return $this->$isOnFMLA;
     }
 
     function __setIsOnFMLA($isOnFMLA, $newIsOnFMLA)
@@ -233,7 +233,7 @@ class employees
 
     function __setPassword($password, $newPassword)
     {
-        $this->$password = $newpassword;
+        $this->$password = $newPassword;
     }
 
     function __getRememberMe($rememberMe)
@@ -278,7 +278,7 @@ class employees
 
     function __getInsertedAt($insertedAt)
     {
-        return $this->$Insertedat;
+        return $this->$insertedAt;
     }
 
     function __setInsertedAt($insertedAt, $newInsertedAt)
