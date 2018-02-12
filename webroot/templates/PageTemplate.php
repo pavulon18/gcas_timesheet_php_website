@@ -33,12 +33,14 @@
  * @author Jim Baize <pavulon@hotmail.com>
  */
 
+require 'config.php';
+
 class PageTemplate
 {
 
     //PageTemplate's attributes
     public $content;
-    public $title = "Gibson County Ambuance Service Web Portal";
+    
 
     //Operations
     public function __set($name, $value)

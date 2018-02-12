@@ -77,7 +77,7 @@ class Bootstrap
         }
         else
         {
-            // Method does not Exist
+            // Controller Class does not Exist
                 echo '<h1>Controller Class does not exist</h1>';
                 return;
         }

@@ -24,23 +24,27 @@ THE SOFTWARE.
 -->
 
 <?php
-require("config.php");
+require('config.php');
 
-require('classes/bootstrap.php');
+require('classes/Bootstrap.php');
+require('classes/Controller.php');
+require('classes/Model.php');
+
+require('controllers/home.php');
+require('controllers/employees.php');
+require('controllers/jobtitles.php');
+
+require('models/home.php');
+require('models/employee.php');
+require('models/jobtitle.php');
 
 $bootstrap = new Bootstrap($_GET);
 $controller = $bootstrap->createController();
 
+if($controller)
+{
+    $controller->executeAction();
+}
+
 ?>
 
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title></title>
-    </head>
-    <body>
-        <?php
-        // put your code here
-        ?>
-    </body>
-</html>
