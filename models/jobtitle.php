@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * The MIT License
  *
  * Copyright 2018 Jim Baize <pavulon@hotmail.com>.
@@ -24,10 +24,30 @@
  * THE SOFTWARE.
  */
 
-class JobTitleModel extends Model{
-	public function Index(){
-		$this->query('SELECT * FROM job_titles');
-		$rows = $this->resultSet();
-		return $rows;
-	}
+class JobTitleModel extends Model
+{
+
+    public function Index()
+    {
+        $this->query('SELECT * FROM job_titles');
+        $rows = $this->resultSet();
+        return $rows;
+    }
+
+    public function add()
+    {
+        //Sanatize Post
+        $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+        
+        if($post['submit'])
+        {
+           $this->query('INSERT INTO job_titles (Job_Title, Duties, Pay_Type, Pay_Rate_Basis, Effective_Start_DateTime) VALUES()');
+           $this->bind(':Job_Title', $post['Job_Title']);
+           $this->bind(':Duties', $post['Duties']);
+           $this->bind('Pay_Type', $post['Pay_Type']);
+           $this->bind('Pay_Rate_Basis', $post['Pay_Rate_Basis']);
+           $this->bind('Effective_Start_DateTime', $post['Effective_Start_DateTime']);
+        }
+    }
+
 }

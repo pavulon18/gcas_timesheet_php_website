@@ -1,6 +1,5 @@
 <?php
-
-/* 
+/*
  * The MIT License
  *
  * Copyright 2018 Jim Baize <pavulon@hotmail.com>.
@@ -23,5 +22,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+?>
 
-echo 'job';
+<div>
+    <?php foreach ($viewmodel as $item) : ?>
+        <div class="well">
+            <h3><?php echo $item['Job_Title']; ?></h3>
+            <hr />
+            <p><?php echo $item['Duties']; ?></p>
+            <br />
+        </div>
+    <?php endforeach; ?>
+</div>

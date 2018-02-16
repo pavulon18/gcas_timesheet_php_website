@@ -1,6 +1,6 @@
 <?php
 
-/*
+/* 
  * The MIT License
  *
  * Copyright 2018 Jim Baize <pavulon@hotmail.com>.
@@ -24,19 +24,19 @@
  * THE SOFTWARE.
  */
 
-class JobTitles extends Controller
-{
-
-    protected function Index()
-    {
-        $viewmodel = new JobTitleModel();
-        $this->ReturnView($viewmodel->Index(), true);
-    }
-
-    protected function add()
-    {
-        $viewmodel = new JobTitleModel();
-        $this->ReturnView($viewmodel->add(), true);
-    }
-    
-}
+echo 'Employees List 1<br />';
+echo 'Employees List 2<br />';
+echo 'Employees List 3<br />';
+echo 'Employees List 4<br />';
+echo 'Employees List<br />';
+echo 'Employees List<br />';
+echo 'Employees List<br />';
+echo 'Employees List<br />';
+echo 'Employees List<br />';
+echo 'Employees List<br />';
+echo 'Employees List<br />';
+echo 'Employees List<br />';
+echo 'Employees List<br />';
+echo 'Employees List<br />';
+echo 'Employees List<br />';
+echo 'Employees List<br />';
