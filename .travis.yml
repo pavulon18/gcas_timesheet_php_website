@@ -1,6 +1,10 @@
-language:   php
+language: php
 php:
-    - "7.0"
+  - '5.4'
+  - '5.6'
+  - '7.0'
+  - hhvm # on Trusty only
+
     
 env:
     - MYSQL_HOST=127.0.0.1 MYSQL_USER=root
