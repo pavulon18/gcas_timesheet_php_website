@@ -36,18 +36,31 @@ class JobTitleModel extends Model
 
     public function add()
     {
-        //Sanatize Post
+        //Sanitize Post
         $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-        
-        if($post['submit'])
+
+        if ($post['submit'])
         {
-           $this->query('INSERT INTO job_titles (Job_Title, Duties, Pay_Type, Pay_Rate_Basis, Effective_Start_DateTime) VALUES()');
-           $this->bind(':Job_Title', $post['Job_Title']);
-           $this->bind(':Duties', $post['Duties']);
-           $this->bind('Pay_Type', $post['Pay_Type']);
-           $this->bind('Pay_Rate_Basis', $post['Pay_Rate_Basis']);
-           $this->bind('Effective_Start_DateTime', $post['Effective_Start_DateTime']);
+            try
+            {
+                $this->query('INSERT INTO job_titles (Job_Title, Duties, Pay_Type, Pay_Rate_Basis, Effective_Start_DateTime) VALUES (:Job_Title, :Duties, :Pay_Type, :Pay_Rate_Basis, :Effective_Start_DateTime)');
+                $this->bind(':Job_Title', $post['jobTitle']);
+                $this->bind(':Duties', $post['duties']);
+                $this->bind(':Pay_Type', $post['payType']);
+                $this->bind(':Pay_Rate_Basis', $post['payRateBasis']);
+                $this->bind(':Effective_Start_DateTime', $post['startDay']);
+                $this->execute();
+                if ($this->lastInsertId())
+                {
+                    //Redirect
+                    header('Location: ' . ROOT_URL . 'jobtitles');
+                }
+            } catch (Exception $exc)
+            {
+                echo $exc->getTraceAsString();
+            }
         }
+        return;
     }
 
 }

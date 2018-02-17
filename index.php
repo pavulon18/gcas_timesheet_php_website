@@ -45,6 +45,3 @@ if($controller)
 {
     $controller->executeAction();
 }
-
-?>
-

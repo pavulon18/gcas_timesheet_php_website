@@ -30,13 +30,13 @@ class JobTitles extends Controller
     protected function Index()
     {
         $viewmodel = new JobTitleModel();
-        $this->ReturnView($viewmodel->Index(), true);
+        $this->returnView($viewmodel->Index(), true);
     }
 
     protected function add()
     {
         $viewmodel = new JobTitleModel();
-        $this->ReturnView($viewmodel->add(), true);
+        $this->returnView($viewmodel->add(), true);
     }
     
 }

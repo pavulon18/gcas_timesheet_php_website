@@ -40,6 +40,7 @@ abstract class Model
         $this->stmt = $this->dbh->prepare($query);
     }
 
+    //Binds the prep statement
     public function bind($param, $value, $type = null)
     {
         if (is_null($type))
@@ -70,5 +71,10 @@ abstract class Model
     {
         $this->execute();
         return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public function lastInsertId()
+    {
+        return $this->dbh->lastInsertId();
     }
 }
