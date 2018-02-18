@@ -1,10 +1,12 @@
 language: php
-php:
-  - '5.4'
-  - '5.6'
-  - '7.0'
-  - hhvm # on Trusty only
 
+php:
+  - 5.4
+  - 5.5
+  - 5.6
+  - 7.0
+  - 7.1
+  - 7.2
     
 env:
     - MYSQL_HOST=127.0.0.1 MYSQL_USER=root
