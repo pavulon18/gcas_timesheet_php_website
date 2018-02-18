@@ -29,10 +29,20 @@ abstract class Model
 
     protected $dbh;
     protected $stmt;
+    protected $error;
 
     public function __construct()
     {
-        $this->dbh = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS);
+        $options = [PDO::ATTR_PERSISTENT    => true,
+                    PDO::ATTR_ERRMODE       => PDO::ERRMODE_EXCEPTION
+            ];
+        
+        try
+        {
+            $this->dbh = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS, $options);
+        } catch (PDOException $e) {
+            $this->error= $e->getMessage();
+        }
     }
 
     public function query($query)

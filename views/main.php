@@ -43,6 +43,11 @@
 
     <!-- Custom styles for this template -->
     <link href="/assets/css/navbar-top-fixed.css" rel="stylesheet">
+    
+    <!-- Custom Styles for the Add Job Title page -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/view.css" media="all">
+    <script type="text/javascript" src="/assets/js/view.js"></script>
+    <script type="text/javascript" src="/assets/js/calendar.js"></script>
   </head>
 
   <body>
@@ -70,7 +75,7 @@
       <div class="jumbotron">
         <div class="row">
      	<?php require($view); ?>
-     </div>
+        </div>
       </div>
     </main>
 

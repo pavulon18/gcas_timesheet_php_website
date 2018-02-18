@@ -38,28 +38,26 @@ class JobTitleModel extends Model
     {
         //Sanitize Post
         $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-        
+
         print_r($post);
+        
+        $startDate = $post['startYear'].'-'.$post['startMonth'].'-'.$post['startDay'].' 08:00:00';
+        echo $startDate;
 
         if ($post['submit'])
         {
-            try
+            $this->query('INSERT INTO job_titles (Job_Title, Duties, Pay_Type, Pay_Rate_Basis, Effective_Start_DateTime) VALUES (:Job_Title, :Duties, :Pay_Type, :Pay_Rate_Basis, :Effective_Start_DateTime)');
+            $this->bind(':Job_Title', $post['jobTitle']);
+            $this->bind(':Duties', $post['duties']);
+            $this->bind(':Pay_Type', $post['payType']);
+            $this->bind(':Pay_Rate_Basis', $post['payRateBasis']);
+            $this->bind(':Effective_Start_DateTime', $startDate);
+            $this->execute();
+            echo $this->query('INSERT INTO job_titles (Job_Title, Duties, Pay_Type, Pay_Rate_Basis, Effective_Start_DateTime) VALUES (:Job_Title, :Duties, :Pay_Type, :Pay_Rate_Basis, :Effective_Start_DateTime)');
+            if ($this->lastInsertId())
             {
-                $this->query('INSERT INTO job_titles (Job_Title, Duties, Pay_Type, Pay_Rate_Basis, Effective_Start_DateTime) VALUES (:Job_Title, :Duties, :Pay_Type, :Pay_Rate_Basis, :Effective_Start_DateTime)');
-                $this->bind(':Job_Title', $post['jobTitle']);
-                $this->bind(':Duties', $post['duties']);
-                $this->bind(':Pay_Type', $post['payType']);
-                $this->bind(':Pay_Rate_Basis', $post['payRateBasis']);
-                $this->bind(':Effective_Start_DateTime', $post['startDay']);
-                $this->execute();
-                if ($this->lastInsertId())
-                {
-                    //Redirect
-                    header('Location: ' . ROOT_URL . 'jobtitles');
-                }
-            } catch (Exception $exc)
-            {
-                echo $exc->getTraceAsString();
+                //Redirect
+                header('Location: ' . ROOT_URL . 'jobtitles');
             }
         }
         return;
