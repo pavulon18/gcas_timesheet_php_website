@@ -10,7 +10,7 @@ services:
     - mysql
   
 before_install: 
-    - chmod +x setup_mysql.php
+    - chmod +x ./tests/setup_mysql.php
   
 before_script: ./tests/setup_mysql.php
 script: ./tests/integration_test.php
