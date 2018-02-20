@@ -30,4 +30,9 @@ class EmployeeModel extends Model
     {
         return;
     }
+    
+    public function register()
+    {
+        return;
+    }
 }

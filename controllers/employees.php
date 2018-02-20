@@ -29,6 +29,6 @@ class Employees extends Controller
     protected function Index()
     {
         $viewmodel = new EmployeeModel();
-        $this->returnView($viewmodel->Index(), true);
+        $this->returnView($viewmodel->register(), true);
     }
 }

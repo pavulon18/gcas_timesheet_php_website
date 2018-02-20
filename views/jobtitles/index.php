@@ -1,5 +1,6 @@
 <?php
-/*
+
+/* 
  * The MIT License
  *
  * Copyright 2018 Jim Baize <pavulon@hotmail.com>.
@@ -24,13 +25,6 @@
  */
 ?>
 
-<div>
-    <?php foreach ($viewmodel as $item) : ?>
-        <div class="well">
-            <h3><?php echo $item['Job_Title']; ?></h3>
-            <hr />
-            <p><?php echo $item['Duties']; ?></p>
-            <br />
-        </div>
-    <?php endforeach; ?>
-</div>
+<input type="button" value="Job Title List" name="jobTitleList" />
+<p><a href="<?php echo ROOT_PATH;?>jobtitles/listjobs">List of Job Titles and Duties</a></p><br />
+<p><a href="<?php echo ROOT_PATH;?>jobtitles/add">Add a new Job Title</a></p>

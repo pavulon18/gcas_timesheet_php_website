@@ -39,4 +39,10 @@ class JobTitles extends Controller
         $this->returnView($viewmodel->add(), true);
     }
     
+    protected function listjobs()
+    {
+        $viewmodel = new JobTitleModel();
+        $this->returnView($viewmodel->listjobs(), true);
+    }
+    
 }

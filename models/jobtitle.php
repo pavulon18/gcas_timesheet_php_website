@@ -29,6 +29,11 @@ class JobTitleModel extends Model
 
     public function Index()
     {
+        return;
+    }
+    
+    public function listjobs()
+    {
         $this->query('SELECT * FROM job_titles');
         $rows = $this->resultSet();
         return $rows;
@@ -38,14 +43,12 @@ class JobTitleModel extends Model
     {
         //Sanitize Post
         $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
-        print_r($post);
         
         $startDate = $post['startYear'].'-'.$post['startMonth'].'-'.$post['startDay'].' 08:00:00';
-        echo $startDate;
 
         if ($post['submit'])
         {
+            
             $this->query('INSERT INTO job_titles (Job_Title, Duties, Pay_Type, Pay_Rate_Basis, Effective_Start_DateTime) VALUES (:Job_Title, :Duties, :Pay_Type, :Pay_Rate_Basis, :Effective_Start_DateTime)');
             $this->bind(':Job_Title', $post['jobTitle']);
             $this->bind(':Duties', $post['duties']);
@@ -53,11 +56,11 @@ class JobTitleModel extends Model
             $this->bind(':Pay_Rate_Basis', $post['payRateBasis']);
             $this->bind(':Effective_Start_DateTime', $startDate);
             $this->execute();
-            echo $this->query('INSERT INTO job_titles (Job_Title, Duties, Pay_Type, Pay_Rate_Basis, Effective_Start_DateTime) VALUES (:Job_Title, :Duties, :Pay_Type, :Pay_Rate_Basis, :Effective_Start_DateTime)');
+            
             if ($this->lastInsertId())
             {
                 //Redirect
-                header('Location: ' . ROOT_URL . 'jobtitles');
+                header('Location: ' . ROOT_URL . 'jobtitles/listjobs');
             }
         }
         return;

@@ -31,8 +31,9 @@
     <div id="form_container">
 
         <h1><a>New Job Title</a></h1>
-        <form id="form_71216" class="appnitro"  method="post" action="<?php $_SERVER['PHP_SELF']; ?>">
+        <form id="form_71216" class="appnitro"  method="post" action="<?php htmlspecialchars($_SERVER["PHP_SELF"]);?>">
             <div class="form_description">
+            
                 <h2>New Job Title</h2>
                 <p></p>
             </div>						

@@ -24,19 +24,6 @@
  * THE SOFTWARE.
  */
 
-echo 'Employees List 1<br />';
-echo 'Employees List 2<br />';
-echo 'Employees List 3<br />';
-echo 'Employees List 4<br />';
-echo 'Employees List<br />';
-echo 'Employees List<br />';
-echo 'Employees List<br />';
-echo 'Employees List<br />';
-echo 'Employees List<br />';
-echo 'Employees List<br />';
-echo 'Employees List<br />';
-echo 'Employees List<br />';
-echo 'Employees List<br />';
-echo 'Employees List<br />';
-echo 'Employees List<br />';
-echo 'Employees List<br />';
+?>
+<a href="ROOT_PATH/employees/roster">Employee Roster</a><br>
+<a href="ROOT_PATH/employees/register">Add a new employee</a><br>
