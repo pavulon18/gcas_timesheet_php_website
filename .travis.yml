@@ -9,7 +9,7 @@ env:
 services:
     - mysql
   
-before_install: 
+before_script: 
     - chmod +x ./tests/setup_mysql.php
   
 before_script: ./tests/setup_mysql.php

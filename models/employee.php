@@ -35,4 +35,11 @@ class EmployeeModel extends Model
     {
         return;
     }
+    
+    public function roster()
+    {
+        $this->query('SELECT * FROM employees');
+        $rows = $this->resultSet();
+        return $rows;
+    }
 }

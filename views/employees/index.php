@@ -25,5 +25,5 @@
  */
 
 ?>
-<a href="ROOT_PATH/employees/roster">Employee Roster</a><br>
-<a href="ROOT_PATH/employees/register">Add a new employee</a><br>
+<a href="<?php echo ROOT_PATH;?>employees/roster">Employee Roster</a><br>
+<a href="<?php echo ROOT_PATH;?>employees/register">Add a new employee</a><br>
