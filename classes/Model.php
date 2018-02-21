@@ -74,6 +74,8 @@ abstract class Model
     }
     public function execute()
     {
+        echo 'results of execute'.PHP_EOL.'<br>';
+        print_r($this->stmt).PHP_EOL;
         $this->stmt->execute();
     }
     

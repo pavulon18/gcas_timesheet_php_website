@@ -103,12 +103,42 @@
             <li id="li_11" >
                 <label class="description" for="checkBoxes">Check the options this employee is currently utilizing </label>
                 <span>
-                    <input id="isShortTerm" name="isShortTerm" class="element checkbox" type="checkbox" value="1" />
+                    <div>
+                        Short Term Disability
+                        <label class="radio-inline">
+                            <input type="radio" name="isShortTerm" value="0">No
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="isShortTerm" value="1">Yes
+                        </label>
+                    </div>
+                    <div>
+                        Short Term Disability
+                        <label class="radio-inline">
+                            <input type="radio" name="isLongTerm" value="0">No
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="isLongTerm" value="1">Yes
+                        </label>
+                    </div>
+                    <div>
+                        Short Term Disability
+                        <label class="radio-inline">
+                            <input type="radio" name="isFMLA" value="0">No
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="isFMLA" value="1">Yes
+                        </label>
+                    </div>
+                    
+                    <!--
+                    <input id="isShortTerm" name="isShortTerm" class="element checkbox" type="checkbox" value="0" />
                     <label class="choice" for="isShortTerm">Short Term Disability</label>
-                    <input id="isLongTerm" name="isLongTerm" class="element checkbox" type="checkbox" value="1" />
+                    <input id="isLongTerm" name="isLongTerm" class="element checkbox" type="checkbox" value="0" />
                     <label class="choice" for="isLongTerm">Long Term Disability</label>
-                    <input id="isFMLA" name="isFMLA" class="element checkbox" type="checkbox" value="1" />
+                    <input id="isFMLA" name="isFMLA" class="element checkbox" type="checkbox" value="0" />
                     <label class="choice" for="isFMLA">FMLA</label>
+                    -->
                 </span> 
             </li>
             <li id="li_8" >
@@ -123,6 +153,12 @@
                     <input id="password" name="password" class="element text medium" type="password" maxlength="255" value=""/> 
                 </div> 
             </li>
+             <li id="li_10" >
+                <label class="description" for="password">Retype Password </label>
+                <div>
+                    <input id="password" name="password2" class="element text medium" type="password" maxlength="255" value=""/> 
+                </div> 
+            </li>
             <li id="li_9" >
                 <label class="description" for="email">Email </label>
                 <div>
@@ -134,6 +170,7 @@
                 <input type="hidden" name="form_id" value="71954" />
 
                 <input id="saveForm" class="button_text" type="submit" name="submit" value="Submit" />
+                <input type="reset"/>
             </li>
         </ul>
     </form>	
