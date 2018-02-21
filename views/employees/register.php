@@ -24,7 +24,7 @@
  */
 ?>
 
-<img id="top" src="top.png" alt="">
+<img id="top" src="/assets/graphics/top.png" alt="">
 <div id="form_container">
 
     <h1><a>Add New Employee</a></h1>
@@ -34,17 +34,16 @@
             <p></p>
         </div>						
         <ul >
-
             <li id="li_1" >
                 <label class="description" for="employeeNumber">Employee Number </label>
                 <div>
-                    <input id="employeeNumber" name="employeeNumber" class="element text medium" type="text" maxlength="9" value=""/> 
+                    <input id="employeeNumber" name="employeeNumber" class="element text medium" type="text" minlength="9" maxlength="9" value=""/> 
                 </div> 
             </li>
             <li id="li_2" >
                 <label class="description" for="name">Name </label>
                 <span>
-                    <input id="title" name="title" class="element text" maxlength="255" size="2" value=""/>
+                    <input id="title" name="title" class="element text" maxlength="32" size="2" value=""/>
                     <label>Title</label>
                 </span>
                 <span>
@@ -80,55 +79,54 @@
             <li id="li_4" >
                 <label class="description" for="sickDays">Sick Days Remaining </label>
                 <div>
-                    <input id="sickDays" name="sickDays" class="element text medium" type="text" maxlength="5" value=""/> 
+                    <input id="sickDays" name="sickDays" class="element text medium" type="text" maxlength="5" value="0"/> 
                 </div> 
             </li>
             <li id="li_5" >
                 <label class="description" for="vacationDays">Vacation Days Remaining </label>
                 <div>
-                    <input id="vacationDays" name="vacationDays" class="element text medium" type="text" maxlength="5" value=""/> 
+                    <input id="vacationDays" name="vacationDays" class="element text medium" type="text" maxlength="5" value="0"/> 
                 </div> 
             </li>
             <li id="li_6" >
                 <label class="description" for="personalDays">Personal Days Remaining </label>
                 <div>
-                    <input id="personalDays" name="personalDays" class="element text medium" type="text" maxlength="5" value=""/> 
+                    <input id="personalDays" name="personalDays" class="element text medium" type="text" maxlength="5" value="0"/> 
                 </div> 
             </li>
             <li id="li_7" >
                 <label class="description" for="fmlaDays">FMLA Days Remaining </label>
                 <div>
-                    <input id="fmlaDays" name="fmlaDays" class="element text medium" type="text" maxlength="255" value=""/> 
+                    <input id="fmlaDays" name="fmlaDays" class="element text medium" type="text" maxlength="255" value="0"/> 
                 </div> 
             </li>
             <li id="li_11" >
-                <label class="description" for="element_11">Check the options this employee is currently utilizing </label>
+                <label class="description" for="checkBoxes">Check the options this employee is currently utilizing </label>
                 <span>
-                    <input id="element_11_1" name="element_11_1" class="element checkbox" type="checkbox" value="1" />
-                    <label class="choice" for="element_11_1">Short Term Disability</label>
-                    <input id="element_11_2" name="element_11_2" class="element checkbox" type="checkbox" value="1" />
-                    <label class="choice" for="element_11_2">Long Term Disability</label>
-                    <input id="element_11_3" name="element_11_3" class="element checkbox" type="checkbox" value="1" />
-                    <label class="choice" for="element_11_3">FMLA</label>
-
+                    <input id="isShortTerm" name="isShortTerm" class="element checkbox" type="checkbox" value="1" />
+                    <label class="choice" for="isShortTerm">Short Term Disability</label>
+                    <input id="isLongTerm" name="isLongTerm" class="element checkbox" type="checkbox" value="1" />
+                    <label class="choice" for="isLongTerm">Long Term Disability</label>
+                    <input id="isFMLA" name="isFMLA" class="element checkbox" type="checkbox" value="1" />
+                    <label class="choice" for="isFMLA">FMLA</label>
                 </span> 
             </li>
             <li id="li_8" >
-                <label class="description" for="element_8">Username </label>
+                <label class="description" for="username">Username </label>
                 <div>
-                    <input id="element_8" name="element_8" class="element text medium" type="text" maxlength="255" value=""/> 
+                    <input id="username" name="username" class="element text medium" type="text" maxlength="255" value=""/> 
                 </div> 
             </li>
             <li id="li_10" >
-                <label class="description" for="element_10">Password </label>
+                <label class="description" for="password">Password </label>
                 <div>
-                    <input id="element_10" name="element_10" class="element text medium" type="text" maxlength="255" value=""/> 
+                    <input id="password" name="password" class="element text medium" type="password" maxlength="255" value=""/> 
                 </div> 
             </li>
             <li id="li_9" >
-                <label class="description" for="element_9">Email </label>
+                <label class="description" for="email">Email </label>
                 <div>
-                    <input id="element_9" name="element_9" class="element text medium" type="text" maxlength="255" value=""/> 
+                    <input id="email" name="email" class="element text medium" type="text" maxlength="255" value=""/> 
                 </div> 
             </li>
 
@@ -143,4 +141,4 @@
         Generated by <a href="http://www.phpform.org">pForm</a>
     </div>
 </div>
-<img id="bottom" src="bottom.png" alt="">
+<img id="bottom" src="/assets/graphics/bottom.png" alt="">
