@@ -43,4 +43,10 @@ class Employees extends Controller
         $viewmodel = new EmployeeModel();
         $this->returnView($viewmodel->roster(), true);
     }
+    
+    protected function login()
+    {
+        $viewmodel = new EmployeeModel();
+        $this->returnView($viewmodel->login(), true);
+    }
 }

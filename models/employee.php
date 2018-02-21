@@ -48,7 +48,7 @@ class EmployeeModel extends Model
                 echo 'passwords do not match';
             } else
             {
-                
+
                 print_r($post);
                 $this->query('INSERT INTO employees (Employee_Number, First_Name, Middle_Name, Last_Name, Pay_Rate, Sick_Days_Remaining, Vacation_Days_Remaining, Personal_Days_Remaining, FMLA_Days_Remaining, Is_On_Short_Term_Disability, Is_On_Long_Term_Disability, Is_On_FMLA, username, password, email)'
                         . ' VALUES (:Employee_Number, :First_Name, :Middle_Name, :Last_Name, :Pay_Rate, :Sick_Days_Remaining, :Vacation_Days_Remaining, :Personal_Days_Remaining, :FMLA_Days_Remaining, :Is_On_Short_Term_Disability, :Is_On_Long_Term_Disability, :Is_On_FMLA, :username, :password, :email)');
@@ -85,4 +85,45 @@ class EmployeeModel extends Model
         $rows = $this->resultSet();
         return $rows;
     }
+
+    public function login()
+    {
+        // Sanitize POST
+        $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+        $pwHash = password_hash($post['password'], PASSWORD_DEFAULT);
+
+        if ($post['submit'])
+        {
+            // Compare Login
+            $this->query('SELECT * FROM employees WHERE username = :username ORDER BY Inserted_at DESC LIMIT 1');
+            $this->bind(':username', $post['username']);
+
+            $row = $this->single();
+
+            if (password_verify($post['password'], $row['password']))
+            {
+                echo'Logged in';
+                /*
+                $_SESSION['is_logged_in'] = true;
+                $_SESSION['user_data'] = array(
+                    "id" => $row['id'],
+                    "name" => $row['name'],
+                    "email" => $row['email']
+                );
+                header('Location: ' . ROOT_URL . 'shares');
+                 * 
+                 */
+            } else
+            {
+                echo 'not logged in';
+                /*
+                Messages::setMsg('Incorrect Login', 'error');
+                 * 
+                 */
+            }
+        }
+        return;
+    }
+
 }

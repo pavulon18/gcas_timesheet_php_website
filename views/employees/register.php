@@ -106,28 +106,28 @@
                     <div>
                         Short Term Disability
                         <label class="radio-inline">
-                            <input type="radio" name="isShortTerm" value="0">No
+                            <input type="radio" name="isShortTerm" value="N">No
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" name="isShortTerm" value="1">Yes
-                        </label>
-                    </div>
-                    <div>
-                        Short Term Disability
-                        <label class="radio-inline">
-                            <input type="radio" name="isLongTerm" value="0">No
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="isLongTerm" value="1">Yes
+                            <input type="radio" name="isShortTerm" value="Y">Yes
                         </label>
                     </div>
                     <div>
                         Short Term Disability
                         <label class="radio-inline">
-                            <input type="radio" name="isFMLA" value="0">No
+                            <input type="radio" name="isLongTerm" value="N">No
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" name="isFMLA" value="1">Yes
+                            <input type="radio" name="isLongTerm" value="Y">Yes
+                        </label>
+                    </div>
+                    <div>
+                        Short Term Disability
+                        <label class="radio-inline">
+                            <input type="radio" name="isFMLA" value="N">No
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="isFMLA" value="Y">Yes
                         </label>
                     </div>
                     

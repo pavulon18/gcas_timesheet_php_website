@@ -74,8 +74,6 @@ abstract class Model
     }
     public function execute()
     {
-        echo 'results of execute'.PHP_EOL.'<br>';
-        print_r($this->stmt).PHP_EOL;
         $this->stmt->execute();
     }
     
@@ -96,6 +94,12 @@ abstract class Model
         $data = stripslashes($data);
         $data = htmlspecialchars($data);
         return $data;
+    }
+    
+    public function single()
+    {
+        $this->execute();
+        return $this->stmt->fetch(PDO::FETCH_ASSOC);
     }
 
 }
