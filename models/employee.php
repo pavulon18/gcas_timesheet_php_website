@@ -103,24 +103,16 @@ class EmployeeModel extends Model
 
             if (password_verify($post['password'], $row['password']))
             {
-                echo'Logged in';
-                /*
                 $_SESSION['is_logged_in'] = true;
                 $_SESSION['user_data'] = array(
-                    "id" => $row['id'],
-                    "name" => $row['name'],
-                    "email" => $row['email']
+                    "empNum" => $row['id'],
+                    "firstName" => $row['First_Name'],
+                    "lastName" => $row['Last_Name']
                 );
-                header('Location: ' . ROOT_URL . 'shares');
-                 * 
-                 */
+                header('Location: ' . ROOT_URL . 'employees');
             } else
             {
-                echo 'not logged in';
-                /*
                 Messages::setMsg('Incorrect Login', 'error');
-                 * 
-                 */
             }
         }
         return;

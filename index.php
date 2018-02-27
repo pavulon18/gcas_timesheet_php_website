@@ -24,6 +24,10 @@ THE SOFTWARE.
 -->
 
 <?php
+
+//Start Session
+session_start();
+
 require('config.php');
 
 require('classes/Bootstrap.php');

@@ -49,4 +49,16 @@ class Employees extends Controller
         $viewmodel = new EmployeeModel();
         $this->returnView($viewmodel->login(), true);
     }
+    
+    protected function logout()
+    {
+        unset($_SESSION['is_logged_in']);
+        unset($_SESSION['user_data']);
+        session_destroy();
+        
+        //Redirect
+        header('Location: '.ROOT_URL);
+        $viewmodel = new EmployeeModel();
+        $this->returnView($viewmodel->logout(), true);
+    }
 }
