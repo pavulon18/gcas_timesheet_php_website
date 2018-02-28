@@ -48,8 +48,14 @@ class EmployeeModel extends Model
                 echo 'passwords do not match';
             } else
             {
-
-                print_r($post);
+                /**
+                 * In this situation, I have to insert into two different tables.  
+                 * As MySQL will not allow mult-table inserts from a single command,
+                 * I will need to somehow break this up into two commands.
+                 * I am thinking about a stored procedure in MySQL using a transaction.
+                 * I need to figure out how to pass data into a stored procedure from PHP
+                 * 
+                 */
                 $this->query('INSERT INTO employees (Employee_Number, First_Name, Middle_Name, Last_Name, Pay_Rate, Sick_Days_Remaining, Vacation_Days_Remaining, Personal_Days_Remaining, FMLA_Days_Remaining, Is_On_Short_Term_Disability, Is_On_Long_Term_Disability, Is_On_FMLA, username, password, email)'
                         . ' VALUES (:Employee_Number, :First_Name, :Middle_Name, :Last_Name, :Pay_Rate, :Sick_Days_Remaining, :Vacation_Days_Remaining, :Personal_Days_Remaining, :FMLA_Days_Remaining, :Is_On_Short_Term_Disability, :Is_On_Long_Term_Disability, :Is_On_FMLA, :username, :password, :email)');
                 $this->bind(':Employee_Number', $post['employeeNumber']);
@@ -78,6 +84,8 @@ class EmployeeModel extends Model
         }
         return;
     }
+    
+    
 
     public function roster()
     {
@@ -98,16 +106,22 @@ class EmployeeModel extends Model
             // Compare Login
             $this->query('SELECT * FROM employees WHERE username = :username ORDER BY Inserted_at DESC LIMIT 1');
             $this->bind(':username', $post['username']);
-
             $row = $this->single();
-
+            
+            //$this->query('SELECT * FROM employee_securityroles WHERE employees.' . $row['Employee_Number'] . ' = employee_securityroles.' . $row['Employee_Number'] . 'ORDER BY Inserted_at DESC LIMIT 1');
+            //Although I think the above statement will work, I want to try an alternate method below.
+            $this->query('SELECT * FROM employee_securityroles WHERE employees.:empNumber = employee_securityroles.:empNumber ORDER BY Inserted_at DESC LIMIT 1');
+            $this->bind(':empNumber', $row['Employee_Number']);
+            $row2 = $this->single();
+            
             if (password_verify($post['password'], $row['password']))
             {
                 $_SESSION['is_logged_in'] = true;
                 $_SESSION['user_data'] = array(
-                    "empNum" => $row['id'],
+                    "empNum" => $row['Employee_Number'],
                     "firstName" => $row['First_Name'],
-                    "lastName" => $row['Last_Name']
+                    "lastName" => $row['Last_Name'],
+                    "securityRole" => $row2['Security_Role_ID']
                 );
                 header('Location: ' . ROOT_URL . 'employees');
             } else

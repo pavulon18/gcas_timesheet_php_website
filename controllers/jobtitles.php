@@ -29,18 +29,30 @@ class JobTitles extends Controller
 
     protected function Index()
     {
+        if(!isset($_SESSION['is_logged_in']))
+        {
+            header('Location: '.ROOT_URL);
+        }
         $viewmodel = new JobTitleModel();
         $this->returnView($viewmodel->Index(), true);
     }
 
     protected function add()
     {
+        if(!isset($_SESSION['is_logged_in']))
+        {
+            header('Location: '.ROOT_URL);
+        }
         $viewmodel = new JobTitleModel();
         $this->returnView($viewmodel->add(), true);
     }
     
     protected function listjobs()
     {
+        if(!isset($_SESSION['is_logged_in']))
+        {
+            header('Location: '.ROOT_URL);
+        }
         $viewmodel = new JobTitleModel();
         $this->returnView($viewmodel->listjobs(), true);
     }

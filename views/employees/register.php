@@ -28,7 +28,7 @@
 <div id="form_container">
 
     <h1><a>Add New Employee</a></h1>
-    <form id="form_71954" class="appnitro"  method="post" action="<?php htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+    <form id="register" class="appnitro"  method="post" action="<?php htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
         <div class="form_description">
             <h2>Add New Employee</h2>
             <p></p>
@@ -130,15 +130,6 @@
                             <input type="radio" name="isFMLA" value="Y">Yes
                         </label>
                     </div>
-                    
-                    <!--
-                    <input id="isShortTerm" name="isShortTerm" class="element checkbox" type="checkbox" value="0" />
-                    <label class="choice" for="isShortTerm">Short Term Disability</label>
-                    <input id="isLongTerm" name="isLongTerm" class="element checkbox" type="checkbox" value="0" />
-                    <label class="choice" for="isLongTerm">Long Term Disability</label>
-                    <input id="isFMLA" name="isFMLA" class="element checkbox" type="checkbox" value="0" />
-                    <label class="choice" for="isFMLA">FMLA</label>
-                    -->
                 </span> 
             </li>
             <li id="li_8" >
@@ -153,7 +144,7 @@
                     <input id="password" name="password" class="element text medium" type="password" maxlength="255" value=""/> 
                 </div> 
             </li>
-             <li id="li_10" >
+            <li id="li_10" >
                 <label class="description" for="password">Retype Password </label>
                 <div>
                     <input id="password" name="password2" class="element text medium" type="password" maxlength="255" value=""/> 
@@ -165,9 +156,22 @@
                     <input id="email" name="email" class="element text medium" type="text" maxlength="255" value=""/> 
                 </div> 
             </li>
-
+            <li id="li_12" >
+                <label class="description" for="securityRole">Security Role </label>
+                <div>
+                    <select class="element select medium" id="securityRole" name="securityRole" >
+                        <option value="" selected="selected"></option>
+                        <option value="1" >Crew</option>
+                        <option value="2" >Administrator</option>
+                        <!--
+                        I need to populate this above list from the database instead of hard coding it into 
+                        the page, but I cannot seem to get it to work yet, so for now, it's hardcoded
+                        -->
+                    </select>
+                </div>
+            </li>
             <li class="buttons">
-                <input type="hidden" name="form_id" value="71954" />
+                <input type="hidden" name="register" value="register" />
 
                 <input id="saveForm" class="button_text" type="submit" name="submit" value="Submit" />
                 <input type="reset"/>

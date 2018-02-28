@@ -58,7 +58,5 @@ class Employees extends Controller
         
         //Redirect
         header('Location: '.ROOT_URL);
-        $viewmodel = new EmployeeModel();
-        $this->returnView($viewmodel->logout(), true);
     }
 }
