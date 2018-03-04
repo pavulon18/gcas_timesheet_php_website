@@ -108,9 +108,8 @@ class EmployeeModel extends Model
             $this->bind(':username', $post['username']);
             $row = $this->single();
             
-            //$this->query('SELECT * FROM employee_securityroles WHERE employees.' . $row['Employee_Number'] . ' = employee_securityroles.' . $row['Employee_Number'] . 'ORDER BY Inserted_at DESC LIMIT 1');
-            //Although I think the above statement will work, I want to try an alternate method below.
-            $this->query('SELECT * FROM employee_securityroles WHERE employees.:empNumber = employee_securityroles.:empNumber ORDER BY Inserted_at DESC LIMIT 1');
+            $this->query('SELECT * FROM employee_securityroles WHERE employee_securityroles.Employee_Number = '. $row['Employee_Number'] . ' ORDER BY Inserted_at DESC LIMIT 1');
+            
             $this->bind(':empNumber', $row['Employee_Number']);
             $row2 = $this->single();
             
