@@ -89,6 +89,7 @@
         <main role="main" class="container">
             <div class="jumbotron">
                 <div class="row">
+                    <?php Messages::display(); ?>
                     <?php require($view); ?>
                 </div>
             </div>
