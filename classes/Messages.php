@@ -28,7 +28,7 @@ class Messages
 {
     public static function setMsg($text, $type)
     {
-        if($type = 'error')
+        if($type == 'error')
         {
             $_SESSION['errorMsg'] = $text;
         }

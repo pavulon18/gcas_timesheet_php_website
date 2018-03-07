@@ -107,7 +107,6 @@ class EmployeeModel extends Model
             $this->query('SELECT * FROM employees WHERE username = :username ORDER BY Inserted_at DESC LIMIT 1');
             $this->bind(':username', $post['username']);
             $row = $this->single();
-            print_r($row);
             
             if(empty($row))
             {

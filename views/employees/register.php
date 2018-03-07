@@ -161,23 +161,19 @@
                 <div>
                     <select class="element select medium" id="securityRole" name="securityRole" >
                         <?php
-                        EmployeeModel::query('SELECT Security_Role_Name FROM security_roles');
-                        $rows = $Model::resultSet();
-                        //$Model::execute();
+                        // Reads the names of the security roles from the database
+                        // populates the dropdown with this information.
+                        $dropDown = new Miscellaneous();
+                        
+                        $query = 'SELECT Security_Role_Name FROM security_roles';
+                        $rows = $dropDown->dropdown($query);
                         foreach ($rows as $row) :
                             {
                                 echo "<option value='" . $row['Security_Role_Name'] . "'>" . $row['Security_Role_Name'] . "</option>";
                             }
                         endforeach;
                         ?>
-                        <!--
-                        <option value="" selected="selected"></option>
-                        <option value="1" >Crew</option>
-                        <option value="2" >Administrator</option>
-                        
-                        I need to populate this above list from the database instead of hard coding it into 
-                        the page, but I cannot seem to get it to work yet, so for now, it's hardcoded
-                        -->
+                       
                     </select>
                 </div>
             </li>
