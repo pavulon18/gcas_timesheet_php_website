@@ -101,4 +101,19 @@ abstract class Model
         $this->execute();
         return $this->stmt->fetch(PDO::FETCH_ASSOC);
     }
+    
+    public function transactionStart()
+    {
+        $this->dbh->beginTransaction();
+    }
+    
+    public function transactionCommit()
+    {
+        $this->dbh->commit();
+    }
+    
+    public function transactionRollback()
+    {
+        $this->dbh->rollBack();
+    }
 }
