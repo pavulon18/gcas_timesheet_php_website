@@ -24,27 +24,6 @@
  * THE SOFTWARE.
  */
 
-class Employees extends Controller
-{
-    protected function Index()
-    {
-        $viewmodel = new EmployeeModel();
-        $this->returnView($viewmodel->Index(), true);
-    }
-    
-    protected function login()
-    {
-        $viewmodel = new EmployeeModel();
-        $this->returnView($viewmodel->login(), true);
-    }
-    
-    protected function logout()
-    {
-        unset($_SESSION['is_logged_in']);
-        unset($_SESSION['user_data']);
-        session_destroy();
-        
-        //Redirect
-        header('Location: '.ROOT_URL);
-    }
-}
+?>
+<a href="<?php echo ROOT_PATH;?>administrators/roster">Employee Roster</a><br>
+<a href="<?php echo ROOT_PATH;?>administrators/register">Add a new employee</a><br>

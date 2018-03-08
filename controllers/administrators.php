@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * The MIT License
  *
  * Copyright 2018 Jim Baize <pavulon@hotmail.com>.
@@ -24,27 +24,35 @@
  * THE SOFTWARE.
  */
 
-class Employees extends Controller
+/**
+ * Description of administrators
+ *
+ * @author Jim Baize <pavulon@hotmail.com>
+ * 
+ * This class will contain all of the administrator level functions.
+ * 
+ */
+class Administrators extends Controller
 {
+    //I'm thinking I need a method called "isAdmin".  The purpose of this method
+    //would be to verify if the user has admin level permissions.
+    
     protected function Index()
     {
-        $viewmodel = new EmployeeModel();
+        $viewmodel = new AdministratorModel();
         $this->returnView($viewmodel->Index(), true);
     }
     
-    protected function login()
+    protected function register()
     {
         $viewmodel = new EmployeeModel();
-        $this->returnView($viewmodel->login(), true);
+        $this->returnView($viewmodel->register(), true);
     }
     
-    protected function logout()
+    protected function roster()
     {
-        unset($_SESSION['is_logged_in']);
-        unset($_SESSION['user_data']);
-        session_destroy();
-        
-        //Redirect
-        header('Location: '.ROOT_URL);
+        $viewmodel = new EmployeeModel();
+        $this->returnView($viewmodel->roster(), true);
     }
+    
 }
