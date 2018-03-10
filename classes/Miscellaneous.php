@@ -46,7 +46,7 @@ class Miscellaneous extends Model
         return $rows;
     }
     
-    public function notify_password($email, $link)
+    public static function notify_password($email, $link)
     {
         $from = "From: jbaize@gibsoncounty-in.gov \r\n";
         $mesg = "Someone has requested that your Gibson County Web Portal password be changed"

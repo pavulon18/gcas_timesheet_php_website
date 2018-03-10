@@ -102,6 +102,7 @@ class EmployeeModel extends Model
                 
                 // Send link with the original token
                 $emailLink = ROOT_URL . 'employees/reset_password.php?tok=' . $tokenForLink;
+                Miscellaneous::notify_password($email, $emailLink);
             }
         }
 
