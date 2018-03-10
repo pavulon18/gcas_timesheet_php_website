@@ -35,6 +35,7 @@ require('classes/Controller.php');
 require('classes/Model.php');
 require('classes/Messages.php');
 require('classes/Miscellaneous.php');
+require('classes/StoPasswordReset.php');
 
 require('controllers/home.php');
 require('controllers/employees.php');

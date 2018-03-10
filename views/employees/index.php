@@ -25,5 +25,35 @@
  */
 
 ?>
+<!-- Tab links -->
+        <div class="tab">
+            <button class="tablinks" onclick="openUser(event, 'currtimesheet')">Current Time Sheet</button>
+            <button class="tablinks" onclick="openUser(event, 'oldtimesheet')">Previous Time Sheets</button>
+            <button class="tablinks" onclick="openUser(event, 'daysoffremaining')">PTO Days Remaining</button>
+            <button class="tablinks" onclick="openUser(event, 'dayoffrequest')">Day Off Request Form</button>
+        </div>
 
-A placeholder for the employee's functions.
+        <!-- Tab content -->
+        <div id="currtimesheet" class="tabcontent">
+            <h3>Current Time Sheet</h3>
+            <p>This is will display and possibly edit the current time sheet</p>
+        </div>
+
+        <div id="oldtimesheet" class="tabcontent">
+            <h3>Previous Time Sheets</h3>
+            <p>This page will allow a user to display the user's own historical time sheets</p>
+        </div>
+
+        <div id="daysoffremaining" class="tabcontent">
+            <h3>PTO Days</h3>
+
+            <p>This will display a current accounting of the user's PTO days</p>
+        </div>
+        
+        <div id="dayoffrequest" class="tabcontent">
+            <h3>Day Off Request Form</h3>
+            <p>This functionality is planned for a future version.</p>
+            <p>This page will display a day off request form</p>
+        </div>
+        
+        <script src="/assets/js/employee_base.js"></script>

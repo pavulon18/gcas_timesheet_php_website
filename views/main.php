@@ -31,7 +31,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
         <meta name="author" content="">
-        <link rel="icon" href="../../../../favicon.ico">
+        <link rel="icon" href="/assets/graphics/favicon.ico">
 
         <title>Gibson County EMS Employee Web Portal</title>
 
@@ -63,26 +63,26 @@
 
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav mr-auto">
+                    <?php if (isset($_SESSION['is_logged_in'])) : ?>
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo ROOT_URL; ?>">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo ROOT_URL; ?>jobtitles">Job Titles </a>
+                        <a class="nav-link" href="<?php echo ROOT_URL; ?>jobtitles"> Job Titles </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo ROOT_URL; ?>employees">Employees </a>
+                        <a class="nav-link" href="<?php echo ROOT_URL; ?>employees"> Employees </a>
                     </li>
+                    <?php endif; ?>
                     <ul class="nav navbar-nav navbar-right">
                         <?php if (isset($_SESSION['is_logged_in'])) : ?>
                             <li><a href="<?php echo ROOT_URL; ?>">Welcome <?php echo $_SESSION['user_data']['firstName']; ?></a></li>
-                            <li><a href="<?php echo ROOT_URL; ?>employees/logout">Logout</a></li>
+                            <li><a href="<?php echo ROOT_URL; ?>employees/logout"> Logout </a></li>
                         <?php else : ?>
-                            <li><a href="<?php echo ROOT_URL; ?>employees/login">Login</a></li>
-                            <li><a href="<?php echo ROOT_URL; ?>employees/logout">Logout</a></li>
+                            <li><a href="<?php echo ROOT_URL; ?>employees/login"> Login </a></li>
                         <?php endif; ?>
                     </ul>
                 </ul>
-
             </div>
         </nav>
 

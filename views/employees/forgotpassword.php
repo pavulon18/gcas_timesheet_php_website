@@ -23,36 +23,28 @@
  * THE SOFTWARE.
  */
 ?>
-
-
 <img id="top" src="/assets/graphics/top.png" alt="">
 <div id="form_container">
 
-    <h1><a>Employee Login</a></h1>
-    <form id="form_71954" class="appnitro"  method="post" action="<?php htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+    <h1><a>Forgot Password</a></h1>
+    <form id="form_74767" class="appnitro"  method="post" action="<?php htmlspecialchars($_SERVER["PHP_SELF"]);?>">
         <div class="form_description">
-            <h2>Employee Login</h2>
-            <p></p>
+            <h2>Forgot Password</h2>
+            <p>Enter your email.  Instructions for resetting your password will be mailed to you if your email is in the system.</p>
         </div>						
         <ul >
-            <li id="li_8" >
-                <label class="description" for="username">Username </label>
+
+            <li id="li_1" >
+                <label class="description" for="email">Email </label>
                 <div>
-                    <input id="username" name="username" class="element text medium" type="text" maxlength="255" value=""/> 
+                    <input id="email" name="email" class="element text medium" type="text" maxlength="255" value="" required=""/> 
                 </div> 
             </li>
-            <li id="li_10" >
-                <label class="description" for="password">Password </label>
-                <div>
-                    <input id="password" name="password" class="element text medium" type="password" maxlength="255" value=""/> 
-                </div> 
-            </li>
+
             <li class="buttons">
-                <input type="hidden" name="form_id" value="71954" />
+                <input type="hidden" name="form_id" value="74767" />
+
                 <input id="saveForm" class="button_text" type="submit" name="submit" value="Submit" />
-            </li>
-            <li id="li_11" >
-                <a style="color:black;" href="<?php echo ROOT_URL; ?>employees/forgotpassword"> Forgot Password </a>
             </li>
         </ul>
     </form>	
@@ -61,3 +53,15 @@
     </div>
 </div>
 <img id="bottom" src="/assets/graphics/bottom.png" alt="">
+
+<?php
+/*
+ * I seem to have a dozen things running through my head.  I"m going to make some notes
+ * so I can keep them all straight.
+ * 
+ * for the validation stuff, do I need to put the javascript that I used on the 
+ * register page on every page?
+ * 
+ * also still have to work on restricting access to the pages to only those who
+ * have logged in.
+ */

@@ -26,6 +26,7 @@
 
 /**
  * Description of administrator
+ * functions for only administrator level users.
  *
  * @author Jim Baize <pavulon@hotmail.com>
  */

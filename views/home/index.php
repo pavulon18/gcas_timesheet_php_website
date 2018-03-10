@@ -28,5 +28,4 @@
 <div class="text-center">
     <h1>Welcome to Gibson County EMS Employee Web Portal</h1>
     <p class="lead">Gibson EMS Web Portal and timesheet application</p>
-    <a class="btn btn-primary text-center" href="<?php echo ROOT_PATH;?>jobtitles">Job Titles</a>
 </div>

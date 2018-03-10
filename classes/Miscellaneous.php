@@ -44,6 +44,24 @@ class Miscellaneous extends Model
         $this->query($query);
         $rows = $this->resultSet();
         return $rows;
+    }
+    
+    public function notify_password($email, $link)
+    {
+        $from = "From: jbaize@gibsoncounty-in.gov \r\n";
+        $mesg = "Someone has requested that your Gibson County Web Portal password be changed"
+                ."Please click on the following link to change your password."
+                ."You will be asked to change your password before you can log in again."
+                . $link;
 
+        if (mail($email, 'Gibson County Ambulance Service login information', $mesg, $from))
+        {
+            return true;
+        } else
+        {
+            throw new Exception('Could not send email.');
+        }
+        
+        return;
     }
 }

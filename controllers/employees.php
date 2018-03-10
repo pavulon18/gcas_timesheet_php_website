@@ -47,4 +47,10 @@ class Employees extends Controller
         //Redirect
         header('Location: '.ROOT_URL);
     }
+    
+    protected function forgotPassword()
+    {
+        $viewmodel = new EmployeeModel();
+        $this->returnView($viewmodel->forgotpassword(), true);
+    }
 }

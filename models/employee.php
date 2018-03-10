@@ -73,4 +73,56 @@ class EmployeeModel extends Model
         return;
     }
 
+    public function forgotPassword()
+    {
+        // Sanitize POST
+        $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+        if ($post['submit'])
+        {
+            //Search the database for the given email address
+            $this->query('SELECT * FROM employees WHERE email = :email ORDER BY Inserted_at DESC LIMIT 1');
+            $this->bind(':email', $post['email']);
+            $row = $this->single();
+            $email = $row['email'];
+            $empNumber = $row['Employee_Number'];
+
+            if (!empty($row)) //checking if the search returned a value
+            {
+                // Generate a new token with its hash
+                StoPasswordReset::generateToken($tokenForLink, $tokenHashForDatabase);
+
+                // Store the hash together with the UserId and the creation date
+                //$creationDate = new DateTime();
+                $this->query('INSERT INTO recoveryemails_enc (Employee_Number, Token)'
+                        . ' VALUES (:empNumber, :token)');
+                $this->bind(':token', $tokenHashForDatabase);
+                $this->bind(':empNumber', $empNumber);
+                $this->execute();
+                
+                // Send link with the original token
+                $emailLink = ROOT_URL . 'employees/reset_password.php?tok=' . $tokenForLink;
+            }
+        }
+
+        /**
+         * psuedo-code for what I am trying to do
+         * 
+         * $userId = findUserByEmail($_POST['email']);
+          if (!is_null($userId))
+          {
+          // Generate a new token with its hash
+          StoPasswordReset::generateToken($tokenForLink, $tokenHashForDatabase);
+
+          // Store the hash together with the UserId and the creation date
+          $creationDate = new DateTime();
+          savePasswordResetToDatabase($tokenHashForDatabase, $userId, $creationDate);
+
+          // Send link with the original token
+          $emailLink = 'https://www.example.com/reset_password.php?tok=' . $tokenForLink;
+          sendPasswordResetEmail($emailLink);
+          }
+         */
+    }
+
 }
