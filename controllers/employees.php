@@ -53,4 +53,10 @@ class Employees extends Controller
         $viewmodel = new EmployeeModel();
         $this->returnView($viewmodel->forgotpassword(), true);
     }
+    
+    protected function resetpassword()
+    {
+        $viewmodel = new EmployeeModel();
+        $this->returnView($viewmodel->resetpassword(), true);
+    }
 }

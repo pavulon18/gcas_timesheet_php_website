@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * The MIT License
  *
  * Copyright 2018 Jim Baize <pavulon@hotmail.com>.
@@ -26,30 +26,40 @@
 
 class Messages
 {
+
     public static function setMsg($text, $type)
     {
-        if($type == 'error')
+        if ($type == 'error')
         {
             $_SESSION['errorMsg'] = $text;
-        }
-        else
+        } elseif ($type == 'sucess')
         {
             $_SESSION['successMsg'] = $text;
+        } else
+        {
+            $_SESSION['infoMsg'] = $text;
         }
     }
-     
+
     public static function display()
     {
-        if(isset($_SESSION['errorMsg']))
+        if (isset($_SESSION['errorMsg']))
         {
-            echo '<div class="alert alert-danger">'.$_SESSION['errorMsg'].'</div>';
+            echo '<div class="alert alert-danger">' . $_SESSION['errorMsg'] . '</div>';
             unset($_SESSION['errorMsg']);
         }
-        
-        if(isset($_SESSION['successrMsg']))
+
+        if (isset($_SESSION['successMsg']))
         {
-            echo '<div class="alert alert-sucess">'.$_SESSION['errorMsg'].'</div>';
-            unset($_SESSION['successrMsg']);
+            echo '<div class="alert alert-sucess">' . $_SESSION['successMsg'] . '</div>';
+            unset($_SESSION['successMsg']);
+        }
+        
+        if (isset($_SESSION['infoMsg']))
+        {
+            echo '<div class="alert alert-info">' . $_SESSION['infoMsg'] . '</div>';
+            unset($_SESSION['infoMsg']);
         }
     }
+
 }

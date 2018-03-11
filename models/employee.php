@@ -78,6 +78,16 @@ class EmployeeModel extends Model
         // Sanitize POST
         $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
+        /* This method was modified from the original code.
+         * The original code can be found at
+         * https://www.martinstoeckli.ch/php/php.html#passwordreset
+         * 
+         * @author Martin Stoeckli - www.martinstoeckli.ch/php
+         * @copyright Martin Stoeckli 2013, this code may be freely used in every
+         *   type of project, it is provided without warranties of any kind.
+         * @version 2.1
+         */
+
         if ($post['submit'])
         {
             //Search the database for the given email address
@@ -86,12 +96,15 @@ class EmployeeModel extends Model
             $row = $this->single();
             $email = $row['email'];
             $empNumber = $row['Employee_Number'];
-
+            
+            print_r($row);
             if (!empty($row)) //checking if the search returned a value
             {
                 // Generate a new token with its hash
                 StoPasswordReset::generateToken($tokenForLink, $tokenHashForDatabase);
-
+                echo $tokenForLink.PHP_EOL;
+                echo $tokenHashForDatabase;
+                
                 // Store the hash together with the UserId and the creation date
                 //$creationDate = new DateTime();
                 $this->query('INSERT INTO recoveryemails_enc (Employee_Number, Token)'
@@ -99,30 +112,50 @@ class EmployeeModel extends Model
                 $this->bind(':token', $tokenHashForDatabase);
                 $this->bind(':empNumber', $empNumber);
                 $this->execute();
-                
+
                 // Send link with the original token
-                $emailLink = ROOT_URL . 'employees/reset_password.php?tok=' . $tokenForLink;
+                $emailLink = ROOT_URL . 'employees/resetpassword?tok=' . $tokenForLink;
                 Miscellaneous::notify_password($email, $emailLink);
             }
         }
+    }
 
-        /**
-         * psuedo-code for what I am trying to do
+    public function resetpassword()
+    {
+        /* This method was modified from the original code.
+         * The original code can be found at
+         * https://www.martinstoeckli.ch/php/php.html#passwordreset
          * 
-         * $userId = findUserByEmail($_POST['email']);
-          if (!is_null($userId))
-          {
-          // Generate a new token with its hash
-          StoPasswordReset::generateToken($tokenForLink, $tokenHashForDatabase);
+         * @author Martin Stoeckli - www.martinstoeckli.ch/php
+         * @copyright Martin Stoeckli 2013, this code may be freely used in every
+         *   type of project, it is provided without warranties of any kind.
+         * @version 2.1
+         */
+        print_r($_GET);
+        if (!isset($_GET['tok']) || !StoPasswordReset::isTokenValid($_GET['tok']))
+        {
+            Messages::setMsg('The token is invalid.', 'error');
+            //header('Location: ' . ROOT_URL);
+            
+        }
+        return;
+        /*
+         *  Pseudocode for this method
+         * // Validate the token
+          if (!isset($_GET['tok']) || !StoPasswordReset::isTokenValid($_GET['tok']))
+          handleErrorAndExit('The token is invalid.');
 
-          // Store the hash together with the UserId and the creation date
-          $creationDate = new DateTime();
-          savePasswordResetToDatabase($tokenHashForDatabase, $userId, $creationDate);
+          // Search for the token hash in the database, retrieve UserId and creation date
+          $tokenHashFromLink = StoPasswordReset::calculateTokenHash($_GET['tok']);
+          if (!loadPasswordResetFromDatabase($tokenHashFromLink, $userId, $creationDate))
+          handleErrorAndExit('The token does not exist or has already been used.');
 
-          // Send link with the original token
-          $emailLink = 'https://www.example.com/reset_password.php?tok=' . $tokenForLink;
-          sendPasswordResetEmail($emailLink);
-          }
+          // Check whether the token has expired
+          if (StoPasswordReset::isTokenExpired($creationDate))
+          handleErrorAndExit('The token has expired.');
+
+          // Show password change form and mark token as used
+          letUserChangePassword($userId);
          */
     }
 

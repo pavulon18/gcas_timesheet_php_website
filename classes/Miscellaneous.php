@@ -49,9 +49,9 @@ class Miscellaneous extends Model
     public static function notify_password($email, $link)
     {
         $from = "From: jbaize@gibsoncounty-in.gov \r\n";
-        $mesg = "Someone has requested that your Gibson County Web Portal password be changed"
-                ."Please click on the following link to change your password."
-                ."You will be asked to change your password before you can log in again."
+        $mesg = "Someone has requested that your Gibson County Web Portal password be changed" . PHP_EOL
+                ."Please click on the following link to change your password." . PHP_EOL
+                ."You will be asked to change your password before you can log in again." . PHP_EOL
                 . $link;
 
         if (mail($email, 'Gibson County Ambulance Service login information', $mesg, $from))
