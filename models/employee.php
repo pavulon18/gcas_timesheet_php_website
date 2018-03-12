@@ -114,7 +114,7 @@ class EmployeeModel extends Model
                 $this->execute();
 
                 // Send link with the original token
-                $emailLink = ROOT_URL . 'employees/resetpassword?tok=' . $tokenForLink;
+                $emailLink = ROOT_URL . 'employees/resetpassword/' . $tokenForLink;
                 Miscellaneous::notify_password($email, $emailLink);
             }
         }
@@ -131,8 +131,7 @@ class EmployeeModel extends Model
          *   type of project, it is provided without warranties of any kind.
          * @version 2.1
          */
-        print_r($_GET);
-        if (!isset($_GET['tok']) || !StoPasswordReset::isTokenValid($_GET['tok']))
+        if (!isset($_GET['id']) || !StoPasswordReset::isTokenValid($_GET['id']))
         {
             Messages::setMsg('The token is invalid.', 'error');
             //header('Location: ' . ROOT_URL);
