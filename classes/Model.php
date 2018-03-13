@@ -83,6 +83,12 @@ abstract class Model
         return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
+    public function single()
+    {
+        $this->execute();
+        return $this->stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    
     public function lastInsertId()
     {
         return $this->dbh->lastInsertId();
@@ -94,12 +100,6 @@ abstract class Model
         $data = stripslashes($data);
         $data = htmlspecialchars($data);
         return $data;
-    }
-    
-    public function single()
-    {
-        $this->execute();
-        return $this->stmt->fetch(PDO::FETCH_ASSOC);
     }
     
     public function transactionStart()

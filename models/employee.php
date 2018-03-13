@@ -37,8 +37,6 @@ class EmployeeModel extends Model
         // Sanitize POST
         $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-        //$pwHash = password_hash($post['password'], PASSWORD_DEFAULT);
-
         if ($post['submit'])
         {
             // Compare Login
@@ -96,15 +94,12 @@ class EmployeeModel extends Model
             $row = $this->single();
             $email = $row['email'];
             $empNumber = $row['Employee_Number'];
-            
-            print_r($row);
+
             if (!empty($row)) //checking if the search returned a value
             {
                 // Generate a new token with its hash
                 StoPasswordReset::generateToken($tokenForLink, $tokenHashForDatabase);
-                echo $tokenForLink.PHP_EOL;
-                echo $tokenHashForDatabase;
-                
+
                 // Store the hash together with the UserId and the creation date
                 //$creationDate = new DateTime();
                 $this->query('INSERT INTO recoveryemails_enc (Employee_Number, Token)'
@@ -115,14 +110,15 @@ class EmployeeModel extends Model
 
                 // Send link with the original token
                 $emailLink = ROOT_URL . 'employees/resetpassword/' . $tokenForLink;
-                Miscellaneous::notify_password($email, $emailLink);
+                Miscellaneous::notify_password($email, $emailLink); // calls the method to send out the email to the user
             }
         }
     }
 
     public function resetpassword()
     {
-        /* This method was modified from the original code.
+        /* This method was modified from the original code by Jim Baize
+         * March 2018.
          * The original code can be found at
          * https://www.martinstoeckli.ch/php/php.html#passwordreset
          * 
@@ -131,31 +127,37 @@ class EmployeeModel extends Model
          *   type of project, it is provided without warranties of any kind.
          * @version 2.1
          */
-        if (!isset($_GET['id']) || !StoPasswordReset::isTokenValid($_GET['id']))
+        $id = $this->test_input($_GET['id']); // The token from the URL
+        //$id = $_GET['id'];
+
+        $this->query('SELECT * FROM recoveryemails_enc ORDER BY Creation_DateTime DESC LIMIT 1');
+        $result = $this->single(); // Run the above query and return a single result
+
+        $item = $this->test_input($result['Token']);
+
+
+        if (!isset($id) || !StoPasswordReset::isTokenValid($id))
         {
             Messages::setMsg('The token is invalid.', 'error');
             //header('Location: ' . ROOT_URL);
-            
+            return;
+        } elseif (!hash_equals($item, hash('sha256', $id, FALSE)) || isset($result['Redeemed_DateTime'])) // March 13, 2018 -- Still need to test the Redeemed part of this statement
+        {
+            Messages::setMsg('The token does not exist or has already been used.', 'error');
+            //header('Location: ' . ROOT_URL);
         }
-        return;
+
+        // Check whether the token has expired
+        elseif (StoPasswordReset::isTokenExpired($result['creationDate']))
+        {
+            Messages::setMsg('The token has expired.', 'error');
+        } else
+        {
+            echo 'Show password change form and mark token as used';
         /*
-         *  Pseudocode for this method
-         * // Validate the token
-          if (!isset($_GET['tok']) || !StoPasswordReset::isTokenValid($_GET['tok']))
-          handleErrorAndExit('The token is invalid.');
-
-          // Search for the token hash in the database, retrieve UserId and creation date
-          $tokenHashFromLink = StoPasswordReset::calculateTokenHash($_GET['tok']);
-          if (!loadPasswordResetFromDatabase($tokenHashFromLink, $userId, $creationDate))
-          handleErrorAndExit('The token does not exist or has already been used.');
-
-          // Check whether the token has expired
-          if (StoPasswordReset::isTokenExpired($creationDate))
-          handleErrorAndExit('The token has expired.');
-
           // Show password change form and mark token as used
           letUserChangePassword($userId);
          */
+        }
     }
-
 }
