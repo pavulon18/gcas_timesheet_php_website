@@ -32,27 +32,26 @@
  * This might be poor programming practice, but I don't know where else
  * to put the following methods.
  */
-
 class Miscellaneous extends Model
 {
-    
+
     public function dropdown($query)
     {
         // This method makes it possible to populate a dropdown box using data
         // from the database.
-        
+
         $this->query($query);
         $rows = $this->resultSet();
         return $rows;
     }
-    
+
     public static function notify_password($email, $link)
     {
         $from = "From: jbaize@gibsoncounty-in.gov \r\n";
         $mesg = "Someone has requested that your Gibson County Web Portal password be changed" . PHP_EOL
-                ."Please click on the following link to change your password." . PHP_EOL
-                ."You will be asked to change your password before you can log in again." . PHP_EOL
-                ."<a href=" . $link . "></a>";
+                . "Please click on the following link to change your password." . PHP_EOL
+                . "You will be asked to change your password before you can log in again." . PHP_EOL
+                . "<a href=" . $link . "></a>";
 
         if (mail($email, 'Gibson County Ambulance Service login information', $mesg, $from))
         {
@@ -61,7 +60,22 @@ class Miscellaneous extends Model
         {
             throw new Exception('Could not send email.');
         }
-        
+
         return;
     }
+
+    public static function isPasswordExpired($empNumber)
+    {
+        /*
+         * Set up the query to search for the employee number
+         * if the flag in the DB is set to 1 then take the user to the password
+         * change form
+         */
+
+        echo 'Set up the query to search for the employee number
+         if the flag in the DB is set to 1 then take the user to the password
+         change form';
+    }
+
+    
 }

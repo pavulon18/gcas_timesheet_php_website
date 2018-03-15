@@ -42,6 +42,7 @@ class Employees extends Controller
     {
         unset($_SESSION['is_logged_in']);
         unset($_SESSION['user_data']);
+        unset($_SESSION['empNum']);
         session_destroy();
         
         //Redirect
@@ -58,5 +59,17 @@ class Employees extends Controller
     {
         $viewmodel = new EmployeeModel();
         $this->returnView($viewmodel->resetpassword(), true);
+    }
+    
+    protected function changeknownpassword()
+    {
+        $viewmodel = new EmployeeModel();
+        $this->returnView($viewmodel->changeknownpassword(), true);
+    }
+    
+    protected function changeforgottenpassword()
+    {
+        $viewmodel = new EmployeeModel();
+        $this->returnView($viewmodel->changeforgottenpassword(), true);
     }
 }

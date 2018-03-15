@@ -62,6 +62,8 @@ class EmployeeModel extends Model
                     "lastName" => $row['Last_Name'],
                     "securityRole" => $row2['Security_Role_ID']
                 );
+                //Checking if the password has been expired.  If yes then the password will need to be changed.
+                // Need to add this functionality
                 header('Location: ' . ROOT_URL . 'employees');
             } else
             {
@@ -101,7 +103,6 @@ class EmployeeModel extends Model
                 StoPasswordReset::generateToken($tokenForLink, $tokenHashForDatabase);
 
                 // Store the hash together with the UserId and the creation date
-                //$creationDate = new DateTime();
                 $this->query('INSERT INTO recoveryemails_enc (Employee_Number, Token)'
                         . ' VALUES (:empNumber, :token)');
                 $this->bind(':token', $tokenHashForDatabase);
@@ -128,13 +129,12 @@ class EmployeeModel extends Model
          * @version 2.1
          */
         $id = $this->test_input($_GET['id']); // The token from the URL
-        //$id = $_GET['id'];
 
         $this->query('SELECT * FROM recoveryemails_enc ORDER BY Creation_DateTime DESC LIMIT 1');
         $result = $this->single(); // Run the above query and return a single result
 
-        $item = $this->test_input($result['Token']);
-
+        $item = $this->test_input($result['Token']); // The hash of the token in the database
+        $createDateTime = date_create($result['Creation_DateTime']);  // DateTime the token was first created and stored in the DB
 
         if (!isset($id) || !StoPasswordReset::isTokenValid($id))
         {
@@ -145,19 +145,103 @@ class EmployeeModel extends Model
         {
             Messages::setMsg('The token does not exist or has already been used.', 'error');
             //header('Location: ' . ROOT_URL);
-        }
-
-        // Check whether the token has expired
-        elseif (StoPasswordReset::isTokenExpired($result['creationDate']))
+        } elseif (StoPasswordReset::isTokenExpired($createDateTime))  // Check whether the token has expired
         {
             Messages::setMsg('The token has expired.', 'error');
         } else
         {
-            echo 'Show password change form and mark token as used';
-        /*
-          // Show password change form and mark token as used
-          letUserChangePassword($userId);
-         */
+            $this->query('UPDATE recoveryemails_enc SET Redeemed_DateTime = now() where Token = :token');
+            $this->bind(':token', $id);
+            $this->execute();
+            $_SESSION['empNum'] = $result['Employee_Number'];
+
+            header('Location: ' . ROOT_URL . 'employees/changeforgottenpassword');
+            /*
+             * That brings up another thought.  How to restrict the number of requests?
+             * What is a reasonable rate limit?
+             */
         }
+        return;
     }
+
+    public function changeforgottenpassword()
+    {
+        /*
+         * Allows users to change their own password.
+         * This method is if the user has forgotten his password
+         * and used the forgot password link
+         */
+
+
+        // Sanitize POST
+        $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+        $empNum = $this->test_input($_SESSION['empNum']);
+
+        if ($post['submit'])
+        {
+            $this->query('SELECT * FROM employees WHERE Employee_Number = :empNum ORDER BY Inserted_at DESC LIMIT 1');
+            $this->bind(':empNum', $empNum);
+            $row = $this->single();
+
+            if ($post['newPassword1'] === $post['newPassword2'])
+            {
+                $pwHash = password_hash($post['newPassword1'], PASSWORD_DEFAULT); //hash the password going to the database
+                $this->passwordChangeEngine($pwHash, $row);
+                if ($this->lastInsertId())
+                {
+                    //Redirect
+                    header('Location: ' . ROOT_URL . 'employees');
+                }
+            }
+        }
+
+
+        return;
+    }
+
+    public function changeknownpassword()
+    {
+        /*
+         * This method will allow the user to change his password
+         * This will be used if the user has already logged in and knows the
+         * current password
+         */
+
+        // Sanitize POST
+        $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+        if ($post['submit'])
+        {
+            $this->query('SELECT * FROM employees WHERE Employee_Number = :empNum ORDER BY Inserted_at DESC LIMIT 1');
+            $this->bind(':empNum', $_SESSION['empNum']);
+            $row = $this->single();
+
+            if (empty($post['oldPassowrd']))
+            {
+                Messages::setMsg('The old password must be supplied.', 'error');
+                return; // do I want a return statement or do I want
+                //header('Location: ' . ROOT_URL);  // this header statement?
+            } elseif (!password_verify($post['oldPassword'], $row['password']))
+            {
+                Messages::setMsg('There was an error.  Please try again.', 'error');
+                return; // do I want a return statement or do I want
+                //header('Location: ' . ROOT_URL);  // this header statement?
+            }
+
+            if ($post['newPassword1'] === $post['newPassword2'])
+            {
+                $pwHash = password_hash($post['newPassword1'], PASSWORD_DEFAULT); //hash the password going to the database
+
+                $this->passwordChangeEngine($pwHash, $row);
+
+                if ($this->lastInsertId())
+                {
+                    //Redirect
+                    header('Location: ' . ROOT_URL . 'employees');
+                }
+            }
+        }
+        return;
+    }
+
 }

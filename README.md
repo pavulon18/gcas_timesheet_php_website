@@ -9,7 +9,7 @@ which introduces complexity into the time calculations.  Add, on top of that, ou
 union contract, and the calculations go to a whole new level.
 
 DESCRIPTION OF PROBLEM
-According to federal law, people who work 24 hour shifts can be docked 8 hours of
+According to United States federal law, people who work 24 hour shifts can be docked 8 hours of
 sleep time provided these people have the reasonable expectation to be able to get
 at least 5 hours sleep.  During that 8 hour sleep time, if they are required to work
 then they must be paid for their time.  If they do not get their 5 hours of sleep, 
@@ -67,6 +67,9 @@ the front end using PHP.  That is where I am today.  I am learning PHP and writi
 this project.
 
 ACKNOWLEDGEMENTS
-I have borrowed heavily from __PHP and MySQL Web Development__ Fifth Edition,
-written by Luke Welling and Laura Thomson.  I used this book extensively while
-coding this project.
+__PHP and MySQL Web Development__ Fifth Edition,
+written by Luke Welling and Laura Thomson.
+
+https://www.eduonix.com/courses/Web-Development/learn-object-oriented-php-by-building-a-complete-website
+
+https://www.martinstoeckli.ch/php/php.html#passwordreset
