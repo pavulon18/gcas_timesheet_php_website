@@ -73,6 +73,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo ROOT_URL; ?>employees"> Employees </a>
                     </li>
+                    <?php if($_SESSION['user_data']['securityRole'] === '2') : ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?php echo ROOT_URL; ?>administrators"> Administrators </a>
+                    </li>
+                    <?php endif; ?>
                     <?php endif; ?>
                     <ul class="nav navbar-nav navbar-right">
                         <?php if (isset($_SESSION['is_logged_in'])) : ?>

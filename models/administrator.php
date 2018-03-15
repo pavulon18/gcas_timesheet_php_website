@@ -113,7 +113,11 @@ class AdministratorModel extends Model
 
     public function roster()
     {
-        $this->query('SELECT * FROM employees');
+        $this->query('SELECT * FROM employees e1'
+                . ' WHERE Inserted_at = '
+                . ' (SELECT MAX(e2.Inserted_at)'
+                . ' FROM employees e2'
+                . ' WHERE e1.Employee_Number = e2.Employee_Number)');
         $rows = $this->resultSet();
         return $rows;
     }

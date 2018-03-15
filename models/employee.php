@@ -189,7 +189,8 @@ class EmployeeModel extends Model
                 $this->passwordChangeEngine($pwHash, $row);
                 if ($this->lastInsertId())
                 {
-                    //Redirect
+                    //Redirect -- Need to come up with a solution to make this work.
+                    // Under my current DB design, this system does not work.
                     header('Location: ' . ROOT_URL . 'employees');
                 }
             }

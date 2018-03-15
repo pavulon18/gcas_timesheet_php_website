@@ -45,13 +45,13 @@ class Administrators extends Controller
     
     protected function register()
     {
-        $viewmodel = new EmployeeModel();
+        $viewmodel = new AdministratorModel();
         $this->returnView($viewmodel->register(), true);
     }
     
     protected function roster()
     {
-        $viewmodel = new EmployeeModel();
+        $viewmodel = new AdministratorModel();
         $this->returnView($viewmodel->roster(), true);
     }
     

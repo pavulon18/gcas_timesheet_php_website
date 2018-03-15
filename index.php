@@ -40,10 +40,12 @@ require('classes/StoPasswordReset.php');
 require('controllers/home.php');
 require('controllers/employees.php');
 require('controllers/jobtitles.php');
+require('controllers/administrators.php');
 
 require('models/home.php');
 require('models/employee.php');
 require('models/jobtitle.php');
+require('models/administrator.php');
 
 $bootstrap = new Bootstrap($_GET);
 $controller = $bootstrap->createController();
