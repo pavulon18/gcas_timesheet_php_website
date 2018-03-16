@@ -25,7 +25,9 @@
  */
 
 ?>
-
-<a href="<?php echo ROOT_URL; ?>employees/currentpay"> Current Pay Period </a>
-<a href="<?php echo ROOT_URL; ?>employees/ptodays"> PTO Days Remaining </a>
-<a href="<?php echo ROOT_URL; ?>employees/changeknownpassword"> Change Password </a>
+<p>
+<div>
+<li>
+<a href="<?php echo ROOT_URL; ?>"><p> Home </p></a>
+</li>
+</div>

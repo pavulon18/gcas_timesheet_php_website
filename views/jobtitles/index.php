@@ -25,6 +25,6 @@
  */
 ?>
 
-<input type="button" value="Job Title List" name="jobTitleList" />
-<p><a href="<?php echo ROOT_PATH;?>jobtitles/listjobs">List of Job Titles and Duties</a></p><br />
-<p><a href="<?php echo ROOT_PATH;?>jobtitles/add">Add a new Job Title</a></p>
+
+<p><a href="<?php echo ROOT_PATH;?>jobtitles/listjobs"> List of Job Titles and Duties </a></p><br />
+<p><a href="<?php echo ROOT_PATH;?>jobtitles/add"> Add a new Job Title </a></p>

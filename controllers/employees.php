@@ -72,4 +72,16 @@ class Employees extends Controller
         $viewmodel = new EmployeeModel();
         $this->returnView($viewmodel->changeforgottenpassword(), true);
     }
+    
+    protected function currentpay()
+    {
+        $viewmodel = new EmployeeModel();
+        $this->returnView($viewmodel->currentpay(), true);
+    }
+    
+    protected function ptodays()
+    {
+        $viewmodel = new EmployeeModel();
+        $this->returnView($viewmodel->ptodays(), true);
+    }
 }

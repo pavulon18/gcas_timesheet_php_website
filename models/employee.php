@@ -143,7 +143,7 @@ class EmployeeModel extends Model
             return;
         } elseif (!hash_equals($item, hash('sha256', $id, FALSE)) || isset($result['Redeemed_DateTime'])) // March 13, 2018 -- Still need to test the Redeemed part of this statement
         {
-            Messages::setMsg('The token does not exist or has already been used.', 'error');
+            Messages::setMsg('<p>The token does not exist or has already been used.<br/></p>', 'error');
             //header('Location: ' . ROOT_URL);
         } elseif (StoPasswordReset::isTokenExpired($createDateTime))  // Check whether the token has expired
         {
@@ -151,11 +151,11 @@ class EmployeeModel extends Model
         } else
         {
             $this->query('UPDATE recoveryemails_enc SET Redeemed_DateTime = now() where Token = :token');
-            $this->bind(':token', $id);
+            $this->bind(':token', hash('sha256', $id, FALSE));
             $this->execute();
             $_SESSION['empNum'] = $result['Employee_Number'];
 
-            header('Location: ' . ROOT_URL . 'employees/changeforgottenpassword');
+            header('Location: ' . ROOT_URL . 'employees/login');
             /*
              * That brings up another thought.  How to restrict the number of requests?
              * What is a reasonable rate limit?
@@ -214,10 +214,10 @@ class EmployeeModel extends Model
         if ($post['submit'])
         {
             $this->query('SELECT * FROM employees WHERE Employee_Number = :empNum ORDER BY Inserted_at DESC LIMIT 1');
-            $this->bind(':empNum', $_SESSION['empNum']);
+            $this->bind(':empNum', $_SESSION['user_data']['empNum']);
             $row = $this->single();
 
-            if (empty($post['oldPassowrd']))
+            if (empty($post['oldPassword']))
             {
                 Messages::setMsg('The old password must be supplied.', 'error');
                 return; // do I want a return statement or do I want
@@ -244,5 +244,22 @@ class EmployeeModel extends Model
         }
         return;
     }
-
+    
+    public function currentpay()
+    {
+        
+    }
+    
+    public function ptodays()
+    {
+        $this->query('SELECT * FROM employees WHERE Employee_Number = :Employee_Number ORDER BY Inserted_at DESC LIMIT 1');
+        $this->bind(':Employee_Number', $_SESSION['user_data']['empNum']);
+        $row = $this->single();
+        if(empty($row))
+        {
+            echo 'row is empty';
+            die();
+        }
+        return $row;
+    }
 }

@@ -50,7 +50,6 @@ class Miscellaneous extends Model
         $from = "From: jbaize@gibsoncounty-in.gov \r\n";
         $mesg = "Someone has requested that your Gibson County Web Portal password be changed" . PHP_EOL
                 . "Please click on the following link to change your password." . PHP_EOL
-                . "You will be asked to change your password before you can log in again." . PHP_EOL
                 . "<a href=" . $link . "></a>";
 
         if (mail($email, 'Gibson County Ambulance Service login information', $mesg, $from))

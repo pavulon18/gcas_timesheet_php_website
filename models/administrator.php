@@ -120,6 +120,12 @@ class AdministratorModel extends Model
                 . ' WHERE e1.Employee_Number = e2.Employee_Number)');
         $rows = $this->resultSet();
         return $rows;
+        /*
+         * I just realized this will list every employee past or present.
+         * I will need to fix this.  I should probably give the administrator 
+         * the ability to choose which option, either list all, list past, or list
+         * present.
+         */
     }
 
 }
