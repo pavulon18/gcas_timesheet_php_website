@@ -39,3 +39,7 @@ define("ROOT_URL", "http://gcastimesheet");
 
 // Define Website Constants
 define("PAGE_TITLE", "Gibson County Ambuance Service Web Portal");
+
+// Define Reference Date.  This is the first day of a pay period.
+// This value will be used to calculate every other pay period.
+define("REFERENCE_DATE", "2015-02-12 08:00:00");
