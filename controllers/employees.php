@@ -79,6 +79,12 @@ class Employees extends Controller
         $this->returnView($viewmodel->currentpay(), true);
     }
     
+    protected function historicalpay()
+    {
+        $viewmodel = new EmployeeModel();
+        $this->returnView($viewmodel->historicalpay(), true);
+    }
+    
     protected function ptodays()
     {
         $viewmodel = new EmployeeModel();

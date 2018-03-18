@@ -23,11 +23,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 ?>
 <div>
-    <li><a href="<?php echo ROOT_URL; ?>employees/currentpay"> Current Pay Period </a></li>
-    <li><a href="<?php echo ROOT_URL; ?>employees/historicalpay"> Historical Pay Period </a></li>
-    <li><a href="<?php echo ROOT_URL; ?>employees/ptodays"> PTO Days Remaining </a></li>
-    <li><a href="<?php echo ROOT_URL; ?>employees/changeknownpassword"> Change Password </a></li>
+    <li>Devise a method to separate out the entries which belong to a particular pay period.</li>
+    <li>Determine the format to display the information</li>
+    <li>Devise a search function</li>
 </div>

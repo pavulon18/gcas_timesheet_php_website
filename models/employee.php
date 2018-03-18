@@ -247,6 +247,98 @@ class EmployeeModel extends Model
     
     public function currentpay()
     {
+        /*
+         * This method will be used to display the current pay period.
+         * I am also going to try to add in the ability to enter new information
+         * from this page using a modal.
+         * 
+         * 9)  startDate = the date of the first day of the pay period.
+         *      ** current pay period's date will be mod = 0 when compared
+         *      ** to the reference date.
+         * 10) Display the current pay period information
+         * 20) Display a button to add a new entry.
+         * 30) Display buttons to delete or correct information already entered.
+         * 
+         * 1) select * from employee_payrollhours
+         *              where Employee_Number = $_SESSION['user_data']['empNum']
+         *              AND now() is after startDate
+         *              
+         */
+    }
+    
+    public function historicalpay()
+    {
+        /*
+         * So far, I have not figured out a way to handle an entry if it has been 
+         * soft deleted.  Actually, I think I might have, since I started typing this
+         * 
+         * This method will be used to display historical pay sheet for a particular
+         * user.
+         * I need to devise a layout scheme as well as the logic to pull the information.
+         * I probably also need to have some sort of search function.
+         * 
+         * 10) will need to determine the desired date range to be displayed
+         * 20) Will need to determine the first day of the pay period
+         * 30) Will need to decide between a detailed view vs a composite view
+         * 35) Start with the first day of a pay period
+         * 40) Read a line of data
+         * 45) Has this line of data been soft deleted?  If yes, go back to 40
+         *      if no, continue.
+         * 50) Determine if it is overtime, straight time, etc and assign it
+         *      to the appropriate variable
+         * 55) I will need to consolidate the time into each day and then into
+         *      each week and then into each pay period.
+         * 60) Read next line of data
+         * 65) Has this line of data been soft deleted?  If yes, go back to 60
+         *      if no, continue.
+         * 67) Does it belong to the same "day"?  If yes, add it to the day's totals.
+         *      If no, start a new day.
+         * 70) Does it belong to the current week? if yes go back to 50
+         *      if no then does it belong to the current pay period?
+         *      if yes then start a new week and go back to 50
+         *      if no then start a new pay period then go back to 50
+         * 80) When all the lines of data have been processed, display the results
+         * 
+         * $createDateTime = date_create($result['Creation_DateTime']);  // DateTime the token was first created and stored in the DB
+         */
+        
+        $weekOne = [];
+        $weekTwo = [];
+        $payPeriod = [$weekOne, $weekTwo];
+        
+        $this->query('SELECT * FROM employee_payrollhours WHERE Employee_Number = :Employee_Number');
+        $this->bind(':Employee_Number', $_SESSION['user_data']['empNum']);
+        $resultSet = $this->resultSet();
+        
+        foreach ($resultSet as $key => $value)
+        {
+            if(!isset($resultSet['Deleted_at']))
+            {
+                if($resultSet['Is_24Hour_Shift'])
+                {
+                    
+                }
+            }
+        }
+        
+        /*
+         * Take the user's requested first day of search and find the mod of it
+         * and the reference date. If mod = 0, then it is the first day of a pay period
+         * otherwise it is not.
+         */
+        
+        $referenceDateDateOnly = date_create(REFERENCE_DATE)->format('Y-m-d');
+        $dayOne = date_create(REFERENCE_DATE); // This will eventually need to be pulled from the user interface as entered by the user.
+                                                // For right now, I am going to just pull all the data for the user in the database.
+        
+        $dayOneDateOnly = $dayOne->format('Y-m-d'); // I only want the date portion of the datetime when I do my calculations
+        
+        while (($dayOneDateOnly%$referenceDateDateOnly) !== 0) // If i have done my logic correctly, this will find the first
+        {                                                       // day of the pay period prior to the user selected first day.
+            $dayOne->modify("-1 day");
+            $dayOneDateOnly = $dayOne->format('Y-m-d');
+        }
+        
         
     }
     
