@@ -244,7 +244,7 @@ class EmployeeModel extends Model
         }
         return;
     }
-    
+
     public function currentpay()
     {
         /*
@@ -265,7 +265,7 @@ class EmployeeModel extends Model
          *              
          */
     }
-    
+
     public function historicalpay()
     {
         /*
@@ -301,57 +301,91 @@ class EmployeeModel extends Model
          * 
          * $createDateTime = date_create($result['Creation_DateTime']);  // DateTime the token was first created and stored in the DB
          */
-        
+
         $weekOne = [];
         $weekTwo = [];
         $payPeriod = [$weekOne, $weekTwo];
-        
+        //$regHours = 0.0;        // Hours the employee was actually on the clock
+        //$overtimeHours = 0.0;   // Overtime hours
+        //$nonWorkHours = 0.0;    // Hours paid to the employee while the employee was not
+        // working.  example:  Sick Day, Vacation Day, other PTO type days.
+
         $this->query('SELECT * FROM employee_payrollhours WHERE Employee_Number = :Employee_Number');
         $this->bind(':Employee_Number', $_SESSION['user_data']['empNum']);
-        $resultSet = $this->resultSet();
+        $resultSetPayroll = $this->resultSet();
+
+        $this->query('SELECT * FROM employees WHERE Employee_Number = :Employee_Number ORDER BY Inserted_at DESC LIMIT 1');
+        $this->bind(':Employee_Number', $_SESSION['user_data']['empNum']);
+        $resultSetEmployee = $this->resultSet();
+
+        $dow = 1;  // $dow = day of week.  This is an internal counter to track the days.
+        ${$day . $dow} = array(
+            '$regHours' => '0.0',
+            '$overtimeHours' => '0.0',
+            '$nonWorkHours' => '0.0',
+        );
+
+        $empNum = $resultSetPayroll['Employee_Number'];
+        $dateTimeIn = $resultSetPayroll['DateTime_In'];
+        $dateTimeOut = $resultSetPayroll['DateTime_Out'];
+        $is24 = $resultSetPayroll['Is_24Hour_Shift'];
+        $isSickDay = $resultSetPayroll['Is_Sick_Day'];
+        $isVacation = $resultSetPayroll['Is_Vacation_Day'];
+        $isHoliday = $resultSetPayroll['Is_Holiday'];
+        $isBerevement = $resultSetPayroll['Is_Berevement_Day'];
+        $isFMLA = $resultSetPayroll['Is_FMLA_Day'];
+        $isShortTerm = $resultSetPayroll['Is_Short_Term_Disablility_Day'];
+        $isLongTerm = $resultSetPayroll['Is_Long_Term_Disability_Day'];
+        $isNightRun = $resultSetPayroll['Is_Night_Run'];
         
+        $sickDays = $resultSetEmployee['Sick_Days_Remaining'];
+        $vacaDays = $resultSetEmployee['Vacation_Days_Remaining'];
+        $personDays = $resultSetEmployee['Personal_Days_Remaining'];
+        $fmlaDays = $resultSetEmployee['FMLA_Days_Remaining'];
+
         foreach ($resultSet as $key => $value)
         {
-            if(!isset($resultSet['Deleted_at']))
+            if (!isset($resultSet['Deleted_at']))
             {
-                if($resultSet['Is_24Hour_Shift'])
+                if ($resultSet['Is_24Hour_Shift'])
                 {
-                    
+                    // need some way to track to which day (variable) this is to be added.
+                    ${$day . $dow}['$regHours'] = ${$day . $dow}['$regHours'] + 16.0;
                 }
             }
         }
-        
+
         /*
          * Take the user's requested first day of search and find the mod of it
          * and the reference date. If mod = 0, then it is the first day of a pay period
          * otherwise it is not.
          */
         
+        //I want to move these next few lines to a method by its self.
         $referenceDateDateOnly = date_create(REFERENCE_DATE)->format('Y-m-d');
         $dayOne = date_create(REFERENCE_DATE); // This will eventually need to be pulled from the user interface as entered by the user.
-                                                // For right now, I am going to just pull all the data for the user in the database.
-        
+        // For right now, I am going to just pull all the data for the user in the database.
+
         $dayOneDateOnly = $dayOne->format('Y-m-d'); // I only want the date portion of the datetime when I do my calculations
-        
-        while (($dayOneDateOnly%$referenceDateDateOnly) !== 0) // If i have done my logic correctly, this will find the first
+
+        while (($dayOneDateOnly % $referenceDateDateOnly) !== 0) // If i have done my logic correctly, this will find the first
         {                                                       // day of the pay period prior to the user selected first day.
             $dayOne->modify("-1 day");
             $dayOneDateOnly = $dayOne->format('Y-m-d');
         }
-        
-        
     }
-    
+
     public function ptodays()
     {
         $this->query('SELECT * FROM employees WHERE Employee_Number = :Employee_Number ORDER BY Inserted_at DESC LIMIT 1');
         $this->bind(':Employee_Number', $_SESSION['user_data']['empNum']);
         $row = $this->single();
-        if(empty($row))
+        if (empty($row))
         {
             echo 'row is empty';
             die();
         }
         return $row;
     }
+
 }
