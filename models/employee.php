@@ -313,18 +313,28 @@ class EmployeeModel extends Model
         $this->query('SELECT * FROM employee_payrollhours WHERE Employee_Number = :Employee_Number');
         $this->bind(':Employee_Number', $_SESSION['user_data']['empNum']);
         $resultSetPayroll = $this->resultSet();
+        if(empty($resultSetPayroll))
+        {
+            Messages::setMsg('There is no data to retrieve for this user', 'error');
+            header('Location: ' . ROOT_URL . 'employees');
+        }
 
         $this->query('SELECT * FROM employees WHERE Employee_Number = :Employee_Number ORDER BY Inserted_at DESC LIMIT 1');
         $this->bind(':Employee_Number', $_SESSION['user_data']['empNum']);
         $resultSetEmployee = $this->resultSet();
 
         $dow = 1;  // $dow = day of week.  This is an internal counter to track the days.
-        ${$day . $dow} = array(
+        
+        ${"day" . $dow} = array(
             '$regHours' => '0.0',
             '$overtimeHours' => '0.0',
             '$nonWorkHours' => '0.0',
         );
-
+        
+        print_r($resultSetEmployee);
+        print_r($resultSetPayroll);
+        die();
+        
         $empNum = $resultSetPayroll['Employee_Number'];
         $dateTimeIn = $resultSetPayroll['DateTime_In'];
         $dateTimeOut = $resultSetPayroll['DateTime_Out'];
