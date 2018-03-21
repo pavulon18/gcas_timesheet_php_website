@@ -1,6 +1,5 @@
 <?php
-
-/* 
+/*
  * The MIT License
  *
  * Copyright 2018 Jim Baize <pavulon@hotmail.com>.
@@ -23,8 +22,188 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 ?>
 
-This page will display the current pay periods information as well as a link to add new information to the current pay period.<br>
-I am going to try to implement a modal for the input of information.
+<img id="top" src="/assets/graphics/top.png" alt="">
+<div id="form_container">
+
+    <h1><a>Time Entry Form</a></h1>
+    <form id="form_1939" class="appnitro"  method="post" action="">
+        <div class="form_description">
+            <h2>Time Entry Form</h2>
+            <p>You may enter the information for your time sheet here.</p>
+        </div>						
+        <ul >
+
+            <li id="is24HrShift" >
+                <label class="description" for="is24HrShift">Is this a 24 hour shift? </label>
+                <span>
+                    <input id="is24HrShiftYes" name="is24HrShift" class="element radio" type="radio" value="1" checked="checked"/>
+                    <label class="choice" for="is24HrShiftYes">Yes</label>
+                    <input id="is24HrShiftNo" name="is24HrShift" class="element radio" type="radio" value="2" />
+                    <label class="choice" for="is24HrShiftNo">No</label>
+
+                </span><p class="guidelines" id="guide_4"><small>This includes full sick days, vacation days, and personal days.</small></p> 
+            </li>
+            <li id="isHoliday" >
+                <label class="description" for="isHoliday">Is this a holiday? </label>
+                <span>
+                    <input id="isHolidayYes" name="isHoliday" class="element radio" type="radio" value="1" />
+                    <label class="choice" for="isHolidayYes">Yes</label>
+                    <input id="isHolidayNo" name="isHoliday" class="element radio" type="radio" value="2" checked="checked"/>
+                    <label class="choice" for="isHolidayNo">No</label>
+                </span> 
+            </li>
+            <li id="isNightRun" >
+                <label class="description" for="isNightRun">Is this a night run? </label>
+                <span>
+                    <input id="isNightRunYes" name="isNightRun" class="element radio" type="radio" value="1" />
+                    <label class="choice" for="isNightRunYes">Yes</label>
+                    <input id="isNightRunNo" name="isNightRun" class="element radio" type="radio" value="2" />
+                    <label class="choice" for="isNightRunNo">No</label>
+                </span>
+            </li>
+            <li id="isPTO" >
+                <label class="description" for="isPTO">Is this PTO time? </label>
+                <span>
+                    <input id="isPTOYes" name="isPTO" class="element radio" type="radio" value="1" />
+                    <label class="choice" for="isPTOYes">Yes</label>
+                    <input id="isPTONo" name="isPTO" class="element radio" type="radio" value="2" checked="checked"/>
+                    <label class="choice" for="isPTONo">No</label>
+                </span>
+                <p class="guidelines" id="guide_7">
+                    <small>PTO time includes vacation days, personal days, sick days and other similar paid time off.</small>
+                </p> 
+            </li>
+            <li id="whichPTO" >
+                <label class="description" for="whichPTO">Which type of PTO time is this? </label>
+                <div>
+                    <select class="element select medium" id="whichPTO" name="whichPTO"> 
+                        <option value="" selected="selected"></option>
+                        <option value="whichPTOVaca" >Vacation</option>
+                        <option value="whichPTOPerson" >Personal</option>
+                        <option value="whichPTOSick" >Sick</option>
+                        <option value="whichPTODead" >Berevement</option>
+                        <option value="whichPTOFMLA" >FMLA</option>
+                    </select>
+                </div> 
+            </li>
+            <li id="reason" >
+                <label class="description" for="reason">Run Number or Reason for the entry </label>
+                <div>
+                    <input id="reason" name="reason" class="element text medium" type="text" maxlength="255" value=""/> 
+                </div> 
+            </li>
+            <li id="startDate" >
+                <label class="description" for="startDate">Start Date </label>
+                <span>
+                    <input id="startMonth" name="startMonth" class="element text" size="2" maxlength="2" value="" type="text"> /
+                    <label for="startMonth">MM</label>
+                </span>
+                <span>
+                    <input id="StartDay" name="startDay" class="element text" size="2" maxlength="2" value="" type="text"> /
+                    <label for="startDay">DD</label>
+                </span>
+                <span>
+                    <input id="startYear" name="startYear" class="element text" size="4" maxlength="4" value="" type="text">
+                    <label for="startYear">YYYY</label>
+                </span>
+
+                <span id="calendar_9">
+                    <img id="cal_img_9" class="datepicker" src="/assets/graphics/calendar.gif" alt="Pick a date.">	
+                </span>
+                <script type="text/javascript">
+                    Calendar.setup({
+                        inputField: "element_9_3",
+                        baseField: "element_9",
+                        displayArea: "calendar_9",
+                        button: "cal_img_9",
+                        ifFormat: "%B %e, %Y",
+                        onSelect: selectDate
+                    });
+                </script>
+            </li>
+            <li id="li_2" >
+                <label class="description" for="element_2">Start Time </label>
+                <span>
+                    <input id="element_2_1" name="element_2_1" class="element text " size="2" type="text" maxlength="2" value=""/> : 
+                    <label>HH</label>
+                </span>
+                <span>
+                    <input id="element_2_2" name="element_2_2" class="element text " size="2" type="text" maxlength="2" value=""/> : 
+                    <label>MM</label>
+                </span>
+                <span>
+                    <input id="element_2_3" name="element_2_3" class="element text " size="2" type="text" maxlength="2" value=""/>
+                    <label>SS</label>
+                </span>
+                <span>
+                    <select class="element select" style="width:4em" id="element_2_4" name="element_2_4">
+                        <option value="AM" >AM</option>
+                        <option value="PM" >PM</option>
+                    </select>
+                    <label>AM/PM</label>
+                </span> 
+            </li>		<li id="li_10" >
+                <label class="description" for="element_10">End Date </label>
+                <span>
+                    <input id="element_10_1" name="element_10_1" class="element text" size="2" maxlength="2" value="" type="text"> /
+                    <label for="element_10_1">MM</label>
+                </span>
+                <span>
+                    <input id="element_10_2" name="element_10_2" class="element text" size="2" maxlength="2" value="" type="text"> /
+                    <label for="element_10_2">DD</label>
+                </span>
+                <span>
+                    <input id="element_10_3" name="element_10_3" class="element text" size="4" maxlength="4" value="" type="text">
+                    <label for="element_10_3">YYYY</label>
+                </span>
+
+                <span id="calendar_10">
+                    <img id="cal_img_10" class="datepicker" src="/assets/graphics/calendar.gif" alt="Pick a date.">	
+                </span>
+                <script type="text/javascript">
+                    Calendar.setup({
+                        inputField: "element_10_3",
+                        baseField: "element_10",
+                        displayArea: "calendar_10",
+                        button: "cal_img_10",
+                        ifFormat: "%B %e, %Y",
+                        onSelect: selectDate
+                    });
+                </script>
+            </li>
+            <li id="li_3" >
+                <label class="description" for="element_3">End Time </label>
+                <span>
+                    <input id="element_3_1" name="element_3_1" class="element text " size="2" type="text" maxlength="2" value=""/> : 
+                    <label>HH</label>
+                </span>
+                <span>
+                    <input id="element_3_2" name="element_3_2" class="element text " size="2" type="text" maxlength="2" value=""/> : 
+                    <label>MM</label>
+                </span>
+                <span>
+                    <input id="element_3_3" name="element_3_3" class="element text " size="2" type="text" maxlength="2" value=""/>
+                    <label>SS</label>
+                </span>
+                <span>
+                    <select class="element select" style="width:4em" id="element_3_4" name="element_3_4">
+                        <option value="AM" >AM</option>
+                        <option value="PM" >PM</option>
+                    </select>
+                    <label>AM/PM</label>
+                </span> 
+            </li>
+            <li class="buttons">
+                <input type="hidden" name="form_id" value="1939" />
+
+                <input id="saveForm" class="button_text" type="submit" name="submit" value="Submit" />
+            </li>
+        </ul>
+    </form>	
+    <div id="footer">
+        Generated by <a href="http://www.phpform.org">pForm</a>
+    </div>
+</div>
+<img id="bottom" src="/assets/graphics/bottom.png" alt="">

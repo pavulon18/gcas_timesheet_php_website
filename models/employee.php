@@ -155,7 +155,7 @@ class EmployeeModel extends Model
             $this->execute();
             $_SESSION['empNum'] = $result['Employee_Number'];
 
-            header('Location: ' . ROOT_URL . 'employees/login');
+            header('Location: ' . ROOT_URL . 'employees/changeforgottenpassword');
             /*
              * That brings up another thought.  How to restrict the number of requests?
              * What is a reasonable rate limit?
@@ -195,7 +195,7 @@ class EmployeeModel extends Model
                 }
             }
         }
-
+        header('Location: ' . ROOT_URL . 'employees');
 
         return;
     }
@@ -274,6 +274,15 @@ class EmployeeModel extends Model
          * 
          * This method will be used to display historical pay sheet for a particular
          * user.
+         * 
+         * Actually, after thinking about it, I think the orignial idea of having
+         * to read each line and calculate the values is wrong.  I have columns
+         * in the DB for the individual lines totals.  I can simply add those
+         * together.  I will have the website calculate the final values as each
+         * entry is made.
+         * 
+         * ***********************************************************************
+         * 
          * I need to devise a layout scheme as well as the logic to pull the information.
          * I probably also need to have some sort of search function.
          * 
@@ -331,9 +340,6 @@ class EmployeeModel extends Model
             '$nonWorkHours' => '0.0',
         );
         
-        print_r($resultSetEmployee);
-        print_r($resultSetPayroll);
-        die();
         
         $empNum = $resultSetPayroll['Employee_Number'];
         $dateTimeIn = $resultSetPayroll['DateTime_In'];
@@ -353,6 +359,7 @@ class EmployeeModel extends Model
         $personDays = $resultSetEmployee['Personal_Days_Remaining'];
         $fmlaDays = $resultSetEmployee['FMLA_Days_Remaining'];
 
+        /*
         foreach ($resultSet as $key => $value)
         {
             if (!isset($resultSet['Deleted_at']))
@@ -364,6 +371,8 @@ class EmployeeModel extends Model
                 }
             }
         }
+         * 
+         */
 
         /*
          * Take the user's requested first day of search and find the mod of it
