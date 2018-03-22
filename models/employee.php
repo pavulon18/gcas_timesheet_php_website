@@ -247,6 +247,9 @@ class EmployeeModel extends Model
 
     public function currentpay()
     {
+        $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+        
+        
         /*
          * This method will be used to display the current pay period.
          * I am also going to try to add in the ability to enter new information
