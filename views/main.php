@@ -126,8 +126,10 @@
                 $('#isPTOYes').click(function ()
                 {
                     $('#whichPTO').show();
-                    $('#isNightRun').prop("checked") = false;
+                    isNightRunNo.checked = true;
+                    //$('input[isNightRunNo]').prop('checked', true);
                     $('#isNightRun').hide();
+                    $('#reason').hide();
                 });
                 $('#isPTONo').click(function ()
                 {
@@ -139,10 +141,12 @@
                 $('#isNightRunYes').click(function ()
                 {
                     $('#reason').show();
+                    $('#isPTO').hide();
                 });
                 $('#isNightRunNo').click(function ()
                 {
                     $('#reason').hide();
+                    $('#isPTO').show();
                 });
                 
                 // If it is a 24 hour shift, hide the 
@@ -167,13 +171,15 @@
                 if ($('#isPTOYes').prop("checked") === true)
                 {
                     $('#whichPTO').true();
-                    $('#isNightRun').prop("checked") = false;
+                    isNightRunNo.checked = true;
+                    //$('input[isNightRunNo]').prop('checked', true);
                     $('#isNightRun').hide();
+                    $('#reason').hide();
                 }
                 else
                 {
                     $('#whichPTO').hide();
-                    $('#isNightRun').true();
+                    //$('#isNightRun').true();
                 }
                 
                 // the IF statement to check which radio button is checked
@@ -181,10 +187,12 @@
                 if ($('#isNightRunYes').prop("checked") === true)
                 {
                     $('#reason').true();
+                    $('#isPTO').hide();
                 }
                 else
                 {
                     $('#reason').hide();
+                    $('#isPTO').true();
                 }
                 
                 // the IF statement to check which radio button is checked
