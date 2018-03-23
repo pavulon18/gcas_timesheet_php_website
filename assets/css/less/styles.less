@@ -1,0 +1,130 @@
+/*
+The MIT License
+
+Copyright 2018 Jim Baize <pavulon@hotmail.com>.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+header, footer {
+    background-color: #000000;                                            
+    text-align: left;
+}
+
+header h1 {
+    display:inline-block;  
+    color: #ffffff;                                                            
+    font-size: 24pt;                                                         
+    text-align: left;                                                        
+    font-family: arial, sans-serif;
+    vertical-align:top;   
+}
+
+nav {
+    background-color: #000000;                                            
+    text-align: left;
+}    
+
+.menuitem {
+    display: inline-block;                                            
+    color: #ffffff;                                                     
+    font-size: 12pt;                                                  
+    text-align: center;                                               
+    font-family: arial, sans-serif;                                    
+    font-weight: bold;                                                
+    vertical-align: top;                                              
+    padding: 5px;
+    width: 150px;
+}                                                     
+.menutext {
+    vertical-align: top;
+} 
+
+section h2 {
+    color: #000000; 
+    font-size: 16pt; 
+    text-align: justify;                         
+    font-family: arial, sans-serif;
+}   
+
+section p {
+    color: #000000; 
+    font-size: 12pt; 
+    text-align: justify;                         
+    font-family: arial, sans-serif;
+}  
+
+footer p {
+    color: #ffffff; 
+    font-size: 9pt; 
+    text-align: center;                      
+    font-family: arial,sans-serif; 
+    font-weight: bold;
+    padding: 6px;
+}  
+
+a:link, a:visited, a:active {
+    color: #ffffff;                                      
+    text-decoration: none;
+}           
+
+/* Style the tab */
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+.tabcontent {
+    animation: fadeEffect 1s; /* Fading effect takes 1 second */
+}
+
+/* Go from zero to full opacity */
+@keyframes fadeEffect {
+    from {opacity: 0;}
+    to {opacity: 1;}
+
+}

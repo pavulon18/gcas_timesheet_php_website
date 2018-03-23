@@ -52,8 +52,7 @@
                     <label class="choice" for="isHolidayNo">No</label>
                 </span> 
             </li>
-            <li id="isNightRunLi">
-                <div id="isNightRun" style="display:none;">
+            <li id="isNightRun" style="display:none;">
                 <label class="description" for="isNightRun">Is this a night run? </label>
                 <span>
                     <input id="isNightRunYes" name="isNightRun" class="element radio" type="radio" value="1" />
@@ -61,21 +60,20 @@
                     <input id="isNightRunNo" name="isNightRun" class="element radio" type="radio" value="2" />
                     <label class="choice" for="isNightRunNo">No</label>
                 </span>
-                </div>
             </li>
             <li id="isPTO" >
                 <label class="description" for="isPTO">Is this PTO time? </label>
                 <span>
                     <input id="isPTOYes" name="isPTO" class="element radio" type="radio" value="1" />
                     <label class="choice" for="isPTOYes">Yes</label>
-                    <input id="isPTONo" name="isPTO" class="element radio" type="radio" value="2" checked="checked"/>
+                    <input id="isPTONo" name="isPTO" class="element radio" type="radio" value="2" />
                     <label class="choice" for="isPTONo">No</label>
                 </span>
                 <p class="guidelines" id="guide_7">
                     <small>PTO time includes vacation days, personal days, sick days and other similar paid time off.</small>
                 </p> 
             </li>
-            <li id="whichPTO" >
+            <li id="whichPTO" style="display:none;">
                 <label class="description" for="whichPTO">Which type of PTO time is this? </label>
                 <div>
                     <select class="element select medium" id="whichPTO" name="whichPTO"> 
@@ -88,13 +86,13 @@
                     </select>
                 </div> 
             </li>
-            <li id="reason" >
+            <li id="reason" style="display:none;">
                 <label class="description" for="reason">Run Number or Reason for the entry </label>
                 <div>
                     <input id="reason" name="reason" class="element text medium" type="text" maxlength="255" value=""/> 
                 </div> 
             </li>
-            <li id="startDate" >
+            <li id="startDate" style="display:none;">
                 <label class="description" for="startDate">Start Date </label>
                 <span>
                     <input id="startMonth" name="startMonth" class="element text" size="2" maxlength="2" value="" type="text"> /
@@ -126,7 +124,7 @@
                     <small>Leave blank for 24 hour shifts.  The correct information will be automatically entered.</small>
                 </p>
             </li>
-            <li id="startTime" >
+            <li id="startTime" style="display:none;">
                 <label class="startTime" for="startTime">Start Time </label>
                 <span>
                     <input id="startHour" name="startHour" class="element text " size="2" type="text" maxlength="2" value=""/> : 
@@ -151,7 +149,7 @@
                     <small>Leave blank for 24 hour shifts.  The correct information will be automatically entered.</small>
                 </p>
             </li>
-            <li id="endDate" >
+            <li id="endDate" style="display:none;">
                 <label class="description" for="endDate">End Date </label>
                 <span>
                     <input id="endMonth" name="endMonth" class="element text" size="2" maxlength="2" value="" type="text"> /
@@ -182,7 +180,7 @@
                     <small>Leave blank for 24 hour shifts.  The correct information will be automatically entered.</small>
                 </p>
             </li>
-            <li id="endTime" >
+            <li id="endTime" style="display:none;">
                 <label class="description" for="endTime">End Time </label>
                 <span>
                     <input id="endHour" name="endHour" class="element text " size="2" type="text" maxlength="2" value=""/> : 
@@ -219,25 +217,4 @@
 </div>
 <img id="bottom" src="/assets/graphics/bottom.png" alt="">
 
-<script>
-$(document).ready(function ()
-{
-    $('#is24HrShiftYes').click(function ()
-    {
-        $('#isNightRun').hide();
-    });
-    $('#is24HrShiftNo').click(function ()
-    {
-        $('#isNightRun').show();
-    });
-    
-    if ($('#is24HrShiftYes').prop("checked") === true)
-    {
-        $('#isNightRun').hide();
-    }
-    else
-    {
-        $('#isNightRun').true();
-    }
-});
-</script>
+

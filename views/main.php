@@ -48,7 +48,7 @@
         <script type="text/javascript" src="/assets/js/view.js"></script>
         <script type="text/javascript" src="/assets/js/calendar.js"></script>
 
-        
+
     </head>
 
     <body>
@@ -112,11 +112,97 @@
         <script type="text/javascript" src="/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
         <link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
         <link rel="stylesheet" href="/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
-        
+
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-        
-        <link rel="stylesheet/less" type="text/css" href="styles.less" />
+
+        <link rel="stylesheet/less" type="text/css" href="/assets/css/less/styles.less" />
         <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.0.0/less.min.js" ></script>
+
+        <script>
+            $(document).ready(function ()
+            {
+                // if it is a PTO day then show the PTO day options
+                $('#isPTOYes').click(function ()
+                {
+                    $('#whichPTO').show();
+                    $('#isNightRun').prop("checked") = false;
+                    $('#isNightRun').hide();
+                });
+                $('#isPTONo').click(function ()
+                {
+                    $('#whichPTO').hide();
+                    $('#isNightRun').show();
+                });
+                
+                // if it is a night run then show the blank reasons box.
+                $('#isNightRunYes').click(function ()
+                {
+                    $('#reason').show();
+                });
+                $('#isNightRunNo').click(function ()
+                {
+                    $('#reason').hide();
+                });
+                
+                // If it is a 24 hour shift, hide the 
+                // Date / Time boxes.
+                $('#is24HrShiftYes').click(function ()
+                {
+                    $('#startDate').hide();
+                    $('#startTime').hide();
+                    $('#endDate').hide();
+                    $('#endTime').hide();
+                });
+                $('#is24HrShiftNo').click(function ()
+                {
+                    $('#startDate').show();
+                    $('#startTime').show();
+                    $('#endDate').show();
+                    $('#endTime').show();
+                });
+
+                // the IF statement to check which radio button is checked
+                // for the PTO days
+                if ($('#isPTOYes').prop("checked") === true)
+                {
+                    $('#whichPTO').true();
+                    $('#isNightRun').prop("checked") = false;
+                    $('#isNightRun').hide();
+                }
+                else
+                {
+                    $('#whichPTO').hide();
+                    $('#isNightRun').true();
+                }
+                
+                // the IF statement to check which radio button is checked
+                // for the reason box
+                if ($('#isNightRunYes').prop("checked") === true)
+                {
+                    $('#reason').true();
+                }
+                else
+                {
+                    $('#reason').hide();
+                }
+                
+                // the IF statement to check which radio button is checked
+                // for the 24 hour shift situation.
+                if ($('#is24HrShiftYes').prop("checked") === true)
+                {
+                    $('#startDate').hide();
+                    $('#startTime').hide();
+                    $('#endDate').hide();
+                    $('#endTime').hide();
+                } else
+                {
+                    $('#startDate').show();
+                    $('#startTime').show();
+                    $('#endDate').show();
+                    $('#endTime').show();
+                }
+            });
+        </script>
     </body>
 </html>
