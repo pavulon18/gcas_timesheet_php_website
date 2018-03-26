@@ -36,7 +36,7 @@
             <li id="is24HrShift" >
                 <label class="description" for="is24HrShift">Is this a 24 hour shift? </label>
                 <span>
-                    <input id="is24HrShiftYes" name="is24HrShift" class="element radio" type="radio" value="1" checked="checked"/>
+                    <input id="is24HrShiftYes" name="is24HrShift" class="element radio" type="radio" value="1" checked="true" />
                     <label class="choice" for="is24HrShiftYes">Yes</label>
                     <input id="is24HrShiftNo" name="is24HrShift" class="element radio" type="radio" value="2"/>
                     <label class="choice" for="is24HrShiftNo">No</label>
@@ -48,31 +48,24 @@
                 <span>
                     <input id="isHolidayYes" name="isHoliday" class="element radio" type="radio" value="1" />
                     <label class="choice" for="isHolidayYes">Yes</label>
-                    <input id="isHolidayNo" name="isHoliday" class="element radio" type="radio" value="2" checked="checked"/>
+                    <input id="isHolidayNo" name="isHoliday" class="element radio" type="radio" value="2" checked="true" />
                     <label class="choice" for="isHolidayNo">No</label>
                 </span> 
             </li>
-            <li id="isNightRun" style="display:none;">
-                <label class="description" for="isNightRun">Is this a night run? </label>
-                <span>
-                    <input id="isNightRunYes" name="isNightRun" class="element radio" type="radio" value="1" />
-                    <label class="choice" for="isNightRunYes">Yes</label>
-                    <input id="isNightRunNo" name="isNightRun" class="element radio" type="radio" value="2" />
-                    <label class="choice" for="isNightRunNo">No</label>
-                </span>
-            </li>
-            <li id="isPTO" >
+            <div id="ptoBox">
+            <li id="isPTO" style="display:none;">
                 <label class="description" for="isPTO">Is this PTO time? </label>
                 <span>
                     <input id="isPTOYes" name="isPTO" class="element radio" type="radio" value="1" />
                     <label class="choice" for="isPTOYes">Yes</label>
-                    <input id="isPTONo" name="isPTO" class="element radio" type="radio" value="2" />
+                    <input id="isPTONo" name="isPTO" class="element radio" type="radio" value="2" checked="true"/>
                     <label class="choice" for="isPTONo">No</label>
                 </span>
                 <p class="guidelines" id="guide_7">
                     <small>PTO time includes vacation days, personal days, sick days and other similar paid time off.</small>
                 </p> 
             </li>
+
             <li id="whichPTO" style="display:none;">
                 <label class="description" for="whichPTO">Which type of PTO time is this? </label>
                 <div>
@@ -86,27 +79,37 @@
                     </select>
                 </div> 
             </li>
+            </div>
+            <li id="isNightRun" style="display:show;">
+                <label class="description" for="isNightRun">Is this a night run? </label>
+                <span>
+                    <input id="isNightRunYes" name="isNightRun" class="element radio" type="radio" value="1" />
+                    <label class="choice" for="isNightRunYes">Yes</label>
+                    <input id="isNightRunNo" name="isNightRun" class="element radio" type="radio" value="2" checked="true"/>
+                    <label class="choice" for="isNightRunNo">No</label>
+                </span>
+            </li>
             <li id="reason" style="display:none;">
                 <label class="description" for="reason">Run Number or Reason for the entry </label>
                 <div>
                     <input id="reason" name="reason" class="element text medium" type="text" maxlength="255" value=""/> 
                 </div> 
             </li>
+            <div id="timeBlock" style="display:none;">
             <li id="startDate" style="display:none;">
                 <label class="description" for="startDate">Start Date </label>
                 <span>
-                    <input id="startMonth" name="startMonth" class="element text" size="2" maxlength="2" value="" type="text"> /
+                    <input id="startMonth" name="startMonth" class="element text" size="2" maxlength="2" value="" type="text">
                     <label for="startMonth">MM</label>
                 </span>
                 <span>
-                    <input id="StartDay" name="startDay" class="element text" size="2" maxlength="2" value="" type="text"> /
+                    <input id="StartDay" name="startDay" class="element text" size="2" maxlength="2" value="" type="text"> 
                     <label for="startDay">DD</label>
                 </span>
                 <span>
                     <input id="startYear" name="startYear" class="element text" size="4" maxlength="4" value="" type="text">
                     <label for="startYear">YYYY</label>
                 </span>
-
                 <span id="calendar_9">
                     <img id="cal_img_9" class="datepicker" src="/assets/graphics/calendar.gif" alt="Pick a date.">	
                 </span>
@@ -120,9 +123,6 @@
                         onSelect: selectDate
                     });
                 </script>
-                <p class="guidelines" id="guide_7">
-                    <small>Leave blank for 24 hour shifts.  The correct information will be automatically entered.</small>
-                </p>
             </li>
             <li id="startTime" style="display:none;">
                 <label class="startTime" for="startTime">Start Time </label>
@@ -145,9 +145,6 @@
                     </select>
                     <label>AM/PM</label>
                 </span>
-                <p class="guidelines" id="guide_7">
-                    <small>Leave blank for 24 hour shifts.  The correct information will be automatically entered.</small>
-                </p>
             </li>
             <li id="endDate" style="display:none;">
                 <label class="description" for="endDate">End Date </label>
@@ -176,9 +173,6 @@
                         onSelect: selectDate
                     });
                 </script>
-                <p class="guidelines" id="guide_7">
-                    <small>Leave blank for 24 hour shifts.  The correct information will be automatically entered.</small>
-                </p>
             </li>
             <li id="endTime" style="display:none;">
                 <label class="description" for="endTime">End Time </label>
@@ -201,10 +195,8 @@
                     </select>
                     <label>AM/PM</label>
                 </span>
-                <p class="guidelines" id="guide_7">
-                    <small>Leave blank for 24 hour shifts.  The correct information will be automatically entered.</small>
-                </p>
             </li>
+            </div>
             <li class="buttons">
                 <input type="hidden" name="form_id" value="1939" />
                 <input id="saveForm" class="button_text" type="submit" name="submit" value="Submit" />
@@ -216,5 +208,3 @@
     </div>
 </div>
 <img id="bottom" src="/assets/graphics/bottom.png" alt="">
-
-

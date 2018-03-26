@@ -47,8 +47,6 @@
         <link rel="stylesheet" type="text/css" href="/assets/css/view.css" media="all">
         <script type="text/javascript" src="/assets/js/view.js"></script>
         <script type="text/javascript" src="/assets/js/calendar.js"></script>
-
-
     </head>
 
     <body>
@@ -97,7 +95,7 @@
         <!-- Bootstrap core JavaScript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
-        <script>window.jQuery || document.write('<script src="/assets/js/jquery-slim.min.js"><\/script>')</script>
+        <script>window.jQuery || document.write('<script src="/assets/js/jquery-slim.min.js"><\/script>');</script>
         <script src="/assets/js/popper.min.js"></script>
         <script src="/assets/js/bootstrap.min.js"></script>
         <!-- ... -->
@@ -119,7 +117,9 @@
         <link rel="stylesheet/less" type="text/css" href="/assets/css/less/styles.less" />
         <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.0.0/less.min.js" ></script>
 
-        <script>
+        <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.5/lodash.min.js"></script>
+
+        <script type="text/javascript">
             $(document).ready(function ()
             {
                 // if it is a PTO day then show the PTO day options
@@ -157,20 +157,19 @@
                     $('#startTime').hide();
                     $('#endDate').hide();
                     $('#endTime').hide();
+                    $('#isNightRun').show();
                 });
                 $('#is24HrShiftNo').click(function ()
                 {
-                    $('#startDate').show();
-                    $('#startTime').show();
-                    $('#endDate').show();
-                    $('#endTime').show();
+                    $('timeBlock').show();
+                    $('#isNightRun').hide();
                 });
 
                 // the IF statement to check which radio button is checked
                 // for the PTO days
                 if ($('#isPTOYes').prop("checked") === true)
                 {
-                    $('#whichPTO').true();
+                    $('#whichPTO').show();
                     isNightRunNo.checked = true;
                     //$('input[isNightRunNo]').prop('checked', true);
                     $('#isNightRun').hide();
@@ -179,20 +178,20 @@
                 else
                 {
                     $('#whichPTO').hide();
-                    //$('#isNightRun').true();
+                    $('#isNightRun').show();
                 }
                 
                 // the IF statement to check which radio button is checked
                 // for the reason box
                 if ($('#isNightRunYes').prop("checked") === true)
                 {
-                    $('#reason').true();
+                    $('#reason').show();
                     $('#isPTO').hide();
                 }
                 else
                 {
                     $('#reason').hide();
-                    $('#isPTO').true();
+                    $('#isPTO').show();
                 }
                 
                 // the IF statement to check which radio button is checked
@@ -203,12 +202,14 @@
                     $('#startTime').hide();
                     $('#endDate').hide();
                     $('#endTime').hide();
+                    $('#isNightRun').hide();
                 } else
                 {
                     $('#startDate').show();
                     $('#startTime').show();
                     $('#endDate').show();
                     $('#endTime').show();
+                    $('#isNightRun').show();
                 }
             });
         </script>
