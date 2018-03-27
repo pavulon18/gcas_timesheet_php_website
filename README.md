@@ -60,7 +60,7 @@ I thought.  I would simply take the JavaFX front end and adapt it to the databas
 After talking to some of my co-workers, I decided I wanted this project to be web
 based.  During my research for making my JavaFX project web based, I ran across
 an article on Stack Overflow (https://stackoverflow.com) that the web based function-
-ality of JavaFX was being depricated.  Now, I had to start over, once again.
+ality of JavaFX was being deprecated.  Now, I had to start over, once again.
 
 After a month of research, trial and error, and false starts, I decided to write
 the front end using PHP.  That is where I am today.  I am learning PHP and writing
@@ -73,3 +73,6 @@ written by Luke Welling and Laura Thomson.
 https://www.eduonix.com/courses/Web-Development/learn-object-oriented-php-by-building-a-complete-website
 
 https://www.martinstoeckli.ch/php/php.html#passwordreset
+
+Special thanks to: https://github.com/flapjack17 Sean Roche for his invaluable 
+assistance on making the time entry page work as intended.
