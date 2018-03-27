@@ -21,6 +21,10 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
+ * 
+ * 
+ * Special thanks to: https://codepen.io/seanroche/# Sean Roche for his invaluable 
+ * assistance on making this page work as intended.
  */
 ?>
 
@@ -120,98 +124,121 @@
         <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.5/lodash.min.js"></script>
 
         <script type="text/javascript">
-            $(document).ready(function ()
-            {
-                // if it is a PTO day then show the PTO day options
-                $('#isPTOYes').click(function ()
-                {
-                    $('#whichPTO').show();
-                    isNightRunNo.checked = true;
-                    //$('input[isNightRunNo]').prop('checked', true);
-                    $('#isNightRun').hide();
-                    $('#reason').hide();
-                });
-                $('#isPTONo').click(function ()
-                {
-                    $('#whichPTO').hide();
-                    $('#isNightRun').show();
-                });
-                
-                // if it is a night run then show the blank reasons box.
-                $('#isNightRunYes').click(function ()
-                {
-                    $('#reason').show();
-                    $('#isPTO').hide();
-                });
-                $('#isNightRunNo').click(function ()
-                {
-                    $('#reason').hide();
-                    $('#isPTO').show();
-                });
-                
-                // If it is a 24 hour shift, hide the 
-                // Date / Time boxes.
-                $('#is24HrShiftYes').click(function ()
-                {
-                    $('#startDate').hide();
-                    $('#startTime').hide();
-                    $('#endDate').hide();
-                    $('#endTime').hide();
-                    $('#isNightRun').show();
-                });
-                $('#is24HrShiftNo').click(function ()
-                {
-                    $('timeBlock').show();
-                    $('#isNightRun').hide();
-                });
+            const form = document.getElementById('form_1939');
+            console.log(form);
+            form.addEventListener('change', formUpdateHandler);
 
-                // the IF statement to check which radio button is checked
-                // for the PTO days
-                if ($('#isPTOYes').prop("checked") === true)
-                {
-                    $('#whichPTO').show();
-                    isNightRunNo.checked = true;
-                    //$('input[isNightRunNo]').prop('checked', true);
-                    $('#isNightRun').hide();
-                    $('#reason').hide();
+            function formUpdateHandler(e) {
+                comboCheck(e);
+                hideShowLogic(e);
+            }
+
+            function comboCheck(e) {
+                const shift = document.querySelector('input[name="is24HrShift"]:checked').value;
+                const nightRun = document.querySelector('input[name="isNightRun"]:checked').value;
+                const pto = document.querySelector('input[name="isPTO"]:checked').value;
+
+                const nightRuns = Array.from(document.getElementsByName('isNightRun'));
+
+                if (shift === '0') {
+                    nightRuns.forEach(x => {
+                        if (x.value === '0')
+                            x.checked = true;
+                        x.disabled = true;
+                    });
+                } else {
+                    nightRuns.forEach(x => x.disabled = false);
                 }
-                else
-                {
-                    $('#whichPTO').hide();
-                    $('#isNightRun').show();
+
+                const ptos = Array.from(document.getElementsByName('isPTO'));
+
+                if (shift === '1' && nightRun === '1') {
+                    ptos.forEach(x => {
+                        if (x.value === '0')
+                            x.checked = true;
+                        x.disabled = true;
+                    });
+                } else {
+                    ptos.forEach(x => x.disabled = false);
                 }
-                
-                // the IF statement to check which radio button is checked
-                // for the reason box
-                if ($('#isNightRunYes').prop("checked") === true)
-                {
-                    $('#reason').show();
-                    $('#isPTO').hide();
+
+                if (pto === '1') {
+                    nightRuns.forEach(x => {
+                        if (x.value === '0')
+                            x.checked = true;
+                        x.disabled = true;
+                    });
                 }
-                else
-                {
-                    $('#reason').hide();
-                    $('#isPTO').show();
+            }
+
+            function hideShowLogic(e) {
+                const shift = document.querySelector('input[name="is24HrShift"]:checked').value;
+                const nightRun = document.querySelector('input[name="isNightRun"]:checked').value;
+                const pto = document.querySelector('input[name="isPTO"]:checked').value;
+
+                const isNightRun = document.getElementById('isNightRun');
+                const liReason = document.getElementById('reason');
+                const liPto = document.getElementById('isPTO');
+                const liWhichPTO = document.getElementById('whichPTO');
+                const liStartDate = document.getElementById('startDate');
+                const liStartTime = document.getElementById('startTime');
+                const liEndTimeBlock = document.getElementById('endTimeBlock');
+
+                if (shift === '1') {
+                    if (nightRun === '0' && pto === '0')
+                    {
+                        isNightRun.style.display = '';// show isNightRun
+                        liReason.style.display = 'none';// hide reason
+                        liPto.style.display = '';// show isPTO
+                        liWhichPTO.style.display = 'none';// hide whichPTO
+                        liStartDate.style.display = ''; // Show startDate
+                        liStartTime.style.display = 'none';// hide startTime
+                        liEndTimeBlock.style.display = 'none';// hide endTimeBlock
+                    }
+                    if (nightRun === '1' && pto === '0')
+                    {
+                        isNightRun.style.display = '';// show isNightRun
+                        liReason.style.display = '';// show reason
+                        liPto.style.display = 'none';// hide isPTO
+                        liWhichPTO.style.display = 'none';// hide whichPTO
+                        liStartDate.style.display = ''; // Show startDate
+                        liStartTime.style.display = '';// hide startTime
+                        liEndTimeBlock.style.display = '';// hide endTimeBlock
+                    }
+                    if (nightRun === '0' && pto === '1')
+                    {
+                        isNightRun.style.display = 'none';// hide isNightRun
+                        liReason.style.display = 'none';// hide reason
+                        liPto.style.display = '';// show isPTO
+                        liWhichPTO.style.display = '';// show whichPTO
+                        liStartDate.style.display = ''; // Show startDate
+                        liStartTime.style.display = 'none';// hide startTime
+                        liEndTimeBlock.style.display = 'none';// hide endTimeBlock
+                    }
                 }
-                
-                // the IF statement to check which radio button is checked
-                // for the 24 hour shift situation.
-                if ($('#is24HrShiftYes').prop("checked") === true)
-                {
-                    $('#startDate').hide();
-                    $('#startTime').hide();
-                    $('#endDate').hide();
-                    $('#endTime').hide();
-                    $('#isNightRun').hide();
-                } else
-                {
-                    $('#startDate').show();
-                    $('#startTime').show();
-                    $('#endDate').show();
-                    $('#endTime').show();
-                    $('#isNightRun').show();
+                if (shift === '0') {
+                    if (nightRun === '0' && pto === '0')
+                    {
+                        isNightRun.style.display = 'none';// hide isNightRun
+                        liReason.style.display = '';// show reason
+                        liPto.style.display = '';// show isPTO
+                        liWhichPTO.style.display = 'none';// hide whichPTO
+                        liStartDate.style.display = ''; // Show startDate
+                        liStartTime.style.display = '';// hide startTime
+                        liEndTimeBlock.style.display = '';// hide endTimeBlock
+                    }
+                    if (nightRun === '0' && pto === '1')
+                    {
+                        isNightRun.style.display = 'none';// hide isNightRun
+                        liReason.style.display = 'none';// hide reason
+                        liPto.style.display = '';// show isPTO
+                        liWhichPTO.style.display = '';// show whichPTO
+                        liStartDate.style.display = ''; // Show startDate
+                        liStartTime.style.display = '';// hide startTime
+                        liEndTimeBlock.style.display = '';// hide endTimeBlock
+                    }
                 }
-            });
+            }
         </script>
     </body>
 </html>

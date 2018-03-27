@@ -249,6 +249,41 @@ class EmployeeModel extends Model
     {
         $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
         
+        print_r($post);                 // debugging statement
+        
+        if ($post['is24HrShift']== 1)
+        {
+            /*
+             * first combine the $post[start data time] into a single unit.
+             * then convert it to a DateTime object
+             * add one day and assign that value to endDateTime
+             * convert startDateTime back to a format usable by the database
+             */
+            $startDateTime = new DateTimeImmutable($post['startYear'] . '-' . $post['startMonth'] . '-' . $post['startDay'] . ' 08:00:00');
+            $endDateTime = $startDateTime->modify('+1 day')->format('Y-m-d H:i:s');
+            $startDateTime = $startDateTime->format('Y-m-d H:i:s');
+        }
+        else
+        {
+            $startDateTime = $post['startYear'] . '-' . $post['startMonth'] . '-' . $post['startDay'] . ' ' . $post['startHour'] . ':'. $post['startMin'] . ':00';
+            $endDateTime = $post['endYear'] . '-' . $post['endMonth'] . '-' . $post['endDay'] . ' ' . $post['endHour'] . ':'. $post['endMin'] . ':00';
+        }
+        
+        
+        if ($post['submit'])
+        {
+            try
+                {
+                    $this->transactionStart();
+                    
+                    $this->transactionCommit();
+                }
+                catch (PDOException $ex)
+                {
+                    $this->transactionRollback();
+                    echo $ex->getMessage();
+                }
+        }
         
         /*
          * This method will be used to display the current pay period.

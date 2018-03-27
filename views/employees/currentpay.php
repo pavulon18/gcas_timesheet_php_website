@@ -21,10 +21,12 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
+ * 
+ * Special thanks to: https://codepen.io/seanroche/# Sean Roche for his invaluable 
+ * assistance on making this page work as intended.
  */
 ?>
 
-<img id="top" src="/assets/graphics/top.png" alt="">
 <div id="form_container">
     <h1><a>Time Entry Form</a></h1>
     <form id="form_1939" class="appnitro" method="post" action="<?php htmlspecialchars($_SERVER["PHP_SELF"]);?>">
@@ -38,7 +40,7 @@
                 <span>
                     <input id="is24HrShiftYes" name="is24HrShift" class="element radio" type="radio" value="1" checked="true" />
                     <label class="choice" for="is24HrShiftYes">Yes</label>
-                    <input id="is24HrShiftNo" name="is24HrShift" class="element radio" type="radio" value="2"/>
+                    <input id="is24HrShiftNo" name="is24HrShift" class="element radio" type="radio" value="0"/>
                     <label class="choice" for="is24HrShiftNo">No</label>
                 </span>
                 <p class="guidelines" id="guide_4"><small>This includes full sick days, vacation days, and personal days.</small></p> 
@@ -48,17 +50,17 @@
                 <span>
                     <input id="isHolidayYes" name="isHoliday" class="element radio" type="radio" value="1" />
                     <label class="choice" for="isHolidayYes">Yes</label>
-                    <input id="isHolidayNo" name="isHoliday" class="element radio" type="radio" value="2" checked="true" />
+                    <input id="isHolidayNo" name="isHoliday" class="element radio" type="radio" value="0" checked="true" />
                     <label class="choice" for="isHolidayNo">No</label>
                 </span> 
             </li>
             <div id="ptoBox">
-            <li id="isPTO" style="display:none;">
+            <li id="isPTO" >
                 <label class="description" for="isPTO">Is this PTO time? </label>
                 <span>
                     <input id="isPTOYes" name="isPTO" class="element radio" type="radio" value="1" />
                     <label class="choice" for="isPTOYes">Yes</label>
-                    <input id="isPTONo" name="isPTO" class="element radio" type="radio" value="2" checked="true"/>
+                    <input id="isPTONo" name="isPTO" class="element radio" type="radio" value="0" checked="true"/>
                     <label class="choice" for="isPTONo">No</label>
                 </span>
                 <p class="guidelines" id="guide_7">
@@ -66,7 +68,7 @@
                 </p> 
             </li>
 
-            <li id="whichPTO" style="display:none;">
+            <li id="whichPTO" style="display: none">
                 <label class="description" for="whichPTO">Which type of PTO time is this? </label>
                 <div>
                     <select class="element select medium" id="whichPTO" name="whichPTO"> 
@@ -80,51 +82,41 @@
                 </div> 
             </li>
             </div>
-            <li id="isNightRun" style="display:show;">
+            <li id="isNightRun">
                 <label class="description" for="isNightRun">Is this a night run? </label>
                 <span>
                     <input id="isNightRunYes" name="isNightRun" class="element radio" type="radio" value="1" />
                     <label class="choice" for="isNightRunYes">Yes</label>
-                    <input id="isNightRunNo" name="isNightRun" class="element radio" type="radio" value="2" checked="true"/>
+                    <input id="isNightRunNo" name="isNightRun" class="element radio" type="radio" value="0" checked="true"/>
                     <label class="choice" for="isNightRunNo">No</label>
                 </span>
             </li>
-            <li id="reason" style="display:none;">
+            <li id="reason" style="display:none">
                 <label class="description" for="reason">Run Number or Reason for the entry </label>
                 <div>
                     <input id="reason" name="reason" class="element text medium" type="text" maxlength="255" value=""/> 
                 </div> 
             </li>
-            <div id="timeBlock" style="display:none;">
-            <li id="startDate" style="display:none;">
+
+            <li id="startDate" >
                 <label class="description" for="startDate">Start Date </label>
                 <span>
-                    <input id="startMonth" name="startMonth" class="element text" size="2" maxlength="2" value="" type="text">
+                    <input id="startMonth" name="startMonth" class="element text" size="2" maxlength="2" value="" type="text" required=""/>
                     <label for="startMonth">MM</label>
                 </span>
                 <span>
-                    <input id="StartDay" name="startDay" class="element text" size="2" maxlength="2" value="" type="text"> 
+                    <input id="StartDay" name="startDay" class="element text" size="2" maxlength="2" value="" type="text" required=""/> 
                     <label for="startDay">DD</label>
                 </span>
                 <span>
-                    <input id="startYear" name="startYear" class="element text" size="4" maxlength="4" value="" type="text">
+                    <input id="startYear" name="startYear" class="element text" size="4" maxlength="4" value="" type="text" required=""/>
                     <label for="startYear">YYYY</label>
                 </span>
                 <span id="calendar_9">
                     <img id="cal_img_9" class="datepicker" src="/assets/graphics/calendar.gif" alt="Pick a date.">	
                 </span>
-                <script type="text/javascript">
-                    Calendar.setup({
-                        inputField: "element_9_3",
-                        baseField: "element_9",
-                        displayArea: "calendar_9",
-                        button: "cal_img_9",
-                        ifFormat: "%B %e, %Y",
-                        onSelect: selectDate
-                    });
-                </script>
             </li>
-            <li id="startTime" style="display:none;">
+            <li id="startTime" style="display: none">
                 <label class="startTime" for="startTime">Start Time </label>
                 <span>
                     <input id="startHour" name="startHour" class="element text " size="2" type="text" maxlength="2" value=""/> : 
@@ -146,7 +138,9 @@
                     <label>AM/PM</label>
                 </span>
             </li>
-            <li id="endDate" style="display:none;">
+            </div>
+            <div id="endTimeBlock" style="display: none">
+            <li id="endDate" >
                 <label class="description" for="endDate">End Date </label>
                 <span>
                     <input id="endMonth" name="endMonth" class="element text" size="2" maxlength="2" value="" type="text"> /
@@ -163,18 +157,9 @@
                 <span id="calendar_10">
                     <img id="cal_img_10" class="datepicker" src="/assets/graphics/calendar.gif" alt="Pick a date.">	
                 </span>
-                <script type="text/javascript">
-                    Calendar.setup({
-                        inputField: "element_10_3",
-                        baseField: "element_10",
-                        displayArea: "calendar_10",
-                        button: "cal_img_10",
-                        ifFormat: "%B %e, %Y",
-                        onSelect: selectDate
-                    });
-                </script>
+               
             </li>
-            <li id="endTime" style="display:none;">
+            <li id="endTime" >
                 <label class="description" for="endTime">End Time </label>
                 <span>
                     <input id="endHour" name="endHour" class="element text " size="2" type="text" maxlength="2" value=""/> : 
@@ -207,4 +192,3 @@
         Generated by <a href="http://www.phpform.org">pForm</a>
     </div>
 </div>
-<img id="bottom" src="/assets/graphics/bottom.png" alt="">
