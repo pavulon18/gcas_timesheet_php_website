@@ -57,7 +57,7 @@
                 </span> 
             </li>
             <div id="ptoBox">
-                <li id="isPTO" >
+                <li id="isPTO">
                     <label class="description" for="isPTO">Is this PTO time? </label>
                     <span>
                         <input id="isPTOYes" name="isPTO" class="element radio" type="radio" value="1" />
@@ -185,7 +185,7 @@
                             <option value="AM" >AM</option>
                             <option value="PM" >PM</option>
                         </select>
-                        <label>AM/PM</label>++
+                        <label>AM/PM</label>
                     </span>
                     -->
                     <p class="guidelines" id="guide_endTime">
