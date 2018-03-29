@@ -24,22 +24,33 @@
  * THE SOFTWARE.
  */
 
-/**
- * Description of employee
- * 
- * (January 27, 2018)
- * Initial file build.
- * 
- * This class will build the employee object.  Each employee will have several
- * attributes associated with it.
- *
- * @author Jim Baize <pavulon@hotmail.com>
- */
-class employee
+ //open a connection to the DB
+require_once('db_fns.php');
+
+
+function get_user_pto($pto_array)
 {
-    //put your code here
-    function __construct()
+    
+    // retrieve the user's PTO days information
+    //$conn = db_connect();
+
+    // check if username is unique
+    $result = $conn->query("select sick_days_remaining, vacation_days_remaining, personal_days_reamaining"
+            . "from employees"
+            . "where username='" . $username . "'"
+            . "order by Inserted_at desc limit 1");
+    if (!$result)
     {
-        // My constructor function;
+        throw new Exception('Could not execute query');
     }
+
+    
+
+   
+    //
+    //select sick_days_remaining, vacation_days_remaining, personal_days_reamaining
+    //from employees
+    //where username = current user and date is most recent (not sure if I need the most recent effective date or inserted date or some combination)
+    //close DB connection
+    //send information to be displayed
 }

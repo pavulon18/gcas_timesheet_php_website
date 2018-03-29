@@ -53,15 +53,3 @@
     </div>
 </div>
 <img id="bottom" src="/assets/graphics/bottom.png" alt="">
-
-<?php
-/*
- * I seem to have a dozen things running through my head.  I"m going to make some notes
- * so I can keep them all straight.
- * 
- * for the validation stuff, do I need to put the javascript that I used on the 
- * register page on every page?
- * 
- * also still have to work on restricting access to the pages to only those who
- * have logged in.
- */
