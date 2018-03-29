@@ -1,0 +1,21 @@
+language: php
+
+php:
+  - 7.2
+    
+env:
+    - MYSQL_HOST=127.0.0.1 MYSQL_USER=root
+    
+services:
+    - mysql
+  
+before_script: 
+    - chmod +x ./tests/setup_mysql.php
+  
+before_script: ./tests/setup_mysql.php
+script: ./tests/integration_test.php
+
+composer:   install
+
+email:      pavulon@hotmail.com
+name:       Jim Baize
