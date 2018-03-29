@@ -5,5 +5,11 @@
         <data xmlns="http://www.netbeans.org/ns/php-project/1">
             <name>GCASTimesheet</name>
         </data>
+        <formeditor xmlns="http://controlsjs.com/netbeans/tools/formeditor/">
+            <formeditor_sourcefilter>"custom;system;wineight%20skin;"</formeditor_sourcefilter>
+        </formeditor>
+        <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
+            <word>hardcoded</word>
+        </spellchecker-wordlist>
     </configuration>
 </project>

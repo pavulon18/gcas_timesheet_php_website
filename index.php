@@ -24,18 +24,33 @@ THE SOFTWARE.
 -->
 
 <?php
-require("webroot/index.php");
 
-?>
+//Start Session
+session_start();
 
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title></title>
-    </head>
-    <body>
-        <?php
-        // put your code here
-        ?>
-    </body>
-</html>
+require('config.php');
+
+require('classes/Bootstrap.php');
+require('classes/Controller.php');
+require('classes/Model.php');
+require('classes/Messages.php');
+require('classes/Miscellaneous.php');
+require('classes/StoPasswordReset.php');
+
+require('controllers/home.php');
+require('controllers/employees.php');
+require('controllers/jobtitles.php');
+require('controllers/administrators.php');
+
+require('models/home.php');
+require('models/employee.php');
+require('models/jobtitle.php');
+require('models/administrator.php');
+
+$bootstrap = new Bootstrap($_GET);
+$controller = $bootstrap->createController();
+
+if($controller)
+{
+    $controller->executeAction();
+}

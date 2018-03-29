@@ -28,4 +28,3 @@
     <li>Devise a method to separate out the entries which belong to a particular pay period.</li>
     <li>Determine the format to display the information</li>
     <li>Devise a search function</li>
-</div>

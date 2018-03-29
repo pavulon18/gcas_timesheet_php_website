@@ -8,6 +8,12 @@
         }
     ],
     "require": {
-        "pds/skeleton": "1.x-dev"
-    }
+        "pds/skeleton": "1.x"
+    },
+    "require-dev": {
+        "phpmailer/phpmailer": "dev-master"
+    },
+    "license": [
+    "MIT"]
+    
 }
