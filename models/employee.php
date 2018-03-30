@@ -265,35 +265,77 @@ class EmployeeModel extends Model
             $startDateTime = $startDateTime->format('Y-m-d H:i:s');
         } else
         {
+            //$post // Have to think this through.  I can't simply send the minutes because it could round the hour one way or the other.
+            // maybe I should send both hour and minute to the functions but then I would have to have them returned in an array and then would have to 
+            // separate out the data.
             $startDateTime = $post['startYear'] . '-' . $post['startMonth'] . '-' . $post['startDay'] . ' ' . $post['startHour'] . ':' . $post['startMin'] . ':00';
             $endDateTime = $post['endYear'] . '-' . $post['endMonth'] . '-' . $post['endDay'] . ' ' . $post['endHour'] . ':' . $post['endMin'] . ':00';
         }
 
-        if (new DateTimeImmutable($startDateTime) > new DateTimeImmutable($endDateTime))
-        {
-            Messages::setMsg('The Start Date / Time must be earlier than the End Date / Time', 'error');
-            return; // do I want a return statement or do I want something different?
-        }
 
-        
-        
         /*
-         *  if (24HrShift && isPTO)
-         *  {
-         *      Record the date in the database
-         *      subtract one day from the proper PTO day
-         *  }
-         * 
          * Verify no overlap in any of the time entries 
          *  exceptions:
          *      night runs MUST overlap a 24 hour shift
          *      a night run must NOT overlap another night run
-         * 
-         * Work out logistics for holidays
          */
-        
+
         if ($post['submit'])
         {
+            if (new DateTimeImmutable($startDateTime) > new DateTimeImmutable($endDateTime))
+            {
+                Messages::setMsg('The Start Date / Time must be earlier than the End Date / Time', 'error');
+                return; // do I want a return statement or do I want something different?
+            }
+            
+
+        /*
+        if (is24HrShift)
+        {
+            if (isNightRun)
+            {
+                adjust endTime and startTime to the 15 min mark in favor of employee.
+                overTimeHours = endTime - startTime
+            } else if (isHoliday)
+            {
+                nonWorkedHours = 8
+                overTimeHours = 16
+            } else
+            {
+                workedHours = 16
+            }
+        } else if (isPTO)
+        {
+            if (is24HrShift)
+            {
+                nonWorkedHours = 16
+                determine whichPTO
+                subtract 1 day from appropriate PTO
+            } else
+            {
+                adjust endTime and startTime to the 15 min mark in favor of employee.
+                nonWorkedHours = endTime - startTime
+                determine whichPTO
+                ptoTime = endTime - startTime
+                subtract ptoTime from appropriate <pto>_Day_Remaining
+            }
+        } else if (isHoliday)
+        {
+            if (didWork)
+            {
+                nonWorkedHours = 8
+                adjust endTime and startTime to the 15 min mark in favor of employee.
+                overTimeHours = endTime - startTime
+            } else
+            {
+                nonWorkedHours = 8
+            }
+        } else
+        {
+            workedHours = endTime - startTime
+        }
+*/
+            
             try
             {
                 $this->transactionStart();

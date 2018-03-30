@@ -157,4 +157,44 @@ abstract class Model
         }
         return;
     }
+    
+    public function startTimeAdjust($unadjustedTime) // Adjusts the start time up to 15 minutes to favor the employee
+    {
+        if ($unadjustedTime >= 0 || $unadjustedTime <= 14)
+        {
+            return 0;
+        }
+        else if ($unadjustedTime >= 15 || $unadjustedTime <= 29)
+        {
+            return 15;
+        }
+        else if ($unadjustedTime >= 30 || $unadjustedTime <= 44)
+        {
+            return 30;
+        }
+        else
+        {
+            return 45;
+        }
+    }
+    
+    public function endTimeAdjust($unadjustedTime) // Adjusts the end time up to 15 minutes to favor the employee
+    {
+        if ($unadjustedTime >= 1 || $unadjustedTime <= 15)
+        {
+            return 15;
+        }
+        else if ($unadjustedTime >= 16 || $unadjustedTime <= 30)
+        {
+            return 30;
+        }
+        else if ($unadjustedTime >= 31 || $unadjustedTime <= 45)
+        {
+            return 45;
+        }
+        else
+        {
+            return 0;
+        }
+    }
 }
