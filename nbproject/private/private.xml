@@ -5,12 +5,7 @@
         <group>
             <file>file:/C:/wamp64/www/GCASTimesheet/models/employee.php</file>
             <file>file:/C:/wamp64/www/GCASTimesheet/views/main.php</file>
-            <file>file:/C:/wamp64/www/GCASTimesheet/views/employees/currentpay.php</file>
-            <file>file:/C:/wamp64/www/GCASTimesheet/assets/css/bootstrap.css.map</file>
-            <file>file:/C:/wamp64/www/GCASTimesheet/classes/Miscellaneous.php</file>
-            <file>file:/C:/wamp64/www/GCASTimesheet/views/employees/index_old.php</file>
-            <file>file:/C:/wamp64/www/GCASTimesheet/views/employees/index.php</file>
-            <file>file:/C:/wamp64/www/GCASTimesheet/controllers/employees.php</file>
+            <file>file:/C:/wamp64/www/GCASTimesheet/classes/Model.php</file>
         </group>
     </open-files>
 </project-private>
