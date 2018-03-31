@@ -75,25 +75,4 @@ class Miscellaneous extends Model
          if the flag in the DB is set to 1 then take the user to the password
          change form';
     }
-
-    public static function insertElements($elementType)
-    {
-        if($elementType == "night")
-        {
-            $value = <<<EOT
-             <li id="isNightRun" >
-                <label class="description" for="isNightRun">Is this a night run? </label>
-                <span>
-                    <input id="isNightRunYes" name="isNightRun" class="element radio" type="radio" value="1" />
-                    <label class="choice" for="isNightRunYes">Yes</label>
-                    <input id="isNightRunNo" name="isNightRun" class="element radio" type="radio" value="2" />
-                    <label class="choice" for="isNightRunNo">No</label>
-                </span>
-            </li>
-EOT;
-            // The EOT; on the previous line MUST NO not be indented, and there may not be any spaces or tabs before or after the semicolon.
-            // https://secure.php.net/manual/en/language.types.string.php#language.types.string.syntax.heredoc
-            return $value;
-        }
-    }
 }

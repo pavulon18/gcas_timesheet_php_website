@@ -1,4 +1,3 @@
-
 <?php
 
 /*
@@ -252,25 +251,7 @@ class EmployeeModel extends Model
 
         print_r($post);                 // debugging statement
 
-        if ($post['is24HrShift'] == 1)
-        {
-            /*
-             * first combine the $post[start data time] into a single unit.
-             * then convert it to a DateTime object
-             * add one day and assign that value to endDateTime
-             * convert startDateTime back to a format usable by the database
-             */
-            $startDateTime = new DateTimeImmutable($post['startYear'] . '-' . $post['startMonth'] . '-' . $post['startDay'] . ' 08:00:00');
-            $endDateTime = $startDateTime->modify('+1 day')->format('Y-m-d H:i:s');
-            $startDateTime = $startDateTime->format('Y-m-d H:i:s');
-        } else
-        {
-            //$post // Have to think this through.  I can't simply send the minutes because it could round the hour one way or the other.
-            // maybe I should send both hour and minute to the functions but then I would have to have them returned in an array and then would have to 
-            // separate out the data.
-            $startDateTime = $post['startYear'] . '-' . $post['startMonth'] . '-' . $post['startDay'] . ' ' . $post['startHour'] . ':' . $post['startMin'] . ':00';
-            $endDateTime = $post['endYear'] . '-' . $post['endMonth'] . '-' . $post['endDay'] . ' ' . $post['endHour'] . ':' . $post['endMin'] . ':00';
-        }
+
 
 
         /*
@@ -282,64 +263,82 @@ class EmployeeModel extends Model
 
         if ($post['submit'])
         {
+            if ($post['is24HrShift'] == 1)
+            {
+                /*
+                 * first combine the $post[start data time] into a single unit.
+                 * then convert it to a DateTime object
+                 * add one day and assign that value to endDateTime
+                 * convert startDateTime back to a format usable by the database
+                 */
+                $startDateTime = new DateTimeImmutable($post['startYear'] . '-' . $post['startMonth'] . '-' . $post['startDay'] . ' 08:00:00');
+                $endDateTime = $startDateTime->modify('+1 day')->format('Y-m-d H:i:s');
+                $startDateTime = $startDateTime->format('Y-m-d H:i:s');
+            } else
+            {
+                $startDateTime = $post['startYear'] . '-' . $post['startMonth'] . '-' . $post['startDay'] . ' ' . $post['startHour'] . ':' . $post['startMin'] . ':00';
+                $endDateTime = $post['endYear'] . '-' . $post['endMonth'] . '-' . $post['endDay'] . ' ' . $post['endHour'] . ':' . $post['endMin'] . ':00';
+            }
+
             if (new DateTimeImmutable($startDateTime) > new DateTimeImmutable($endDateTime))
             {
                 Messages::setMsg('The Start Date / Time must be earlier than the End Date / Time', 'error');
                 return; // do I want a return statement or do I want something different?
             }
-            
 
-        /*
-        if (is24HrShift)
-        {
-            if (isNightRun)
+            if ($post['is24HrShift'] === 0)
             {
-                adjust endTime and startTime to the 15 min mark in favor of employee.
-                overTimeHours = endTime - startTime
-            } else if (isHoliday)
-            {
-                nonWorkedHours = 8
-                overTimeHours = 16
-            } else
-            {
-                workedHours = 16
+                $is24 = 'N';
             }
-        } else if (isPTO)
-        {
-            if (is24HrShift)
+            else if ($post['is24HrShift'] === 1)
             {
-                nonWorkedHours = 16
-                determine whichPTO
-                subtract 1 day from appropriate PTO
-            } else
-            {
-                adjust endTime and startTime to the 15 min mark in favor of employee.
-                nonWorkedHours = endTime - startTime
-                determine whichPTO
-                ptoTime = endTime - startTime
-                subtract ptoTime from appropriate <pto>_Day_Remaining
+                $is24 = 'Y';
             }
-        } else if (isHoliday)
-        {
-            if (didWork)
+            else
             {
-                nonWorkedHours = 8
-                adjust endTime and startTime to the 15 min mark in favor of employee.
-                overTimeHours = endTime - startTime
-            } else
-            {
-                nonWorkedHours = 8
+                Messages::setMsg('Invalid Entry.  Please Try again.', 'error');
             }
-        } else
-        {
-            workedHours = endTime - startTime
-        }
-*/
+
+            if ($post['isHoliday'] === 0)
+            {
+                $isHoliday = 'N';
+            }
+            else if ($post['isHoliday'] === 1)
+            {
+                $isHoliday = 'Y';
+            }
+            else
+            {
+                Messages::setMsg('Invalid Entry.  Please Try again.', 'error');
+            }
             
+            if ($post['isPTO'] === 0)
+            {
+                $isPTO = 'N';
+            }
+            else if ($post['isPTO'] === 1)
+            {
+                $isPTO = 'Y';
+            }
+            else
+            {
+                Messages::setMsg('Invalid Entry.  Please Try again.', 'error');
+            }
+
             try
             {
                 $this->transactionStart();
-
+                
+                $this->query('INSERT INTO employee_payrollhours '
+                    . '(Employee_Number, DateTime_In, DateTime_Out, Is_24Hr_Shift, Is_Sick_Day, Is_Vacation_Day, Is_Personal_Day, '
+                    . 'Is_Holiday, Is_Berevement_Day, Is_FMLA_Day, Is_Short_Term_Disability_Day, Is_Long_Term_Disability_Day, Is_Night_Run, RegularTime, OverTime, NonWorkTime) '
+                    . 'VALUES (:EmpNum, :startTime, :endTime, :is24, :isSick, :isVaca, :isPersonal, :isHoliday, :isBereve, :isFMLA, :isShortTerm, :isLongTerm, :isNight, '
+                    . ':regTime, :overTime, :nonWorkTime)');
+                $this->bind(':empNum', $_SESSION['user_data']['empNum']);
+                $this->bind(':startTime', $startDateTime);
+                $this->bind(':endTime', $endDateTime);
+                $this->bind(':is24', )
+                
                 $this->transactionCommit();
             } catch (PDOException $ex)
             {
