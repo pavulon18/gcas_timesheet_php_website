@@ -160,41 +160,50 @@ abstract class Model
     
     public function startTimeAdjust($unadjustedTime) // Adjusts the start time up to 15 minutes to favor the employee
     {
-        if ($unadjustedTime >= 0 || $unadjustedTime <= 14)
+        if ($unadjustedTime['min'] >= 0 && $unadjustedTime['min'] <= 14)
         {
-            return 0;
+            $unadjustedTime['min'] = 0;
+            return $unadjustedTime;
         }
-        else if ($unadjustedTime >= 15 || $unadjustedTime <= 29)
+        else if ($unadjustedTime['min'] >= 15 && $unadjustedTime['min'] <= 29)
         {
-            return 15;
+            $unadjustedTime['min'] = 15;
+            return $unadjustedTime;
         }
-        else if ($unadjustedTime >= 30 || $unadjustedTime <= 44)
+        else if ($unadjustedTime['min'] >= 30 && $unadjustedTime['min'] <= 44)
         {
-            return 30;
+            $unadjustedTime['min'] = 30;
+            return $unadjustedTime;
         }
         else
         {
-            return 45;
+            $unadjustedTime['min'] = 45;
+            return $unadjustedTime;
         }
     }
     
     public function endTimeAdjust($unadjustedTime) // Adjusts the end time up to 15 minutes to favor the employee
     {
-        if ($unadjustedTime >= 1 || $unadjustedTime <= 15)
+        if ($unadjustedTime['min'] >= 1 && $unadjustedTime['min'] <= 15)
         {
-            return 15;
+            $unadjustedTime['min'] = 15;
+            return $unadjustedTime;
         }
-        else if ($unadjustedTime >= 16 || $unadjustedTime <= 30)
+        else if ($unadjustedTime['min'] >= 16 && $unadjustedTime['min'] <= 30)
         {
-            return 30;
+            $unadjustedTime['min'] = 30;
+            return $unadjustedTime;
         }
-        else if ($unadjustedTime >= 31 || $unadjustedTime <= 45)
+        else if ($unadjustedTime['min'] >= 31 && $unadjustedTime['min'] <= 45)
         {
-            return 45;
+            $unadjustedTime['min'] = 45;
+            return $unadjustedTime;
         }
         else
         {
-            return 0;
+            $unadjustedTime['min'] = 0;
+            $unadjustedTime['hour']++; 
+            return $unadjustedTime;
         }
     }
 }

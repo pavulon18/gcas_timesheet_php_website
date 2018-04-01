@@ -50,7 +50,7 @@ class EmployeeModel extends Model
                 return;
             }
             $this->query('SELECT * FROM employee_securityroles WHERE employee_securityroles.Employee_Number = ' . $row['Employee_Number'] . ' ORDER BY Inserted_at DESC LIMIT 1');
-            $this->bind(':empNumber', $row['Employee_Number']);
+            //$this->bind(':empNumber', $row['Employee_Number']);   March 31 , 2018 I do not believe this line needs to be here.  I'm going to comment it out and see if that changes any functionality
             $row2 = $this->single();
 
             if (password_verify($post['password'], $row['password']))
@@ -263,6 +263,8 @@ class EmployeeModel extends Model
 
         if ($post['submit'])
         {
+            print_r($post);
+            print_r($post);
             if ($post['is24HrShift'] == 1)
             {
                 /*
@@ -285,60 +287,147 @@ class EmployeeModel extends Model
                 Messages::setMsg('The Start Date / Time must be earlier than the End Date / Time', 'error');
                 return; // do I want a return statement or do I want something different?
             }
-
-            if ($post['is24HrShift'] === 0)
+            
+            echo 'right before is24 if statement';
+            if ($post['is24HrShift'] == 0)
             {
+                echo 'Inside is24  = 0 if statement';
                 $is24 = 'N';
-            }
-            else if ($post['is24HrShift'] === 1)
+            } else if ($post['is24HrShift'] == 1)
             {
+                echo 'inside is24 = 1 if statement';
                 $is24 = 'Y';
-            }
-            else
+            } else
             {
+                echo 'inside is 24 else statement';
                 Messages::setMsg('Invalid Entry.  Please Try again.', 'error');
             }
 
-            if ($post['isHoliday'] === 0)
+            if ($post['isHoliday'] == 0)
             {
                 $isHoliday = 'N';
-            }
-            else if ($post['isHoliday'] === 1)
+            } else if ($post['isHoliday'] == 1)
             {
                 $isHoliday = 'Y';
-            }
-            else
+            } else
             {
                 Messages::setMsg('Invalid Entry.  Please Try again.', 'error');
             }
-            
-            if ($post['isPTO'] === 0)
+
+            if ($post['isPTO'] == 0)
             {
                 $isPTO = 'N';
-            }
-            else if ($post['isPTO'] === 1)
+            } else if ($post['isPTO'] == 1)
             {
                 $isPTO = 'Y';
-            }
-            else
+
+                /*
+                 * Pull the value of whichPTO obtained from the data input page
+                 * and assign the appropriate PTO day a value of 'Y'.
+                 * 
+                 * Only one of these can be true at a time.
+                 */
+                switch ($post['whichPTO'])
+                {
+                    case whichPTOVaca: // PTO Vacation Day
+                        $isVaca = 'Y';
+                        $isPerson = 'N';
+                        $isSick = 'N';
+                        $isBerev = 'N';
+                        $isFMLA = 'N';
+                        break;
+                    case whichPTOPerson: // PTO Personal Day
+                        $isVaca = 'N';
+                        $isPerson = 'Y';
+                        $isSick = 'N';
+                        $isBerev = 'N';
+                        $isFMLA = 'N';
+                        break;
+                    case whichPTOSick;  // PTO Sick Day
+                        $isVaca = 'N';
+                        $isPerson = 'N';
+                        $isSick = 'Y';
+                        $isBerev = 'N';
+                        $isFMLA = 'N';
+                        break;
+                    case whichPTODead; // PTO Berevement Day
+                        $isVaca = 'N';
+                        $isPerson = 'N';
+                        $isSick = 'N';
+                        $isBerev = 'Y';
+                        $isFMLA = 'N';
+                        break;
+                    case whichPTOFMLA; // PTO FMLA Day
+                        $isVaca = 'N';
+                        $isPerson = 'N';
+                        $isSick = 'N';
+                        $isBerev = 'N';
+                        $isFMLA = 'Y';
+                        break;
+                    default:
+                        $isVaca = 'N';
+                        $isPerson = 'N';
+                        $isSick = 'N';
+                        $isBerev = 'N';
+                        $isFMLA = 'N';
+                        break;
+                }
+            } else
             {
                 Messages::setMsg('Invalid Entry.  Please Try again.', 'error');
             }
+
+
+            if ($post['isNightRun'] === 0)
+            {
+                $isNightRun = 'N';
+            } else if ($post['isNightRun'] === 1)
+            {
+                $isNightRun = 'Y';
+            } else
+            {
+                Messages::setMsg('Invalid Entry.  Please Try again.', 'error');
+            }
+
+            $unadjustedStart = [
+                "hour" => $post['startHour'],
+                "min" => $post['startMin']
+            ];
+            $unadjustedEnd = [
+                "hour" => $post['endHour'],
+                "min" => $post['endMin']
+            ];
+            $adjustedStart = $this->startTimeAdjust($unadjustedStart);
+            $adjustedEnd = $this->endTimeAdjust($unadjustedEnd);
+
 
             try
             {
-                $this->transactionStart();
+                $this->transactionStart(); // Starting a transaction so if any one part of this fails, the whole transaction will be rolled back.
                 
+                echo $startDateTime;
+                echo $endDateTime;
+                echo '$post[is24HrShift] = ' . $post['is24HrShift'];
+                echo '$is24 = ' . $is24;
+
                 $this->query('INSERT INTO employee_payrollhours '
-                    . '(Employee_Number, DateTime_In, DateTime_Out, Is_24Hr_Shift, Is_Sick_Day, Is_Vacation_Day, Is_Personal_Day, '
-                    . 'Is_Holiday, Is_Berevement_Day, Is_FMLA_Day, Is_Short_Term_Disability_Day, Is_Long_Term_Disability_Day, Is_Night_Run, RegularTime, OverTime, NonWorkTime) '
-                    . 'VALUES (:EmpNum, :startTime, :endTime, :is24, :isSick, :isVaca, :isPersonal, :isHoliday, :isBereve, :isFMLA, :isShortTerm, :isLongTerm, :isNight, '
-                    . ':regTime, :overTime, :nonWorkTime)');
+                        . '(Employee_Number, DateTime_In, DateTime_Out, Is_24Hr_Shift, Is_Sick_Day, Is_Vacation_Day, Is_Personal_Day, '
+                        . 'Is_Holiday, Is_Berevement_Day, Is_FMLA_Day, Is_Short_Term_Disability_Day, Is_Long_Term_Disability_Day, Is_Night_Run, RegularTime, OverTime, NonWorkTime) '
+                        . 'VALUES (:empNum, :startTime, :endTime, :is24, :isSick, :isVaca, :isPersonal, :isHoliday, :isBereve, :isFMLA, :isShortTerm, :isLongTerm, :isNight, '
+                        . ':regTime, :overTime, :nonWorkTime)');
                 $this->bind(':empNum', $_SESSION['user_data']['empNum']);
                 $this->bind(':startTime', $startDateTime);
                 $this->bind(':endTime', $endDateTime);
-                $this->bind(':is24', )
-                
+                $this->bind(':is24', $is24);
+                $this->bind(':isSick', $isSick);
+                $this->bind(':isVaca', $isVaca);
+                $this->bind(':isPersonal', $isPerson);
+                $this->bind(':isHoliday', $isHoliday);
+                $this->bind(':isBereve', $isBerev);
+                $this->bind(':isFMLA', $isFMLA);
+                //$this->bind(':isShortTerm', $is) // does the administrator or employee need to set the long term and short term disability?
+                $this->bind(':isNight', $isNightRun);
+
                 $this->transactionCommit();
             } catch (PDOException $ex)
             {
