@@ -43,8 +43,9 @@ THE SOFTWARE.
     //echo $handle;
     //print file_get_contents('https://api.github.com/repos/pavulon18/gcas_timesheet_php_website/issues');
 
+    /*
     $curl_handle = curl_init();
-    curl_setopt($curl_handle, CURLOPT_URL, 'http://api.github.com/repos/pavulon18/gcas_timesheet_php_website/issues?status=open');
+    curl_setopt($curl_handle, CURLOPT_URL, 'https://api.github.com/repos/pavulon18/gcas_timesheet_php_website/issues?status=open');
     curl_setopt($curl_handle, CURLOPT_CONNECTTIMEOUT, 2);
     curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
     $buffer = curl_exec($curl_handle);
@@ -56,8 +57,15 @@ THE SOFTWARE.
     {
         print $buffer;
     }
+     * 
+     * 
+     */
     ?>
 
+    <p>To see a list of the currently known list of issues with this website, please visit 
+        <a href="https://github.com/pavulon18/gcas_timesheet_php_website/issues">https://github.com/pavulon18/gcas_timesheet_php_website/issues</a><br></p>
+    <p>If you would like to add an issue to this list, you will need to either create an account on
+        <a href="https://github.com"> GitHub </a>or you may contact me directly.</p>
 
 
 </body>

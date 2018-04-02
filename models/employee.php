@@ -372,9 +372,13 @@ class EmployeeModel extends Model
             {
                 Messages::setMsg('Invalid Entry.  Please Try again.', 'error');
             }
-
-
-            if ($post['isNightRun'] == 0)
+            
+            if (!isset($post['isNightRun']))
+            {
+                $isNightRun = 'N';
+                $post['isNightRun'] = 'N';
+            }
+            else if ($post['isNightRun'] == 0)
             {
                 $isNightRun = 'N';
             } else if ($post['isNightRun'] == 1)
@@ -386,19 +390,25 @@ class EmployeeModel extends Model
             }
 
             $unadjustedStart = [
-                "hour" => $post['startHour'],
+                "hour" =>$post['startHour'],
                 "min" => $post['startMin']
             ];
             $unadjustedEnd = [
                 "hour" => $post['endHour'],
                 "min" => $post['endMin']
             ];
-            //$adjustedStart = $this->startTimeAdjust($unadjustedStart);  //Adjusts the time to the nearest 15 min in favor of the employee
-            //$adjustedEnd = $this->endTimeAdjust($unadjustedEnd);      //Adjusts the time to the nearest 15 min in favor of the employee
-            $adjustedStart = Miscellaneous::startTimeAdjust($startDateTime);    //Adjusts the time to the nearest 15 min in favor of the employee
-            $adjustedEnd = Miscellaneous::endTimeAdjust($endDateTime);          //Adjusts the time to the nearest 15 min in favor of the employee
             
-            $calculatedTime = Miscellaneous::calcuateTime($post, $adjustedStart, $adjustedEnd);
+            $adjustedStart = Miscellaneous::startTimeAdjust($post);    //Adjusts the time to the nearest 15 min in favor of the employee
+            $adjustedEnd = Miscellaneous::endTimeAdjust($post);          //Adjusts the time to the nearest 15 min in favor of the employee
+            
+            $calculatedTime = Miscellaneous::calculateTime($post, $adjustedStart, $adjustedEnd);
+            
+            echo '$adjustedStart = ' . print_r($adjustedStart) . '<br>';
+            echo '$adjustedEnd = ' . print_r($adjustedEnd) . '<br>';
+            
+            echo 'after calculated time<br>';
+            print_r($calculatedTime);
+            die();
 
             try
             {

@@ -164,6 +164,9 @@ class Miscellaneous extends Model
                 $nonWorkHours = 8;
                 return [$regHours, $otHours, $nonWorkHours];
             }
+        } else
+        {
+            echo 'there was a problem</p><br>';
         }
     }
 
