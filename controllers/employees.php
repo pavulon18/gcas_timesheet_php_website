@@ -90,4 +90,11 @@ class Employees extends Controller
         $viewmodel = new EmployeeModel();
         $this->returnView($viewmodel->ptodays(), true);
     }
+    
+    protected function knownwebsiteissues()
+    {
+        
+        $viewmodel = new EmployeeModel();
+        $this->returnView($viewmodel->knownwebsiteissues(), true);
+    }
 }

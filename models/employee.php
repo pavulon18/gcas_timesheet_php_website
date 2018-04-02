@@ -247,12 +247,14 @@ class EmployeeModel extends Model
 
     public function currentpay()
     {
+        $isVaca = 'N';
+        $isPerson = 'N';
+        $isSick = 'N';
+        $isBerev = 'N';
+        $isFMLA = 'N';
+        $isNightRun = 'N';
+
         $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
-        print_r($post);                 // debugging statement
-
-
-
 
         /*
          * Verify no overlap in any of the time entries 
@@ -263,8 +265,6 @@ class EmployeeModel extends Model
 
         if ($post['submit'])
         {
-            print_r($post);
-            print_r($post);
             if ($post['is24HrShift'] == 1)
             {
                 /*
@@ -287,19 +287,15 @@ class EmployeeModel extends Model
                 Messages::setMsg('The Start Date / Time must be earlier than the End Date / Time', 'error');
                 return; // do I want a return statement or do I want something different?
             }
-            
-            echo 'right before is24 if statement';
+
             if ($post['is24HrShift'] == 0)
             {
-                echo 'Inside is24  = 0 if statement';
                 $is24 = 'N';
             } else if ($post['is24HrShift'] == 1)
             {
-                echo 'inside is24 = 1 if statement';
                 $is24 = 'Y';
             } else
             {
-                echo 'inside is 24 else statement';
                 Messages::setMsg('Invalid Entry.  Please Try again.', 'error');
             }
 
@@ -378,10 +374,10 @@ class EmployeeModel extends Model
             }
 
 
-            if ($post['isNightRun'] === 0)
+            if ($post['isNightRun'] == 0)
             {
                 $isNightRun = 'N';
-            } else if ($post['isNightRun'] === 1)
+            } else if ($post['isNightRun'] == 1)
             {
                 $isNightRun = 'Y';
             } else
@@ -397,18 +393,16 @@ class EmployeeModel extends Model
                 "hour" => $post['endHour'],
                 "min" => $post['endMin']
             ];
-            $adjustedStart = $this->startTimeAdjust($unadjustedStart);
-            $adjustedEnd = $this->endTimeAdjust($unadjustedEnd);
-
+            //$adjustedStart = $this->startTimeAdjust($unadjustedStart);  //Adjusts the time to the nearest 15 min in favor of the employee
+            //$adjustedEnd = $this->endTimeAdjust($unadjustedEnd);      //Adjusts the time to the nearest 15 min in favor of the employee
+            $adjustedStart = Miscellaneous::startTimeAdjust($startDateTime);    //Adjusts the time to the nearest 15 min in favor of the employee
+            $adjustedEnd = Miscellaneous::endTimeAdjust($endDateTime);          //Adjusts the time to the nearest 15 min in favor of the employee
+            
+            $calculatedTime = Miscellaneous::calcuateTime($post, $adjustedStart, $adjustedEnd);
 
             try
             {
                 $this->transactionStart(); // Starting a transaction so if any one part of this fails, the whole transaction will be rolled back.
-                
-                echo $startDateTime;
-                echo $endDateTime;
-                echo '$post[is24HrShift] = ' . $post['is24HrShift'];
-                echo '$is24 = ' . $is24;
 
                 $this->query('INSERT INTO employee_payrollhours '
                         . '(Employee_Number, DateTime_In, DateTime_Out, Is_24Hr_Shift, Is_Sick_Day, Is_Vacation_Day, Is_Personal_Day, '
@@ -595,5 +589,22 @@ class EmployeeModel extends Model
         }
         return $row;
     }
+    
+    public function knownwebsiteissues()
+    {
+        /*
+    $ch = curl_init("https://github.com/pavulon18/gcas_timesheet_php_website/issues");
+    $fp = fopen("/views/employees/issues.html", "w");
 
+    curl_setopt($ch, CURLOPT_FILE, $fp);
+    curl_setopt($ch, CURLOPT_HEADER, 0);
+
+    curl_exec($ch);
+    curl_close($ch);
+    fclose($fp);
+        return;
+         * 
+         */
+        return;
+    }
 }

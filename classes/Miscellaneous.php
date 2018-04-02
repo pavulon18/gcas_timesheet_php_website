@@ -75,4 +75,96 @@ class Miscellaneous extends Model
          if the flag in the DB is set to 1 then take the user to the password
          change form';
     }
+
+    public static function startTimeAdjust($unadjustedTime) // Adjusts the start time up to 15 minutes to favor the employee
+    {
+        if ($unadjustedTime['startMin'] >= 0 && $unadjustedTime['startMin'] <= 14)
+        {
+            $unadjustedTime['startMin'] = 0;
+            return $unadjustedTime;
+        } else if ($unadjustedTime['startMin'] >= 15 && $unadjustedTime['startMin'] <= 29)
+        {
+            $unadjustedTime['startMin'] = 15;
+            return $unadjustedTime;
+        } else if ($unadjustedTime['startMin'] >= 30 && $unadjustedTime['startMin'] <= 44)
+        {
+            $unadjustedTime['startMin'] = 30;
+            return $unadjustedTime;
+        } else
+        {
+            $unadjustedTime['startMin'] = 45;
+            return $unadjustedTime;
+        }
+    }
+
+    public static function endTimeAdjust($unadjustedTime) // Adjusts the end time up to 15 minutes to favor the employee
+    {
+        if ($unadjustedTime['endMin'] >= 1 && $unadjustedTime['endMin'] <= 15)
+        {
+            $unadjustedTime['endMin'] = 15;
+            return $unadjustedTime;
+        } else if ($unadjustedTime['endMin'] >= 16 && $unadjustedTime['endMin'] <= 30)
+        {
+            $unadjustedTime['endMin'] = 30;
+            return $unadjustedTime;
+        } else if ($unadjustedTime['endMin'] >= 31 && $unadjustedTime['endMin'] <= 45)
+        {
+            $unadjustedTime['endMin'] = 45;
+            return $unadjustedTime;
+        } else
+        {
+            $unadjustedTime['endMin'] = 0;
+            $unadjustedTime['endHour'] ++;
+            return $unadjustedTime;
+        }
+    }
+
+    public static function calculateTime($post, $adjustedStartTime, $adjustedEndTime)
+    {
+        if ($post['is24HrShift'])
+        {
+            if (!$post['isNightRun'] && !$post['isHoliday'] && !$post['isPTO'])
+            {
+                $regHours = 16;
+                $otHours = 0;
+                $nonWorkHours = 0;
+                return [$regHours, $otHours, $nonWorkHours];
+            } else if ($post['isNightRun'] && !$post['isHoliday'] && !$post['isPTO'])
+            {
+                $regHours = 0;
+                $otHours = $adjustedEndTime - $adjustedStartTime;
+                $nonWorkHours = 0;
+                return [$regHours, $otHours, $nonWorkHours];
+            } else if (!$post['isNightRun'] && $post['isHoliday'] && !$post['isPTO'])
+            {
+                $regHours = 0;
+                $otHours = 16;
+                $nonWorkHours = 8;
+                return [$regHours, $otHours, $nonWorkHours];
+            } else if (!$post['isNightRun'] && !$post['isHoliday'] && $post['isPTO'])
+            {
+                $regHours = 0;
+                $otHours = 0;
+                $nonWorkHours = 16;
+                return [$regHours, $otHours, $nonWorkHours];
+            }
+        } else if (!$post['is24HrShift'])
+        {
+            if (!$post['isNightRun'] && !$post['isHoliday'] && $post['isPTO'])
+            {
+                $regHours = 0;
+                $otHours = 0;
+                $nonWorkHours = $adjustedEndTime - $adjustedStartTime;
+                return [$regHours, $otHours, $nonWorkHours];
+            }
+            else if (!$post['isNightRun'] && $post['isHoliday'] && !$post['isPTO']) // Need to differentiate between when one works and does not work
+            {
+                $regHours = 0;
+                $otHours = $adjustedEndTime - $adjustedStartTime;
+                $nonWorkHours = 8;
+                return [$regHours, $otHours, $nonWorkHours];
+            }
+        }
+    }
+
 }

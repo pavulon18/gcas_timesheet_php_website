@@ -30,3 +30,4 @@
     <li><a href="<?php echo ROOT_URL; ?>employees/historicalpay"> Historical Pay Period </a></li>
     <li><a href="<?php echo ROOT_URL; ?>employees/ptodays"> PTO Days Remaining </a></li>
     <li><a href="<?php echo ROOT_URL; ?>employees/changeknownpassword"> Change Password </a></li>
+    <li><a href="<?php echo ROOT_URL; ?>employees/knownwebsiteissues"> Known Issues </a></li>
