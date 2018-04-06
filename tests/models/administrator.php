@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * The MIT License
  *
  * Copyright 2018 Jim Baize <pavulon@hotmail.com>.
@@ -24,10 +24,23 @@
  * THE SOFTWARE.
  */
 
-?>
-<div>
-    <li><a href="<?php echo ROOT_URL; ?>employees/currentpay"> Current Pay Period </a></li>
-    <li><a href="<?php echo ROOT_URL; ?>employees/historicalpay"> Historical Pay Period </a></li>
-    <li><a href="<?php echo ROOT_URL; ?>employees/ptodays"> PTO Days Remaining </a></li>
-    <li><a href="<?php echo ROOT_URL; ?>employees/changeknownpassword"> Change Password </a></li>
-    <li><a href="<?php echo ROOT_URL; ?>employees/knownwebsiteissues"> Known Issues </a></li>
+namespace tests\unit;
+
+use atoum;
+
+/**
+ * Test class for administrator.
+ *
+ * @author Jim Baize <pavulon@hotmail.com>
+ */
+class administrator extends atoum
+{
+
+    // put your code here
+
+    public function testSkipped()
+    {
+        $this->skip('This test was skipped');
+    }
+
+}

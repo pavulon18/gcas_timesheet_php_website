@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * The MIT License
  *
  * Copyright 2018 Jim Baize <pavulon@hotmail.com>.
@@ -24,10 +24,11 @@
  * THE SOFTWARE.
  */
 
-?>
-<div>
-    <li><a href="<?php echo ROOT_URL; ?>employees/currentpay"> Current Pay Period </a></li>
-    <li><a href="<?php echo ROOT_URL; ?>employees/historicalpay"> Historical Pay Period </a></li>
-    <li><a href="<?php echo ROOT_URL; ?>employees/ptodays"> PTO Days Remaining </a></li>
-    <li><a href="<?php echo ROOT_URL; ?>employees/changeknownpassword"> Change Password </a></li>
-    <li><a href="<?php echo ROOT_URL; ?>employees/knownwebsiteissues"> Known Issues </a></li>
+require 'Tester/bootstrap.php';
+
+use Tester\Assert;
+
+$object = new Greeting();
+
+// use an assertion function to test say()
+Assert::same('Hello John', $object->say('John'));

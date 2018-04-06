@@ -76,24 +76,144 @@ class Miscellaneous extends Model
          change form';
     }
 
-    public static function insertElements($elementType)
+    public static function timeAdjust($unadjustedTime) // Adjusts the start time up to 15 minutes to favor the employee
     {
-        if($elementType == "night")
+        if ($unadjustedTime['startMin'] >= 0 && $unadjustedTime['startMin'] <= 14)
         {
-            $value = <<<EOT
-             <li id="isNightRun" >
-                <label class="description" for="isNightRun">Is this a night run? </label>
-                <span>
-                    <input id="isNightRunYes" name="isNightRun" class="element radio" type="radio" value="1" />
-                    <label class="choice" for="isNightRunYes">Yes</label>
-                    <input id="isNightRunNo" name="isNightRun" class="element radio" type="radio" value="2" />
-                    <label class="choice" for="isNightRunNo">No</label>
-                </span>
-            </li>
-EOT;
-            // The EOT; on the previous line MUST NO not be indented, and there may not be any spaces or tabs before or after the semicolon.
-            // https://secure.php.net/manual/en/language.types.string.php#language.types.string.syntax.heredoc
-            return $value;
+            $unadjustedTime['startMin'] = 0;
+        } else if ($unadjustedTime['startMin'] >= 15 && $unadjustedTime['startMin'] <= 29)
+        {
+            $unadjustedTime['startMin'] = 15;
+        } else if ($unadjustedTime['startMin'] >= 30 && $unadjustedTime['startMin'] <= 44)
+        {
+            $unadjustedTime['startMin'] = 30;
+        } else if ($unadjustedTime['startMin'] >= 45 && $unadjustedTime['startMin'] <= 59)
+        {
+            $unadjustedTime['startMin'] = 45;
+        }
+        else 
+        {
+            Messages::setMsg('Invalid Entry.  Please Try again.', 'error');
+            return;
+        }
+        
+        if ($unadjustedTime['endMin'] == 0)
+        {
+            $unadjustedTime['endMin'] = 0;
+        }
+        else if ($unadjustedTime['endMin'] >= 1 && $unadjustedTime['endMin'] <= 15)
+        {
+            $unadjustedTime['endMin'] = 15;
+        } else if ($unadjustedTime['endMin'] >= 16 && $unadjustedTime['endMin'] <= 30)
+        {
+            $unadjustedTime['endMin'] = 30;
+        } else if ($unadjustedTime['endMin'] >= 31 && $unadjustedTime['endMin'] <= 45)
+        {
+            $unadjustedTime['endMin'] = 45;
+        } else if ($unadjustedTime['endMin'] >=46 && $unadjustedTime['endMin'] <=59)
+        {
+            $unadjustedTime['endMin'] = 0;
+            $unadjustedTime['endHour'] = $unadjustedTime['endHour'] + 1;
+        }
+        else 
+        {
+            Messages::setMsg('Invalid Entry.  Please Try again.', 'error');
+            return;
+        }
+        return $unadjustedTime; // this is really now the adjusted time.
+    }
+/*
+    public static function endTimeAdjust($unadjustedTime) // Adjusts the end time up to 15 minutes to favor the employee
+    {
+        if ($unadjustedTime['endMin'] >= 1 && $unadjustedTime['endMin'] <= 15)
+        {
+            $unadjustedTime['endMin'] = 15;
+            print_r($unadjustedTime);
+            die();
+            return $unadjustedTime;
+        } else if ($unadjustedTime['endMin'] >= 16 && $unadjustedTime['endMin'] <= 30)
+        {
+            $unadjustedTime['endMin'] = 30;
+            return $unadjustedTime;
+        } else if ($unadjustedTime['endMin'] >= 31 && $unadjustedTime['endMin'] <= 45)
+        {
+            $unadjustedTime['endMin'] = 45;
+            return $unadjustedTime;
+        } else
+        {
+            $unadjustedTime['endMin'] = 0;
+            $unadjustedTime['endHour'] ++;
+            
+            return $unadjustedTime;
         }
     }
+ * 
+ */
+
+    public static function calculateTime($adjustedTime)
+    {
+        $adjustedStartTime = new DateTimeImmutable($adjustedTime['startYear'] . '-' . $adjustedTime['startMonth'] . '-' . $adjustedTime['startDay'] . ' ' . $adjustedTime['startHour'] . ':' . $adjustedTime['startMin'] . ':00');
+        $adjustedEndTime = new DateTimeImmutable($adjustedTime['endYear'] . '-' . $adjustedTime['endMonth'] . '-' . $adjustedTime['endDay'] . ' ' . $adjustedTime['endHour'] . ':' . $adjustedTime['endMin'] . ':00');
+        
+        if ($adjustedTime['is24HrShift'])
+        {
+            echo '<p>is24HrShift</p><br>';
+            if (!$adjustedTime['isNightRun'] && !$adjustedTime['isHoliday'] && !$adjustedTime['isPTO'])
+            {
+                $regHours = new DateInterval("PT16H0M");
+                $otHours = new DateInterval("PT0H0M");
+                $nonWorkHours = new DateInterval("PT0H0M");
+                return [$regHours, $otHours, $nonWorkHours];
+            } else if ($adjustedTime['isNightRun'] && !$adjustedTime['isHoliday'] && !$adjustedTime['isPTO'])
+            {
+                $regHours = new DateInterval("PT0H0M");
+                $otHours = $adjustedEndTime ->diff($adjustedStartTime);
+                $nonWorkHours = new DateInterval("PT0H0M");
+                return [$regHours, $otHours, $nonWorkHours];
+            } else if (!$adjustedTime['isNightRun'] && $adjustedTime['isHoliday'] && !$adjustedTime['isPTO'])
+            {
+                $regHours = new DateInterval("PT0H0M");
+                $otHours = new DateInterval("PT16H0M");
+                $nonWorkHours = new DateInterval("PT8H0M");
+                return [$regHours, $otHours, $nonWorkHours];
+            } else if (!$adjustedTime['isNightRun'] && !$adjustedTime['isHoliday'] && $adjustedTime['isPTO'])
+            {
+                $regHours = new DateInterval("PT0H0M");
+                $otHours = new DateInterval("PT0H0M");
+                $nonWorkHours = new DateTimeImmutable('16:00');
+                return [$regHours, $otHours, $nonWorkHours];
+            }
+        } else if (!$adjustedTime['is24HrShift'])
+        {
+            if (!$adjustedTime['isNightRun'] && !$adjustedTime['isHoliday'] && $adjustedTime['isPTO'])
+            {
+                $regHours = new DateInterval("PT0H0M");
+                $otHours = new DateInterval("PT0H0M");
+                $nonWorkHours = $adjustedEndTime ->diff($adjustedStartTime);
+                return [$regHours, $otHours, $nonWorkHours];
+            }
+            else if (!$adjustedTime['isNightRun'] && $adjustedTime['isHoliday'] && !$adjustedTime['isPTO']) // Need to differentiate between when one works and does not work
+            {
+                $regHours = new DateInterval("PT0H0M");
+                $otHours = $adjustedEndTime ->diff($adjustedStartTime);
+                $nonWorkHours = new DateInterval("PT8H0M");
+                return [$regHours, $otHours, $nonWorkHours];
+            }
+            else if (!$adjustedTime['isNightRun'] && !$adjustedTime['isHoliday'] && !$adjustedTime['isPTO']) // Need to differentiate between when one works and does not work
+            {
+                $regHours = $adjustedEndTime ->diff($adjustedStartTime);
+                $otHours = new DateInterval("PT0H0M");
+                $nonWorkHours = new DateInterval("PT0H0M");
+                return [$regHours, $otHours, $nonWorkHours];
+            }
+            else
+            {
+                Messages::setMsg('There was an error with non-24 hour work period' , 'error');
+            }
+        } else
+        {
+            Messages::setMsg('<p>There was a problem</p><br>', 'error');
+        }
+    }
+
 }

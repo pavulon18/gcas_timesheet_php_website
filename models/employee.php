@@ -1,4 +1,3 @@
-
 <?php
 
 /*
@@ -51,7 +50,7 @@ class EmployeeModel extends Model
                 return;
             }
             $this->query('SELECT * FROM employee_securityroles WHERE employee_securityroles.Employee_Number = ' . $row['Employee_Number'] . ' ORDER BY Inserted_at DESC LIMIT 1');
-            $this->bind(':empNumber', $row['Employee_Number']);
+            //$this->bind(':empNumber', $row['Employee_Number']);   March 31 , 2018 I do not believe this line needs to be here.  I'm going to comment it out and see if that changes any functionality
             $row2 = $this->single();
 
             if (password_verify($post['password'], $row['password']))
@@ -248,61 +247,215 @@ class EmployeeModel extends Model
 
     public function currentpay()
     {
+
+        $isVaca = 'N';
+        $isPerson = 'N';
+        $isSick = 'N';
+        $isBerev = 'N';
+        $isFMLA = 'N';
+        $isNightRun = 'N';
+
         $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-        print_r($post);                 // debugging statement
-
-        if ($post['is24HrShift'] == 1)
-        {
-            /*
-             * first combine the $post[start data time] into a single unit.
-             * then convert it to a DateTime object
-             * add one day and assign that value to endDateTime
-             * convert startDateTime back to a format usable by the database
-             */
-            $startDateTime = new DateTimeImmutable($post['startYear'] . '-' . $post['startMonth'] . '-' . $post['startDay'] . ' 08:00:00');
-            $endDateTime = $startDateTime->modify('+1 day')->format('Y-m-d H:i:s');
-            $startDateTime = $startDateTime->format('Y-m-d H:i:s');
-        } else
-        {
-            $startDateTime = $post['startYear'] . '-' . $post['startMonth'] . '-' . $post['startDay'] . ' ' . $post['startHour'] . ':' . $post['startMin'] . ':00';
-            $endDateTime = $post['endYear'] . '-' . $post['endMonth'] . '-' . $post['endDay'] . ' ' . $post['endHour'] . ':' . $post['endMin'] . ':00';
-        }
-
-        if (new DateTimeImmutable($startDateTime) > new DateTimeImmutable($endDateTime))
-        {
-            Messages::setMsg('The Start Date / Time must be earlier than the End Date / Time', 'error');
-            return; // do I want a return statement or do I want something different?
-        }
-
-        
-        
         /*
-         *  if (24HrShift && isPTO)
-         *  {
-         *      Record the date in the database
-         *      subtract one day from the proper PTO day
-         *  }
-         * 
          * Verify no overlap in any of the time entries 
          *  exceptions:
          *      night runs MUST overlap a 24 hour shift
          *      a night run must NOT overlap another night run
-         * 
-         * Work out logistics for holidays
          */
-        
+
         if ($post['submit'])
         {
+            if ($post['is24HrShift'] == 1)
+            {
+                $post['startHour'] = 8;
+                $post['startMin'] = 0;
+                /*
+                 * first combine the $post[start data time] into a single unit.
+                 * then convert it to a DateTime object
+                 * add one day and assign that value to endDateTime
+                 * convert startDateTime back to a format usable by the database
+                 */
+                $startDateTime = new DateTimeImmutable($post['startYear'] . '-' . $post['startMonth'] . '-' . $post['startDay'] . ' 08:00:00');
+                $endDateTime = $startDateTime->modify('+1 day')->format('Y-m-d H:i:s');
+                $startDateTime = $startDateTime->format('Y-m-d H:i:s');
+                $endDTArray = date_parse($endDateTime);
+                
+                $post['endYear'] = $endDTArray['year'];
+                $post['endMonth'] = $endDTArray['month'];
+                $post['endDay'] = $endDTArray['day'];
+                $post['endHour'] = $endDTArray['hour'];
+                $post['endMin'] = $endDTArray['minute'];
+            } else
+            {
+                $startDateTime = $post['startYear'] . '-' . $post['startMonth'] . '-' . $post['startDay'] . ' ' . $post['startHour'] . ':' . $post['startMin'] . ':00';
+                $endDateTime = $post['endYear'] . '-' . $post['endMonth'] . '-' . $post['endDay'] . ' ' . $post['endHour'] . ':' . $post['endMin'] . ':00';
+            }
+            
+            // Checks for null values.  If values are null, assign a value of 0
+            if(!isset($post['isNightRun']))
+            {
+                $post['isNightRun'] = 0;
+            }
+            if(!isset($post['isPTO']))
+            {
+                $post['isPTO'] = 0;
+            }
+            if(!isset($post['isHoliday']))
+            {
+                $post['isHoliday'] = 0;
+            }
+            
+            
+            if (new DateTimeImmutable($startDateTime) > new DateTimeImmutable($endDateTime))
+            {
+                Messages::setMsg('The Start Date / Time must be earlier than the End Date / Time', 'error');
+                return; // do I want a return statement or do I want something different?
+            }
+
+            if ($post['is24HrShift'] == 0)
+            {
+                $is24 = 'N';
+            } else if ($post['is24HrShift'] == 1)
+            {
+                $is24 = 'Y';
+            } else
+            {
+                Messages::setMsg('Invalid Entry.  Please Try again.', 'error');
+            }
+
+            if ($post['isHoliday'] == 0)
+            {
+                $isHoliday = 'N';
+            } else if ($post['isHoliday'] == 1)
+            {
+                $isHoliday = 'Y';
+            } else
+            {
+                Messages::setMsg('Invalid Entry.  Please Try again.', 'error');
+            }
+
+            if ($post['isPTO'] == 0)
+            {
+                $isPTO = 'N';
+            } else if ($post['isPTO'] == 1)
+            {
+                $isPTO = 'Y';
+
+                /*
+                 * Pull the value of whichPTO obtained from the data input page
+                 * and assign the appropriate PTO day a value of 'Y'.
+                 * 
+                 * Only one of these can be true at a time.
+                 */
+                switch ($post['whichPTO'])
+                {
+                    case whichPTOVaca: // PTO Vacation Day
+                        $isVaca = 'Y';
+                        $isPerson = 'N';
+                        $isSick = 'N';
+                        $isBerev = 'N';
+                        $isFMLA = 'N';
+                        break;
+                    case whichPTOPerson: // PTO Personal Day
+                        $isVaca = 'N';
+                        $isPerson = 'Y';
+                        $isSick = 'N';
+                        $isBerev = 'N';
+                        $isFMLA = 'N';
+                        break;
+                    case whichPTOSick;  // PTO Sick Day
+                        $isVaca = 'N';
+                        $isPerson = 'N';
+                        $isSick = 'Y';
+                        $isBerev = 'N';
+                        $isFMLA = 'N';
+                        break;
+                    case whichPTODead; // PTO Berevement Day
+                        $isVaca = 'N';
+                        $isPerson = 'N';
+                        $isSick = 'N';
+                        $isBerev = 'Y';
+                        $isFMLA = 'N';
+                        break;
+                    case whichPTOFMLA; // PTO FMLA Day
+                        $isVaca = 'N';
+                        $isPerson = 'N';
+                        $isSick = 'N';
+                        $isBerev = 'N';
+                        $isFMLA = 'Y';
+                        break;
+                    default:
+                        $isVaca = 'N';
+                        $isPerson = 'N';
+                        $isSick = 'N';
+                        $isBerev = 'N';
+                        $isFMLA = 'N';
+                        break;
+                }
+            } else
+            {
+                Messages::setMsg('Invalid Entry.  Please Try again.', 'error');
+            }
+            
+            if (!isset($post['isNightRun']))
+            {
+                $isNightRun = 'N';
+                $post['isNightRun'] = 'N';
+            }
+            else if ($post['isNightRun'] == 0)
+            {
+                $isNightRun = 'N';
+            } else if ($post['isNightRun'] == 1)
+            {
+                $isNightRun = 'Y';
+            } else
+            {
+                Messages::setMsg('Invalid Entry.  Please Try again.', 'error');
+            }
+            
+            $adjustedTime = Miscellaneous::timeAdjust($post);      //Adjusts the time to the nearest 15 min in favor of the employee
+            
+            $calculatedTime = Miscellaneous::calculateTime($adjustedTime);  // Calculates the time for worked hours, overtime hours and non-worked hours
+                                                                            // for this one entry only.
+
+            $regTime = $calculatedTime[0]->h . ':' . $calculatedTime[0]->i . ':00';
+            $overTime = $calculatedTime[1]->h . ':' . $calculatedTime[1]->i . ':00';
+            $nonWorkTime = $calculatedTime[2]->h . ':' . $calculatedTime[2]->i . ':00';
+            
             try
             {
-                $this->transactionStart();
+                $this->transactionStart(); // Starting a transaction so if any one part of this fails, the whole transaction will be rolled back.
+
+                $this->query('INSERT INTO employee_payrollhours '
+                        . '(Employee_Number, DateTime_In, DateTime_Out, Is_24Hour_Shift, Is_Sick_Day, Is_Vacation_Day, Is_Personal_Day, '
+                        . 'Is_Holiday, Is_Berevement_Day, Is_FMLA_Day, Is_Night_Run, RegularTime, OverTime, NonWorkTime) '
+                        . 'VALUES (:empNum, :startTime, :endTime, :is24, :isSick, :isVaca, :isPersonal, :isHoliday, :isBereve, :isFMLA, :isNight, '
+                        . ':regTime, :overTime, :nonWorkTime)');
+                $this->bind(':empNum', $_SESSION['user_data']['empNum']);
+                $this->bind(':startTime', $startDateTime);
+                $this->bind(':endTime', $endDateTime);
+                $this->bind(':is24', $is24);
+                $this->bind(':isSick', $isSick);
+                $this->bind(':isVaca', $isVaca);
+                $this->bind(':isPersonal', $isPerson);
+                $this->bind(':isHoliday', $isHoliday);
+                $this->bind(':isBereve', $isBerev);
+                $this->bind(':isFMLA', $isFMLA);
+                //$this->bind(':isShortTerm', $is) // does the administrator or employee need to set the long term and short term disability?
+                $this->bind(':isNight', $isNightRun);
+                $this->bind(':regTime', $regTime);
+                $this->bind(':overTime', $overTime);
+                $this->bind(':nonWorkTime', $nonWorkTime);
+                $this->execute();
 
                 $this->transactionCommit();
+                Messages::setMsg('Success', 'success');
             } catch (PDOException $ex)
             {
                 $this->transactionRollback();
                 echo $ex->getMessage();
+                Messages::setMsg($ex->getMessage(), 'error');
             }
         }
 
@@ -465,5 +618,22 @@ class EmployeeModel extends Model
         }
         return $row;
     }
+    
+    public function knownwebsiteissues()
+    {
+        /*
+    $ch = curl_init("https://github.com/pavulon18/gcas_timesheet_php_website/issues");
+    $fp = fopen("/views/employees/issues.html", "w");
 
+    curl_setopt($ch, CURLOPT_FILE, $fp);
+    curl_setopt($ch, CURLOPT_HEADER, 0);
+
+    curl_exec($ch);
+    curl_close($ch);
+    fclose($fp);
+        return;
+         * 
+         */
+        return;
+    }
 }
