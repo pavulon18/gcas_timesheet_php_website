@@ -247,6 +247,7 @@ class EmployeeModel extends Model
 
     public function currentpay()
     {
+
         $isVaca = 'N';
         $isPerson = 'N';
         $isSick = 'N';
@@ -267,6 +268,8 @@ class EmployeeModel extends Model
         {
             if ($post['is24HrShift'] == 1)
             {
+                $post['startHour'] = 8;
+                $post['startMin'] = 0;
                 /*
                  * first combine the $post[start data time] into a single unit.
                  * then convert it to a DateTime object
@@ -276,12 +279,34 @@ class EmployeeModel extends Model
                 $startDateTime = new DateTimeImmutable($post['startYear'] . '-' . $post['startMonth'] . '-' . $post['startDay'] . ' 08:00:00');
                 $endDateTime = $startDateTime->modify('+1 day')->format('Y-m-d H:i:s');
                 $startDateTime = $startDateTime->format('Y-m-d H:i:s');
+                $endDTArray = date_parse($endDateTime);
+                
+                $post['endYear'] = $endDTArray['year'];
+                $post['endMonth'] = $endDTArray['month'];
+                $post['endDay'] = $endDTArray['day'];
+                $post['endHour'] = $endDTArray['hour'];
+                $post['endMin'] = $endDTArray['minute'];
             } else
             {
                 $startDateTime = $post['startYear'] . '-' . $post['startMonth'] . '-' . $post['startDay'] . ' ' . $post['startHour'] . ':' . $post['startMin'] . ':00';
                 $endDateTime = $post['endYear'] . '-' . $post['endMonth'] . '-' . $post['endDay'] . ' ' . $post['endHour'] . ':' . $post['endMin'] . ':00';
             }
-
+            
+            // Checks for null values.  If values are null, assign a value of 0
+            if(!isset($post['isNightRun']))
+            {
+                $post['isNightRun'] = 0;
+            }
+            if(!isset($post['isPTO']))
+            {
+                $post['isPTO'] = 0;
+            }
+            if(!isset($post['isHoliday']))
+            {
+                $post['isHoliday'] = 0;
+            }
+            
+            
             if (new DateTimeImmutable($startDateTime) > new DateTimeImmutable($endDateTime))
             {
                 Messages::setMsg('The Start Date / Time must be earlier than the End Date / Time', 'error');
@@ -388,26 +413,18 @@ class EmployeeModel extends Model
             {
                 Messages::setMsg('Invalid Entry.  Please Try again.', 'error');
             }
+            
+            $adjustedTime = Miscellaneous::timeAdjust($post);      //Adjusts the time to the nearest 15 min in favor of the employee
+            
+            $calculatedTime = Miscellaneous::calculateTime($adjustedTime);  // Calculates the time for worked hours, overtime hours and non-worked hours
+                                                                            // for this one entry only.
 
-            $unadjustedStart = [
-                "hour" =>$post['startHour'],
-                "min" => $post['startMin']
-            ];
-            $unadjustedEnd = [
-                "hour" => $post['endHour'],
-                "min" => $post['endMin']
-            ];
+            echo '<p>after calculated time ';
             
-            $adjustedStart = Miscellaneous::startTimeAdjust($post);    //Adjusts the time to the nearest 15 min in favor of the employee
-            $adjustedEnd = Miscellaneous::endTimeAdjust($post);          //Adjusts the time to the nearest 15 min in favor of the employee
+            echo '<p><br>';
+            $regHours = $calculatedTime[0]->format('H:i:s');
+            echo $regHours;
             
-            $calculatedTime = Miscellaneous::calculateTime($post, $adjustedStart, $adjustedEnd);
-            
-            echo '$adjustedStart = ' . print_r($adjustedStart) . '<br>';
-            echo '$adjustedEnd = ' . print_r($adjustedEnd) . '<br>';
-            
-            echo 'after calculated time<br>';
-            print_r($calculatedTime);
             die();
 
             try
