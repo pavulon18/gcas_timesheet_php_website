@@ -428,9 +428,9 @@ class EmployeeModel extends Model
                 $this->transactionStart(); // Starting a transaction so if any one part of this fails, the whole transaction will be rolled back.
 
                 $this->query('INSERT INTO employee_payrollhours '
-                        . '(Employee_Number, DateTime_In, DateTime_Out, Is_24Hr_Shift, Is_Sick_Day, Is_Vacation_Day, Is_Personal_Day, '
-                        . 'Is_Holiday, Is_Berevement_Day, Is_FMLA_Day, Is_Short_Term_Disability_Day, Is_Long_Term_Disability_Day, Is_Night_Run, RegularTime, OverTime, NonWorkTime) '
-                        . 'VALUES (:empNum, :startTime, :endTime, :is24, :isSick, :isVaca, :isPersonal, :isHoliday, :isBereve, :isFMLA, :isShortTerm, :isLongTerm, :isNight, '
+                        . '(Employee_Number, DateTime_In, DateTime_Out, Is_24Hour_Shift, Is_Sick_Day, Is_Vacation_Day, Is_Personal_Day, '
+                        . 'Is_Holiday, Is_Berevement_Day, Is_FMLA_Day, Is_Night_Run, RegularTime, OverTime, NonWorkTime) '
+                        . 'VALUES (:empNum, :startTime, :endTime, :is24, :isSick, :isVaca, :isPersonal, :isHoliday, :isBereve, :isFMLA, :isNight, '
                         . ':regTime, :overTime, :nonWorkTime)');
                 $this->bind(':empNum', $_SESSION['user_data']['empNum']);
                 $this->bind(':startTime', $startDateTime);
@@ -444,12 +444,18 @@ class EmployeeModel extends Model
                 $this->bind(':isFMLA', $isFMLA);
                 //$this->bind(':isShortTerm', $is) // does the administrator or employee need to set the long term and short term disability?
                 $this->bind(':isNight', $isNightRun);
+                $this->bind(':regTime', $regTime);
+                $this->bind(':overTime', $overTime);
+                $this->bind(':nonWorkTime', $nonWorkTime);
+                $this->execute();
 
                 $this->transactionCommit();
+                Messages::setMsg('Success', 'success');
             } catch (PDOException $ex)
             {
                 $this->transactionRollback();
                 echo $ex->getMessage();
+                Messages::setMsg($ex->getMessage(), 'error');
             }
         }
 

@@ -27,7 +27,7 @@
 //Define DB Parameters
 define("DB_HOST", "localhost");
 define("DB_USER", "gcems");
-***REMOVED***
+define("DB_PASS", "*****");
 define("DB_NAME", "gcas_payroll");
 
 // Define URL
