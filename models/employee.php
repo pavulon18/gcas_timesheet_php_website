@@ -621,7 +621,6 @@ class EmployeeModel extends Model
     
     public function knownwebsiteissues()
     {
-        
         /*
     $ch = curl_init("https://github.com/pavulon18/gcas_timesheet_php_website/issues");
     $fp = fopen("/views/employees/issues.html", "w");
