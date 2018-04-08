@@ -4,11 +4,10 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/wamp64/www/GCASTimesheet/models/administrator.php</file>
+            <file>file:/C:/wamp64/www/GCASTimesheet/views/Employees/changeknownpassword.php</file>
             <file>file:/C:/wamp64/www/GCASTimesheet/models/employee.php</file>
-            <file>file:/C:/wamp64/www/GCASTimesheet/classes/Model.php</file>
-            <file>file:/C:/wamp64/www/GCASTimesheet/views/employees/currentpay.php</file>
-            <file>file:/C:/wamp64/www/GCASTimesheet/views/administrators/register.php</file>
-            <file>file:/C:/wamp64/www/GCASTimesheet/assets/js/time-entry-page.js</file>
+            <file>file:/C:/wamp64/www/GCASTimesheet/views/main.php</file>
+            <file>file:/C:/wamp64/www/GCASTimesheet/classes/Miscellaneous.php</file>
         </group>
     </open-files>
 </project-private>

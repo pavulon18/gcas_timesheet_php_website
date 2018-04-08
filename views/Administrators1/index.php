@@ -23,8 +23,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
+Miscellaneous::checkIsLoggedIn();
+
 ?>
-
-
-<p><a href="<?php echo ROOT_PATH;?>jobtitles/listjobs"> List of Job Titles and Duties </a></p><br />
-<p><a href="<?php echo ROOT_PATH;?>jobtitles/add"> Add a new Job Title </a></p>
+<a href="<?php echo ROOT_PATH;?>administrators/roster">Employee Roster</a><br>
+<a href="<?php echo ROOT_PATH;?>administrators/register">Add a new employee</a><br>
