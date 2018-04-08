@@ -219,10 +219,20 @@ class Miscellaneous extends Model
         } else
         {
             echo "<META http-equiv='refresh' content='0;URL=" . ROOT_URL . "'>";
+        }
+    }
+    
+    public static function checkIsAdmin()
+    {
+        if (isset($_SESSION['is_logged_in']))
+        {
+            return;
+        } else
+        {
+            echo "<META http-equiv='refresh' content='0;URL=" . ROOT_URL . "'>";
             // flush(); // Flush the buffer
             // ob_flush();
             //header('Location: ' . ROOT_URL);
         }
     }
-
 }
