@@ -29,11 +29,13 @@ class JobTitleModel extends Model
 
     public function Index()
     {
+        Miscellaneous::checkIsLoggedIn();
         return;
     }
     
     public function listjobs()
     {
+        Miscellaneous::checkIsLoggedIn();
         $this->query('SELECT * FROM job_titles');
         $rows = $this->resultSet();
         return $rows;
@@ -41,6 +43,7 @@ class JobTitleModel extends Model
 
     public function add()
     {
+        Miscellaneous::checkIsLoggedIn();
         //Sanitize Post
         $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
         

@@ -77,7 +77,7 @@
 
     <body>
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-            <a class="navbar-brand" href="#">GEMS Web Portal</a>
+            <a class="navbar-brand" href="<?php echo ROOT_URL; ?>">GEMS Web Portal</a>
 
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav mr-auto">

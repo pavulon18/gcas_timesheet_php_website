@@ -29,6 +29,7 @@ class EmployeeModel extends Model
 
     public function Index()
     {
+        Miscellaneous::checkIsLoggedIn();
         return;
     }
 
@@ -202,6 +203,7 @@ class EmployeeModel extends Model
 
     public function changeknownpassword()
     {
+        Miscellaneous::checkIsLoggedIn();
         /*
          * This method will allow the user to change his password
          * This will be used if the user has already logged in and knows the
@@ -247,7 +249,7 @@ class EmployeeModel extends Model
 
     public function currentpay()
     {
-
+        Miscellaneous::checkIsLoggedIn();
         $isVaca = 'N';
         $isPerson = 'N';
         $isSick = 'N';
@@ -280,7 +282,7 @@ class EmployeeModel extends Model
                 $endDateTime = $startDateTime->modify('+1 day')->format('Y-m-d H:i:s');
                 $startDateTime = $startDateTime->format('Y-m-d H:i:s');
                 $endDTArray = date_parse($endDateTime);
-                
+
                 $post['endYear'] = $endDTArray['year'];
                 $post['endMonth'] = $endDTArray['month'];
                 $post['endDay'] = $endDTArray['day'];
@@ -291,22 +293,22 @@ class EmployeeModel extends Model
                 $startDateTime = $post['startYear'] . '-' . $post['startMonth'] . '-' . $post['startDay'] . ' ' . $post['startHour'] . ':' . $post['startMin'] . ':00';
                 $endDateTime = $post['endYear'] . '-' . $post['endMonth'] . '-' . $post['endDay'] . ' ' . $post['endHour'] . ':' . $post['endMin'] . ':00';
             }
-            
+
             // Checks for null values.  If values are null, assign a value of 0
-            if(!isset($post['isNightRun']))
+            if (!isset($post['isNightRun']))
             {
                 $post['isNightRun'] = 0;
             }
-            if(!isset($post['isPTO']))
+            if (!isset($post['isPTO']))
             {
                 $post['isPTO'] = 0;
             }
-            if(!isset($post['isHoliday']))
+            if (!isset($post['isHoliday']))
             {
                 $post['isHoliday'] = 0;
             }
-            
-            
+
+
             if (new DateTimeImmutable($startDateTime) > new DateTimeImmutable($endDateTime))
             {
                 Messages::setMsg('The Start Date / Time must be earlier than the End Date / Time', 'error');
@@ -397,13 +399,12 @@ class EmployeeModel extends Model
             {
                 Messages::setMsg('Invalid Entry.  Please Try again.', 'error');
             }
-            
+
             if (!isset($post['isNightRun']))
             {
                 $isNightRun = 'N';
                 $post['isNightRun'] = 'N';
-            }
-            else if ($post['isNightRun'] == 0)
+            } else if ($post['isNightRun'] == 0)
             {
                 $isNightRun = 'N';
             } else if ($post['isNightRun'] == 1)
@@ -413,16 +414,16 @@ class EmployeeModel extends Model
             {
                 Messages::setMsg('Invalid Entry.  Please Try again.', 'error');
             }
-            
+
             $adjustedTime = Miscellaneous::timeAdjust($post);      //Adjusts the time to the nearest 15 min in favor of the employee
-            
+
             $calculatedTime = Miscellaneous::calculateTime($adjustedTime);  // Calculates the time for worked hours, overtime hours and non-worked hours
-                                                                            // for this one entry only.
+            // for this one entry only.
 
             $regTime = $calculatedTime[0]->h . ':' . $calculatedTime[0]->i . ':00';
             $overTime = $calculatedTime[1]->h . ':' . $calculatedTime[1]->i . ':00';
             $nonWorkTime = $calculatedTime[2]->h . ':' . $calculatedTime[2]->i . ':00';
-            
+
             try
             {
                 $this->transactionStart(); // Starting a transaction so if any one part of this fails, the whole transaction will be rolled back.
@@ -480,6 +481,7 @@ class EmployeeModel extends Model
 
     public function historicalpay()
     {
+        Miscellaneous::checkIsLoggedIn();
         /*
          * So far, I have not figured out a way to handle an entry if it has been 
          * soft deleted.  Actually, I think I might have, since I started typing this
@@ -608,32 +610,40 @@ class EmployeeModel extends Model
 
     public function ptodays()
     {
-        $this->query('SELECT * FROM employees WHERE Employee_Number = :Employee_Number ORDER BY Inserted_at DESC LIMIT 1');
-        $this->bind(':Employee_Number', $_SESSION['user_data']['empNum']);
-        $row = $this->single();
-        if (empty($row))
+        Miscellaneous::checkIsLoggedIn();
+        
+        try
         {
-            echo 'row is empty';
-            die();
+            $this->query('SELECT * FROM employees WHERE Employee_Number = :Employee_Number ORDER BY Inserted_at DESC LIMIT 1');
+            $this->bind(':Employee_Number', $_SESSION['user_data']['empNum']);
+            $row = $this->single();
+        } catch (PDOException $ex)
+        //if (empty($row))
+        {
+            Messages::setMsg($ex->getMessage(), 'error');
+            //Messages::setMsg('There was an error in your query.  Please try again', 'error');
+            return;
         }
         return $row;
     }
-    
+
     public function knownwebsiteissues()
     {
+        Miscellaneous::checkIsLoggedIn();
         /*
-    $ch = curl_init("https://github.com/pavulon18/gcas_timesheet_php_website/issues");
-    $fp = fopen("/views/employees/issues.html", "w");
+          $ch = curl_init("https://github.com/pavulon18/gcas_timesheet_php_website/issues");
+          $fp = fopen("/views/employees/issues.html", "w");
 
-    curl_setopt($ch, CURLOPT_FILE, $fp);
-    curl_setopt($ch, CURLOPT_HEADER, 0);
+          curl_setopt($ch, CURLOPT_FILE, $fp);
+          curl_setopt($ch, CURLOPT_HEADER, 0);
 
-    curl_exec($ch);
-    curl_close($ch);
-    fclose($fp);
-        return;
+          curl_exec($ch);
+          curl_close($ch);
+          fclose($fp);
+          return;
          * 
          */
         return;
     }
+
 }
