@@ -27,6 +27,9 @@
  * 
  * https://jqueryvalidation.org/
  */
+
+Miscellaneous::checkIsLoggedIn();
+
 ?>
 
 <div id="form_container">

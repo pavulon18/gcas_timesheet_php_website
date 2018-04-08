@@ -23,6 +23,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
+Miscellaneous::checkIsLoggedIn();
+
 ?>
 <div>
     <li>Devise a method to separate out the entries which belong to a particular pay period.</li>

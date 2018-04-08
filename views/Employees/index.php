@@ -24,8 +24,12 @@
  * THE SOFTWARE.
  */
 
+Miscellaneous::checkIsLoggedIn();
+
 ?>
-<div class="text-center">
-    <h2>Welcome to Gibson County EMS Employee Web Portal</h2>
-    <p class="lead">Gibson EMS Web Portal and timesheet application</p>
-</div>
+<div>
+    <li><a href="<?php echo ROOT_URL; ?>employees/currentpay"> Current Pay Period </a></li>
+    <li><a href="<?php echo ROOT_URL; ?>employees/historicalpay"> Historical Pay Period </a></li>
+    <li><a href="<?php echo ROOT_URL; ?>employees/ptodays"> PTO Days Remaining </a></li>
+    <li><a href="<?php echo ROOT_URL; ?>employees/changeknownpassword"> Change Password </a></li>
+    <li><a href="<?php echo ROOT_URL; ?>employees/knownwebsiteissues"> Known Issues </a></li>
