@@ -24,13 +24,21 @@
  * THE SOFTWARE.
  */
 
-?>
-<div class="text-center">
-    <h2>Welcome to Gibson County EMS Employee Web Portal</h2>
-    <p class="lead">Gibson EMS Web Portal and timesheet application</p>
-</div>
-<div class="text-info">
-    <p class="text-center">Thank you for taking the time to look at our website.</p>
-    <p class="text-center">Employees may login through this portal to access certain
-    work related functions.</p><br>
-</div>
+
+class PublicPageModel extends Model
+{
+    public function Index()
+    {
+        return;
+    }
+    
+    public function notloggedin()
+    {
+        return;
+    }
+    
+    public function notauthorized()
+    {
+        return;
+    }
+}

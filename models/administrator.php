@@ -35,12 +35,14 @@ class AdministratorModel extends Model
     public function Index()
     {
         Miscellaneous::checkIsLoggedIn();
+        Miscellaneous::checkIsAdmin();
         return;
     }
     
     public function register()
     {
         Miscellaneous::checkIsLoggedIn();
+        Miscellaneous::checkIsAdmin();
         //Sanitize Post
         $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
@@ -116,6 +118,7 @@ class AdministratorModel extends Model
     public function roster()
     {
         Miscellaneous::checkIsLoggedIn();
+        Miscellaneous::checkIsAdmin();
         $this->query('SELECT * FROM employees e1'
                 . ' WHERE Inserted_at = '
                 . ' (SELECT MAX(e2.Inserted_at)'
@@ -130,5 +133,4 @@ class AdministratorModel extends Model
          * present.
          */
     }
-
 }
