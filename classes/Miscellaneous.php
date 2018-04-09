@@ -218,21 +218,33 @@ class Miscellaneous extends Model
             return;
         } else
         {
-            echo "<META http-equiv='refresh' content='0;URL=" . ROOT_URL . "'>";
+            $string = '<p>You are not logged in.</p><br><p>You must be logged in' .
+                    ' to view this page.</p><br>';
+            Messages::setMsg($string, 'info');
+            echo "<META http-equiv='refresh' content='0;URL=" . ROOT_URL . "employees/login'>";
+            die();
         }
     }
     
     public static function checkIsAdmin()
     {
-        if (isset($_SESSION['is_logged_in']))
+        /**
+         * I know it is bad form to have a "magic number" in this next line.
+         * I need to think of a better of of doing this.  Until that time, 
+         * 1 = employee
+         * 2 = administrator
+         */
+        
+        if (isset($_SESSION['is_logged_in']) && $_SESSION['user_data']['securityRole'] === 2)
         {
             return;
         } else
         {
-            echo "<META http-equiv='refresh' content='0;URL=" . ROOT_URL . "'>";
-            // flush(); // Flush the buffer
-            // ob_flush();
-            //header('Location: ' . ROOT_URL);
+            $string = '<p>You are not an administrator.</p><br><p>You must be' .
+                    ' an administrator to view this page.</p><br>';
+            Messages::setMsg($string, 'info');
+            echo "<META http-equiv='refresh' content='0;URL=" . ROOT_URL . "employees'>";
+            die();
         }
     }
 }

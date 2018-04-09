@@ -24,22 +24,3 @@
  * THE SOFTWARE.
  */
 
-
-class PublicPages extends Controller
-{
-    protected function Index()
-    {
-        $viewmodel = new PublicPagesModel();
-        $this->returnView($viewmodel->Index(), true);
-    }
-    
-    protected function notloggedin()
-    {
-        $this->returnView($viewmodel->notloggedin(), true);
-    }
-    
-    protected function notauthorized()
-    {
-        $this->returnView($viewmodel->notauthorized(), true);
-    }
-}

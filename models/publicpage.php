@@ -24,3 +24,21 @@
  * THE SOFTWARE.
  */
 
+
+class PublicPageModel extends Model
+{
+    public function Index()
+    {
+        return;
+    }
+    
+    public function notloggedin()
+    {
+        return;
+    }
+    
+    public function notauthorized()
+    {
+        return;
+    }
+}
