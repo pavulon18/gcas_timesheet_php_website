@@ -247,7 +247,7 @@ class EmployeeModel extends Model
         return;
     }
 
-    public function currentpay()
+    public function timeentrypage()
     {
         Miscellaneous::checkIsLoggedIn();
         $isVaca = 'N';
@@ -646,4 +646,8 @@ class EmployeeModel extends Model
         return;
     }
 
+    public function currentpay()
+    {
+        return;
+    }
 }

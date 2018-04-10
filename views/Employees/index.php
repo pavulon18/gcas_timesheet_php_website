@@ -28,8 +28,25 @@ Miscellaneous::checkIsLoggedIn();
 
 ?>
 <div>
+
+    <p>IMPORTANT INFORMATION:</p>
+
+    <p>This web site is still under development.  This should be considered pre-alpha.  This means that any data stored in this system could be compromised, corupted or deleted.  Any and all functionality of this site could become non-operational at any time.  This web site should not be used as your only record keeping option.  The data currently stored in this system has a good chance of being dumped before the system is released for full use.</p>
+
+The layouts of the pages and the structures of the data could change without notice.  Always be mindful of the information being entered into the system.
+
+<p>Idn its current state, this web site should not be considered secure.  Although the designers are striving to build this web site from the ground up with safety and security in mind, there is currently no guarantee of security at this time.
+
+You are encouraged to try to break the system.  If you believe you have found an error, bug, anomaly, or security related issue, please bring it to the attention of the designers.  If you have any suggestions for new features or improvements of the current features, please notify the designeres in a timely fashion.
+
+If you would like to volunteer your time and talents to this project, there are plenty of ways you can contribute.  Simply by using this software and giving feedback will help move this project along to a product that is easy to understand and easy to use.  If you have any art work or pictures, to which you have the legal right to use, you may submit that for inclusion into the web site.  If you know how to code in HTML, PHP, JavaScript, CSS, or any other similar skills, feel free to takle one or more of the issues located on https://github.com.
+(April 10, 2018)
+</div>
+<div>
     <li><a href="<?php echo ROOT_URL; ?>employees/currentpay"> Current Pay Period </a></li>
     <li><a href="<?php echo ROOT_URL; ?>employees/historicalpay"> Historical Pay Period </a></li>
     <li><a href="<?php echo ROOT_URL; ?>employees/ptodays"> PTO Days Remaining </a></li>
     <li><a href="<?php echo ROOT_URL; ?>employees/changeknownpassword"> Change Password </a></li>
     <li><a href="<?php echo ROOT_URL; ?>employees/knownwebsiteissues"> Known Issues </a></li>
+    <li><a href="<?php echo ROOT_URL; ?>employees/timeentrypage"> Time Entry Page </a></li>
+</div>
