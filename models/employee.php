@@ -482,6 +482,7 @@ class EmployeeModel extends Model
     public function historicalpay()
     {
         Miscellaneous::checkIsLoggedIn();
+        $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
         /*
          * So far, I have not figured out a way to handle an entry if it has been 
          * soft deleted.  Actually, I think I might have, since I started typing this
@@ -595,17 +596,7 @@ class EmployeeModel extends Model
          */
 
         //I want to move these next few lines to a method by its self.
-        $referenceDateDateOnly = date_create(REFERENCE_DATE)->format('Y-m-d');
-        $dayOne = date_create(REFERENCE_DATE); // This will eventually need to be pulled from the user interface as entered by the user.
-        // For right now, I am going to just pull all the data for the user in the database.
-
-        $dayOneDateOnly = $dayOne->format('Y-m-d'); // I only want the date portion of the datetime when I do my calculations
-
-        while (($dayOneDateOnly % $referenceDateDateOnly) !== 0) // If i have done my logic correctly, this will find the first
-        {                                                       // day of the pay period prior to the user selected first day.
-            $dayOne->modify("-1 day");
-            $dayOneDateOnly = $dayOne->format('Y-m-d');
-        }
+        
     }
 
     public function ptodays()
@@ -630,6 +621,7 @@ class EmployeeModel extends Model
     public function knownwebsiteissues()
     {
         Miscellaneous::checkIsLoggedIn();
+        $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
         /*
           $ch = curl_init("https://github.com/pavulon18/gcas_timesheet_php_website/issues");
           $fp = fopen("/views/employees/issues.html", "w");
@@ -648,6 +640,31 @@ class EmployeeModel extends Model
 
     public function currentpay()
     {
+        Miscellaneous::checkIsLoggedIn();
+        $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+        
+        $now = new DateTime("now");
+        
+        $firstDayObject = Miscellaneous::determineFirstDay($now);
+        $lastDayObject = $firstDayObject->add(new DateInterval('P14D'));
+        $firstDay = $firstDayObject->format('Y-m-d') . ' 08:00:00';
+        $lastDay = $lastDayObject->format('Y-m-d') . ' 08:00:00';
+       
+        /**
+         * recording what I'm thinking before I quit and forget my thoughts.
+         * 
+         * Now, I need to query the database for the currently logged in user for the
+         * dates between the first and last days.
+         * 
+         * I will then need to display the information in some sort of format, 
+         * preferably in the same format of our current timesheets, if I can do it.
+         * 
+         * for now, I'd settle for any easily format that is easy to read. 
+         */
+
+        
+        
+       
         return;
     }
 }
