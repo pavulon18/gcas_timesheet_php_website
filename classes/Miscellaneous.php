@@ -214,11 +214,14 @@ class Miscellaneous extends Model
          * 2 = administrator
          */
         
-        if (isset($_SESSION['is_logged_in']) && $_SESSION['user_data']['securityRole'] === 2)
+        if (isset($_SESSION['is_logged_in']) && $_SESSION['user_data']['securityRole'] == 2)
         {
+            
             return;
         } else
         {
+            print_r($_SESSION);
+            die();
             $string = '<p>You are not an administrator.</p><br><p>You must be' .
                     ' an administrator to view this page.</p><br>';
             Messages::setMsg($string, 'info');
