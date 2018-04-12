@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * The MIT License
  *
  * Copyright 2018 Jim Baize <pavulon@hotmail.com>.
@@ -32,7 +32,7 @@
  */
 class AdministratorModel extends Model
 {
-     public function Index()
+    public function Index()
     {
         Miscellaneous::checkIsLoggedIn();
         Miscellaneous::checkIsAdmin();

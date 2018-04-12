@@ -33,21 +33,28 @@ abstract class Model
 
     public function __construct()
     {
-        $options = [PDO::ATTR_PERSISTENT    => true,
-                    PDO::ATTR_ERRMODE       => PDO::ERRMODE_EXCEPTION
-            ];
-        
+        $options = [PDO::ATTR_PERSISTENT => true,
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+        ];
+
         try
         {
             $this->dbh = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS, $options);
-        } catch (PDOException $e) {
-            $this->error= $e->getMessage();
+        } catch (PDOException $e)
+        {
+            $this->error = $e->getMessage();
         }
     }
 
     public function query($query)
     {
-        $this->stmt = $this->dbh->prepare($query);
+        try
+        {
+            $this->stmt = $this->dbh->prepare($query);
+        } catch (PDOException $e)
+        {
+            $this->error = $e->getMessage();
+        }
     }
 
     //Binds the prep statement
@@ -72,28 +79,29 @@ abstract class Model
         }
         $this->stmt->bindValue($param, $value, $type);
     }
+
     public function execute()
     {
         $this->stmt->execute();
     }
-    
+
     public function resultSet()
     {
         $this->execute();
         return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    
+
     public function single()
     {
         $this->execute();
         return $this->stmt->fetch(PDO::FETCH_ASSOC);
     }
-    
+
     public function lastInsertId()
     {
         return $this->dbh->lastInsertId();
     }
-    
+
     public function test_input($data)
     {
         $data = trim($data);
@@ -101,22 +109,22 @@ abstract class Model
         $data = htmlspecialchars($data);
         return $data;
     }
-    
+
     public function transactionStart()
     {
         $this->dbh->beginTransaction();
     }
-    
+
     public function transactionCommit()
     {
         $this->dbh->commit();
     }
-    
+
     public function transactionRollback()
     {
         $this->dbh->rollBack();
     }
-    
+
     public function passwordChangeEngine($pwHash, $row)
     {
         try
@@ -157,4 +165,5 @@ abstract class Model
         }
         return;
     }
+
 }
