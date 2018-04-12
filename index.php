@@ -50,6 +50,8 @@ require('models/administrator.php');
 $bootstrap = new Bootstrap($_GET);
 $controller = $bootstrap->createController();
 
+date_default_timezone_set(DEFAULT_TIMEZONE);
+
 if($controller)
 {
     $controller->executeAction();

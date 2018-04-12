@@ -24,7 +24,6 @@
  * THE SOFTWARE.
  */
 
-Miscellaneous::checkIsLoggedIn();
 
 ?>
 <a href="<?php echo ROOT_PATH;?>administrators/roster">Employee Roster</a><br>

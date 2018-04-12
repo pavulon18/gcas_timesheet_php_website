@@ -31,3 +31,15 @@ Miscellaneous::checkIsLoggedIn();
     <li>Devise a method to separate out the entries which belong to a particular pay period.</li>
     <li>Determine the format to display the information</li>
     <li>Devise a search function</li>
+
+    <li id="daterange">
+        <label class="description" for="daterange"> Which date range would you like listed? </label>
+        <span>
+            <input id="daterangeall" name="daterange" class="element radio" type="radio" value="all"/>
+            <label class="choice" for="daterangeall">All</label>
+            <input id="daterangeyear" name="daterange" class="element radio" type="radio" value="year"/>
+            <label class="choice" for="daterangeyear">Current Year</label>
+            <input id="daterangecustom" name="daterange" class="element radio" type="radio" value="custom"/>
+            <label class="choice" for="daterangecustom">Custom Date Range</label>
+        </span>
+    </li>

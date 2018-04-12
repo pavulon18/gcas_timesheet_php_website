@@ -120,36 +120,15 @@ class Miscellaneous extends Model
         return $unadjustedTime; // this is really now the adjusted time.
     }
 
-    /*
-      public static function endTimeAdjust($unadjustedTime) // Adjusts the end time up to 15 minutes to favor the employee
-      {
-      if ($unadjustedTime['endMin'] >= 1 && $unadjustedTime['endMin'] <= 15)
-      {
-      $unadjustedTime['endMin'] = 15;
-      print_r($unadjustedTime);
-      die();
-      return $unadjustedTime;
-      } else if ($unadjustedTime['endMin'] >= 16 && $unadjustedTime['endMin'] <= 30)
-      {
-      $unadjustedTime['endMin'] = 30;
-      return $unadjustedTime;
-      } else if ($unadjustedTime['endMin'] >= 31 && $unadjustedTime['endMin'] <= 45)
-      {
-      $unadjustedTime['endMin'] = 45;
-      return $unadjustedTime;
-      } else
-      {
-      $unadjustedTime['endMin'] = 0;
-      $unadjustedTime['endHour'] ++;
-
-      return $unadjustedTime;
-      }
-      }
-     * 
-     */
-
     public static function calculateTime($adjustedTime)
     {
+        /**
+         * This method takes the responses from the user and decides how much time
+         * to apply to the employees time sheet for each individual entry.
+         * 
+         * This method does not look at the total hours for a week.  The overtime
+         * adjustments for the week will be made elsewhere.
+         */
         $adjustedStartTime = new DateTimeImmutable($adjustedTime['startYear'] . '-' . $adjustedTime['startMonth'] . '-' . $adjustedTime['startDay'] . ' ' . $adjustedTime['startHour'] . ':' . $adjustedTime['startMin'] . ':00');
         $adjustedEndTime = new DateTimeImmutable($adjustedTime['endYear'] . '-' . $adjustedTime['endMonth'] . '-' . $adjustedTime['endDay'] . ' ' . $adjustedTime['endHour'] . ':' . $adjustedTime['endMin'] . ':00');
 
@@ -235,16 +214,51 @@ class Miscellaneous extends Model
          * 2 = administrator
          */
         
-        if (isset($_SESSION['is_logged_in']) && $_SESSION['user_data']['securityRole'] === 2)
+        if (isset($_SESSION['is_logged_in']) && $_SESSION['user_data']['securityRole'] == 2)
         {
+            
             return;
         } else
         {
+            print_r($_SESSION);
+            die();
             $string = '<p>You are not an administrator.</p><br><p>You must be' .
                     ' an administrator to view this page.</p><br>';
             Messages::setMsg($string, 'info');
             echo "<META http-equiv='refresh' content='0;URL=" . ROOT_URL . "employees'>";
             die();
         }
+    }
+    
+    public static function determineFirstDay($currentDate) 
+    {
+        /**
+         * This will determine the first day of a pay period
+         * The parameter passed to this function will be the date in question.
+         * This function will then count backwards until it finds the first day
+         * of the pay period.
+         */
+
+        $referenceDate = new DateTime(REFERENCE_DATE);
+        $dayOne = $currentDate;
+        
+        $interval = intval(($dayOne->diff($referenceDate, TRUE)->format('%R%a')));
+        
+        print_r($interval);
+        
+        $i = 0;
+        while (($interval % 14) != 0) // If i have done my logic correctly, this will find the first
+        {                                                       // day of the pay period prior to the user selected first day.
+            $dayOne->modify("-1 day");
+            $interval = intval(($dayOne->diff($referenceDate, TRUE)->format('%R%a')));
+            $i++;
+            if ($i > 20)
+            {
+                Messages::setMsg('There was a problem finding the first day of the pay period', 'error');
+                echo "<META http-equiv='refresh' content='0;URL=" . ROOT_URL . "employees'>";
+                die();
+            }
+        }
+        return ($dayOne);
     }
 }
