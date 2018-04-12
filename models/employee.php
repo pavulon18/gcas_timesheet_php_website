@@ -459,24 +459,6 @@ class EmployeeModel extends Model
                 Messages::setMsg($ex->getMessage(), 'error');
             }
         }
-
-        /*
-         * This method will be used to display the current pay period.
-         * I am also going to try to add in the ability to enter new information
-         * from this page using a modal.
-         * 
-         * 9)  startDate = the date of the first day of the pay period.
-         *      ** current pay period's date will be mod = 0 when compared
-         *      ** to the reference date.
-         * 10) Display the current pay period information
-         * 20) Display a button to add a new entry.
-         * 30) Display buttons to delete or correct information already entered.
-         * 
-         * 1) select * from employee_payrollhours
-         *              where Employee_Number = $_SESSION['user_data']['empNum']
-         *              AND now() is after startDate
-         *              
-         */
     }
 
     public function historicalpay()
@@ -593,10 +575,7 @@ class EmployeeModel extends Model
          * Take the user's requested first day of search and find the mod of it
          * and the reference date. If mod = 0, then it is the first day of a pay period
          * otherwise it is not.
-         */
-
-        //I want to move these next few lines to a method by its self.
-        
+         */        
     }
 
     public function ptodays()
@@ -640,18 +619,43 @@ class EmployeeModel extends Model
 
     public function currentpay()
     {
+        
+        /*
+         * This method will be used to display the current pay period.
+         * I am also going to try to add in the ability to enter new information
+         * from this page using a modal.
+         * 
+         * 
+         * 10) Display the current pay period information
+         * 20) Display a button to add a new entry.
+         * 30) Display buttons to delete or correct information already entered.
+         * 
+         */
         Miscellaneous::checkIsLoggedIn();
         $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
         
         $now = new DateTime("now");
         
         $firstDayObject = Miscellaneous::determineFirstDay($now);
-        $lastDayObject = $firstDayObject->add(new DateInterval('P14D'));
+        
+        $lastDayObject = $firstDayObject; //+ DateTimeImmutable::add()
+        $firstDayObject = DateTimeImmutable::createFromMutable( $firstDayObject );
+        
+        $lastDayObject->add(new DateInterval('P14D'));
         $firstDay = $firstDayObject->format('Y-m-d') . ' 08:00:00';
         $lastDay = $lastDayObject->format('Y-m-d') . ' 08:00:00';
+        
+        $this->query('SELECT * from employee_payrollhours where Employee_Number = :empNum and DateTime_In >= :firstDay and DateTime_In < :lastDay');
+        $this->bind(':empNum', $_SESSION['user_data']['empNum']);
+        $this->bind('firstDay', $firstDay);
+        $this->bind('lastDay', $lastDay);
+        $rows = $this->resultSet();
+        return $rows;        
        
         /**
          * recording what I'm thinking before I quit and forget my thoughts.
+         * 
+         * 
          * 
          * Now, I need to query the database for the currently logged in user for the
          * dates between the first and last days.
@@ -665,6 +669,6 @@ class EmployeeModel extends Model
         
         
        
-        return;
+        
     }
 }
