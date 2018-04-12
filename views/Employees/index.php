@@ -33,12 +33,12 @@ Miscellaneous::checkIsLoggedIn();
 
     The layouts of the pages and the structures of the data could change without notice.  Always be mindful of the information being entered into the system.
 
-    <p>In its current state, this web site should not be considered secure.  Although the designers are striving to build this web site from the ground up with safety and security in mind, there is currently no guarantee of security at this time.
+    <p>In its current state, this web site should not be considered secure.  Although the designers are striving to build this web site from the ground up with safety and security in mind, there is currently no guarantee of security.
 
         You are encouraged to try to break the system.  If you believe you have found an error, bug, anomaly, or security related issue, please bring it to the attention of the designers.  If you have any suggestions for new features or improvements of the current features, please notify the designers in a timely fashion.
 
-        If you would like to volunteer your time and talents to this project, there are plenty of ways you can contribute.  Simply by using this software and giving feedback will help move this project along to a product that is easy to understand and easy to use.  If you have any art work or pictures, to which you have the legal right to use, you may submit that for inclusion into the web site.  If you know how to code in HTML, PHP, JavaScript, CSS, or any other similar skills, feel free to tackle one or more of the issues located on https://github.com/pavulon18/gcas_timesheet_php_website/issues
-        (April 10, 2018)
+        If you would like to volunteer your time and talents to this project, there are plenty of ways you can contribute.  Simply by using this software and giving feedback will help move this project along to a product that is easy to understand and easy to use.  If you have any art work or pictures, to which you have the legal right to use, you may submit that for inclusion into the web site.  If you know how to code in HTML, PHP, JavaScript, CSS, or any other similar skills, feel free to tackle one or more of the issues located on <a href="https://github.com/pavulon18/gcas_timesheet_php_website/issues"></a>
+        (April 11, 2018)
 </div>
 <div>
     <li><a href="<?php echo ROOT_URL; ?>employees/currentpay"> Current Pay Period </a></li>
