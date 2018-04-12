@@ -26,7 +26,49 @@
  */
 
 Miscellaneous::checkIsLoggedIn();
-
 ?>
-
-I am thinking about the best way to obtain and display the current pay period's information.
+<div>
+    <?php foreach ($viewmodel as $item) : ?>
+        <div class="row justify-content-md-center">
+            <div class="col">
+                <?php echo date('D', strtotime($item['DateTime_In'])); ?>
+            </div>
+            <div class="col">
+                <?php echo $item['DateTime_In']; ?>
+            </div>
+            <div class="col">
+                <?php echo $item['DateTime_Out']; ?>
+            
+                <?php
+                if ($item['Is_Sick_Day'] == 'Y')
+                {
+                    echo 'Sick Day';
+                } elseif ($item['Is_Vacation_Day'] == 'Y')
+                {
+                    echo 'Vacation Day';
+                } elseif ($item['Is_Personal_Day'] == 'Y')
+                {
+                    echo 'Personal Day';
+                } elseif ($item['Is_Berevement_Day'] == 'Y')
+                {
+                    echo 'Berevement Day';
+                } elseif ($item['Is_FMLA_Day'] == 'Y')
+                {
+                    echo 'FMLA Day';
+                } elseif ($item['Is_Short_Term_Disability_Day'] == 'Y')
+                {
+                    echo 'Short Term Disability Day';
+                } elseif ($item['Is_Long_Term_Disability_Day'] == 'Y')
+                {
+                    echo 'Long Term Disability Day';
+                }
+                ?>
+                
+                <?php echo 'Regular Time ' . $item['RegularTime'] . ' ';
+                      echo 'OverTime ' . $item['OverTime'] . ' ';
+                      echo 'PTO Hours ' . $item['NonWorkTime'] . ' ';
+                      ?>
+            </div>
+        </div>
+            <?php endforeach; ?>
+</div>
