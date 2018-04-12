@@ -122,6 +122,13 @@ class Miscellaneous extends Model
 
     public static function calculateTime($adjustedTime)
     {
+        /**
+         * This method takes the responses from the user and decides how much time
+         * to apply to the employees time sheet for each individual entry.
+         * 
+         * This method does not look at the total hours for a week.  The overtime
+         * adjustments for the week will be made elsewhere.
+         */
         $adjustedStartTime = new DateTimeImmutable($adjustedTime['startYear'] . '-' . $adjustedTime['startMonth'] . '-' . $adjustedTime['startDay'] . ' ' . $adjustedTime['startHour'] . ':' . $adjustedTime['startMin'] . ':00');
         $adjustedEndTime = new DateTimeImmutable($adjustedTime['endYear'] . '-' . $adjustedTime['endMonth'] . '-' . $adjustedTime['endDay'] . ' ' . $adjustedTime['endHour'] . ':' . $adjustedTime['endMin'] . ':00');
 
