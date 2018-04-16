@@ -23,8 +23,6 @@
  * THE SOFTWARE.
  */
 
-Miscellaneous::checkIsLoggedIn();
-
 ?>
 
 <img id="top" src="/assets/graphics/top.png" alt="">

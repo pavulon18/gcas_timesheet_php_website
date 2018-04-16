@@ -28,6 +28,9 @@ Miscellaneous::checkIsLoggedIn();
 
 ?>
 
-
-<p><a href="<?php echo ROOT_PATH;?>jobtitles/listjobs"> List of Job Titles and Duties </a></p><br />
-<p><a href="<?php echo ROOT_PATH;?>jobtitles/add"> Add a new Job Title </a></p>
+<div>
+<li><p><a href="<?php echo ROOT_PATH;?>jobtitles/listjobs"> List of Job Titles and Duties </a></p><br /></li>
+<?php if ($_SESSION['user_data']['securityRole'] === '2') : ?>
+<li><p><a href="<?php echo ROOT_PATH;?>jobtitles/add"> Add a new Job Title </a></p></li>
+<?php endif; ?>
+</div>

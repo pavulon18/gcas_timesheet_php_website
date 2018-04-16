@@ -44,6 +44,7 @@ class JobTitleModel extends Model
     public function add()
     {
         Miscellaneous::checkIsLoggedIn();
+        Miscellaneous::checkIsAdmin();
         //Sanitize Post
         $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
         
