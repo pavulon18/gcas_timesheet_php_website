@@ -98,7 +98,6 @@
         <script> // https://jqueryvalidation.org/ this is the website to use to find information on the validation
             $("form").validate();
         </script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.0.0/less.min.js" >
         </script>
 
         <!--jquery validate -->

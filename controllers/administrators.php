@@ -55,4 +55,10 @@ class Administrators extends Controller
         $this->returnView($viewmodel->roster(), true);
     }
     
+    protected function changeuserpass()
+    {
+        $viewmodel = new AdministratorModel();
+        $this->returnView($viewmodel->changeuserpass(), true);
+    }
+    
 }

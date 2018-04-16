@@ -32,13 +32,14 @@
  */
 class AdministratorModel extends Model
 {
+
     public function Index()
     {
         Miscellaneous::checkIsLoggedIn();
         Miscellaneous::checkIsAdmin();
         return;
     }
-    
+
     public function register()
     {
         Miscellaneous::checkIsLoggedIn();
@@ -55,8 +56,11 @@ class AdministratorModel extends Model
             //$pwHash2 = password_hash($post['password2'], PASSWORD_DEFAULT);
             if ($post['password'] != $post['password2'])
             {
-                echo 'passwords do not match';
-            } else
+                Messages::setMsg('The passwords do not match', 'error');
+                header('Location: ' . ROOT_URL . 'administrators/register');
+                die();
+            }
+            else
             {
                 /**
                  * In this situation, I am inserting into three different tables.
@@ -96,7 +100,7 @@ class AdministratorModel extends Model
                     $this->bind(':Employee_Number', $post['employeeNumber']);
                     $this->bind(':Hire_Date', $startDate);
                     $this->execute();
-                    
+
                     $this->transactionCommit();
                 }
                 catch (PDOException $ex)
@@ -133,4 +137,75 @@ class AdministratorModel extends Model
          * present.
          */
     }
+
+    public function changeuserpass()
+    {
+        Miscellaneous::checkIsLoggedIn();
+        Miscellaneous::checkIsAdmin();
+
+        $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+        
+        if ($post['submit'])
+        {
+            $pwHash = password_hash($post['password'], PASSWORD_DEFAULT);
+            if ($post['password'] === $post['password2'])
+            {
+                try
+                {
+                    //Start the transaction
+                    $this->transactionStart();
+                    $this->query('SELECT * FROM employees WHERE Employee_Number = :empNum ORDER BY Inserted_at DESC LIMIT 1');
+                    $this->bind(':empNum', $post['empNum']);
+                    $rows = $this->single();
+                    
+                    //copy the required data fields into a new row complete with time stamps changed as appropriate
+                    $this->query('INSERT INTO employees (Employee_Number, First_Name, Middle_Name, Last_Name, Pay_Rate, Sick_Days_Remaining, Vacation_Days_Remaining, Personal_Days_Remaining, FMLA_Days_Remaining, Is_On_Short_Term_Disability, Is_On_Long_Term_Disability, Is_On_FMLA, username, password, email, Is_PW_Expired)'
+                            . ' VALUES (:Employee_Number, :First_Name, :Middle_Name, :Last_Name, :Pay_Rate, :Sick_Days_Remaining, :Vacation_Days_Remaining, :Personal_Days_Remaining, :FMLA_Days_Remaining, :Is_On_Short_Term_Disability, :Is_On_Long_Term_Disability, :Is_On_FMLA, :username, :password, :email, :isPWExpired)');
+                    $this->bind(':Employee_Number', $rows['Employee_Number']);
+                    $this->bind(':First_Name', $rows['First_Name']);
+                    $this->bind(':Middle_Name', $rows['Middle_Name']);
+                    $this->bind(':Last_Name', $rows['Last_Name']);
+                    $this->bind(':Pay_Rate', $rows['Pay_Rate']);
+                    $this->bind(':Sick_Days_Remaining', $rows['Sick_Days_Remaining']);
+                    $this->bind(':Vacation_Days_Remaining', $rows['Vacation_Days_Remaining']);
+                    $this->bind(':Personal_Days_Remaining', $rows['Personal_Days_Remaining']);
+                    $this->bind(':FMLA_Days_Remaining', $rows['FMLA_Days_Remaining']);
+                    $this->bind(':Is_On_Short_Term_Disability', $rows['Is_On_Short_Term_Disability']);
+                    $this->bind(':Is_On_Long_Term_Disability', $rows['Is_On_Long_Term_Disability']);
+                    $this->bind(':Is_On_FMLA', $rows['Is_On_FMLA']);
+                    $this->bind(':username', $rows['username']);
+                    $this->bind(':password', $pwHash);
+                    $this->bind(':email', $rows['email']);
+                    $this->bind(':isPWExpired', $rows['Is_PW_Expired']);
+                    $this->execute();
+
+                    //update the above inserted row with the new password hash
+                    $this->query('UPDATE employees SET password = :pwHash WHERE Employee_Number = :empNum ORDER BY Inserted_at DESC LIMIT 1');
+                    $this->bind('empNum', $post['empNum']);
+                    $this->bind(':pwHash', $pwHash);
+                    $this->execute();
+
+                    $this->transactionCommit();
+                    
+                    Messages::setMsg('Password successfully changed', 'success');
+                    header('Location: ' . ROOT_URL . 'administrators/changeuserpass');
+                }
+                catch (PDOException $ex)
+                {
+                    $this->transactionRollback();
+                    die();
+                    echo $ex->getMessage();
+                    Messages::setMsg($ex->getMessage(), 'error');
+                }
+            }
+            else
+            {
+                Messages::setMsg('There was an error.  Please try again.', 'error');
+                header('Location: ' . ROOT_URL . 'administrators/changeuserpass');
+                die();
+            }
+        }
+        return;
+    }
+
 }
