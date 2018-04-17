@@ -53,7 +53,6 @@ class AdministratorModel extends Model
         if ($post['submit'])
         {
             $pwHash = password_hash($post['password'], PASSWORD_DEFAULT);
-            //$pwHash2 = password_hash($post['password2'], PASSWORD_DEFAULT);
             if ($post['password'] != $post['password2'])
             {
                 Messages::setMsg('The passwords do not match', 'error');
@@ -188,12 +187,11 @@ class AdministratorModel extends Model
                     $this->transactionCommit();
                     
                     Messages::setMsg('Password successfully changed', 'success');
-                    header('Location: ' . ROOT_URL . 'administrators/changeuserpass');
+                    header('Location: ' . ROOT_URL . 'administrators');
                 }
                 catch (PDOException $ex)
                 {
                     $this->transactionRollback();
-                    die();
                     echo $ex->getMessage();
                     Messages::setMsg($ex->getMessage(), 'error');
                 }
