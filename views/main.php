@@ -39,17 +39,16 @@
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-        <!-- LESS CSS -->
-        <link rel="stylesheet/less" type="text/css" href="/assets/css/less/styles.less" />
-
         <title>Gibson County EMS Employee Web Portal</title>
 
     </head>
 
     <body>
-        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-dark">
             <a class="navbar-brand" href="<?php echo ROOT_URL; ?>">GEMS Web Portal</a>
-
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav mr-auto">
                     <?php if (isset($_SESSION['is_logged_in'])) : ?>
@@ -98,18 +97,17 @@
         <script> // https://jqueryvalidation.org/ this is the website to use to find information on the validation
             $("form").validate();
         </script>
-        </script>
+    </script>
 
-        <!--jquery validate -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.min.js"></script>
+    <!--jquery validate -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.min.js"></script>
 
-        <!--pform information -->
-        <link rel="stylesheet" type="text/css" href="/assets/css/view.css" media="all">
-        <script type="text/javascript" src="/assets/js/view.js"></script>
-        <script type="text/javascript" src="/assets/js/calendar.js"></script>
-
-    </body>
+    <!--pform information -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/view.css" media="all">
+    <script type="text/javascript" src="/assets/js/view.js"></script>
+    <script type="text/javascript" src="/assets/js/calendar.js"></script>
+</body>
 </html>
