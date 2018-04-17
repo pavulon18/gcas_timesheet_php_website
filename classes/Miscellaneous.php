@@ -55,7 +55,8 @@ class Miscellaneous extends Model
         if (mail($email, 'Gibson County Ambulance Service login information', $mesg, $from))
         {
             return true;
-        } else
+        }
+        else
         {
             throw new Exception('Could not send email.');
         }
@@ -81,16 +82,20 @@ class Miscellaneous extends Model
         if ($unadjustedTime['startMin'] >= 0 && $unadjustedTime['startMin'] <= 14)
         {
             $unadjustedTime['startMin'] = 0;
-        } else if ($unadjustedTime['startMin'] >= 15 && $unadjustedTime['startMin'] <= 29)
+        }
+        else if ($unadjustedTime['startMin'] >= 15 && $unadjustedTime['startMin'] <= 29)
         {
             $unadjustedTime['startMin'] = 15;
-        } else if ($unadjustedTime['startMin'] >= 30 && $unadjustedTime['startMin'] <= 44)
+        }
+        else if ($unadjustedTime['startMin'] >= 30 && $unadjustedTime['startMin'] <= 44)
         {
             $unadjustedTime['startMin'] = 30;
-        } else if ($unadjustedTime['startMin'] >= 45 && $unadjustedTime['startMin'] <= 59)
+        }
+        else if ($unadjustedTime['startMin'] >= 45 && $unadjustedTime['startMin'] <= 59)
         {
             $unadjustedTime['startMin'] = 45;
-        } else
+        }
+        else
         {
             Messages::setMsg('Invalid Entry.  Please Try again.', 'error');
             return;
@@ -99,20 +104,25 @@ class Miscellaneous extends Model
         if ($unadjustedTime['endMin'] == 0)
         {
             $unadjustedTime['endMin'] = 0;
-        } else if ($unadjustedTime['endMin'] >= 1 && $unadjustedTime['endMin'] <= 15)
+        }
+        else if ($unadjustedTime['endMin'] >= 1 && $unadjustedTime['endMin'] <= 15)
         {
             $unadjustedTime['endMin'] = 15;
-        } else if ($unadjustedTime['endMin'] >= 16 && $unadjustedTime['endMin'] <= 30)
+        }
+        else if ($unadjustedTime['endMin'] >= 16 && $unadjustedTime['endMin'] <= 30)
         {
             $unadjustedTime['endMin'] = 30;
-        } else if ($unadjustedTime['endMin'] >= 31 && $unadjustedTime['endMin'] <= 45)
+        }
+        else if ($unadjustedTime['endMin'] >= 31 && $unadjustedTime['endMin'] <= 45)
         {
             $unadjustedTime['endMin'] = 45;
-        } else if ($unadjustedTime['endMin'] >= 46 && $unadjustedTime['endMin'] <= 59)
+        }
+        else if ($unadjustedTime['endMin'] >= 46 && $unadjustedTime['endMin'] <= 59)
         {
             $unadjustedTime['endMin'] = 0;
             $unadjustedTime['endHour'] = $unadjustedTime['endHour'] + 1;
-        } else
+        }
+        else
         {
             Messages::setMsg('Invalid Entry.  Please Try again.', 'error');
             return;
@@ -141,26 +151,30 @@ class Miscellaneous extends Model
                 $otHours = new DateInterval("PT0H0M");
                 $nonWorkHours = new DateInterval("PT0H0M");
                 return [$regHours, $otHours, $nonWorkHours];
-            } else if ($adjustedTime['isNightRun'] && !$adjustedTime['isHoliday'] && !$adjustedTime['isPTO'])
+            }
+            else if ($adjustedTime['isNightRun'] && !$adjustedTime['isHoliday'] && !$adjustedTime['isPTO'])
             {
                 $regHours = new DateInterval("PT0H0M");
                 $otHours = $adjustedEndTime->diff($adjustedStartTime);
                 $nonWorkHours = new DateInterval("PT0H0M");
                 return [$regHours, $otHours, $nonWorkHours];
-            } else if (!$adjustedTime['isNightRun'] && $adjustedTime['isHoliday'] && !$adjustedTime['isPTO'])
+            }
+            else if (!$adjustedTime['isNightRun'] && $adjustedTime['isHoliday'] && !$adjustedTime['isPTO'])
             {
                 $regHours = new DateInterval("PT0H0M");
                 $otHours = new DateInterval("PT16H0M");
                 $nonWorkHours = new DateInterval("PT8H0M");
                 return [$regHours, $otHours, $nonWorkHours];
-            } else if (!$adjustedTime['isNightRun'] && !$adjustedTime['isHoliday'] && $adjustedTime['isPTO'])
+            }
+            else if (!$adjustedTime['isNightRun'] && !$adjustedTime['isHoliday'] && $adjustedTime['isPTO'])
             {
                 $regHours = new DateInterval("PT0H0M");
                 $otHours = new DateInterval("PT0H0M");
                 $nonWorkHours = new DateTimeImmutable('16:00');
                 return [$regHours, $otHours, $nonWorkHours];
             }
-        } else if (!$adjustedTime['is24HrShift'])
+        }
+        else if (!$adjustedTime['is24HrShift'])
         {
             if (!$adjustedTime['isNightRun'] && !$adjustedTime['isHoliday'] && $adjustedTime['isPTO'])
             {
@@ -168,23 +182,27 @@ class Miscellaneous extends Model
                 $otHours = new DateInterval("PT0H0M");
                 $nonWorkHours = $adjustedEndTime->diff($adjustedStartTime);
                 return [$regHours, $otHours, $nonWorkHours];
-            } else if (!$adjustedTime['isNightRun'] && $adjustedTime['isHoliday'] && !$adjustedTime['isPTO']) // Need to differentiate between when one works and does not work
+            }
+            else if (!$adjustedTime['isNightRun'] && $adjustedTime['isHoliday'] && !$adjustedTime['isPTO']) // Need to differentiate between when one works and does not work
             {
                 $regHours = new DateInterval("PT0H0M");
                 $otHours = $adjustedEndTime->diff($adjustedStartTime);
                 $nonWorkHours = new DateInterval("PT8H0M");
                 return [$regHours, $otHours, $nonWorkHours];
-            } else if (!$adjustedTime['isNightRun'] && !$adjustedTime['isHoliday'] && !$adjustedTime['isPTO']) // Need to differentiate between when one works and does not work
+            }
+            else if (!$adjustedTime['isNightRun'] && !$adjustedTime['isHoliday'] && !$adjustedTime['isPTO']) // Need to differentiate between when one works and does not work
             {
                 $regHours = $adjustedEndTime->diff($adjustedStartTime);
                 $otHours = new DateInterval("PT0H0M");
                 $nonWorkHours = new DateInterval("PT0H0M");
                 return [$regHours, $otHours, $nonWorkHours];
-            } else
+            }
+            else
             {
                 Messages::setMsg('There was an error with non-24 hour work period', 'error');
             }
-        } else
+        }
+        else
         {
             Messages::setMsg('<p>There was a problem</p><br>', 'error');
         }
@@ -195,7 +213,8 @@ class Miscellaneous extends Model
         if (isset($_SESSION['is_logged_in']))
         {
             return;
-        } else
+        }
+        else
         {
             $string = '<p>You are not logged in.</p><br><p>You must be logged in' .
                     ' to view this page.</p><br>';
@@ -204,7 +223,7 @@ class Miscellaneous extends Model
             die();
         }
     }
-    
+
     public static function checkIsAdmin()
     {
         /**
@@ -213,12 +232,12 @@ class Miscellaneous extends Model
          * 1 = employee
          * 2 = administrator
          */
-        
         if (isset($_SESSION['is_logged_in']) && $_SESSION['user_data']['securityRole'] == 2)
         {
-            
+
             return;
-        } else
+        }
+        else
         {
             print_r($_SESSION);
             die();
@@ -229,8 +248,8 @@ class Miscellaneous extends Model
             die();
         }
     }
-    
-    public static function determineFirstDay($currentDate) 
+
+    public static function determineFirstDay($currentDate)
     {
         /**
          * This will determine the first day of a pay period
@@ -238,14 +257,13 @@ class Miscellaneous extends Model
          * This function will then count backwards until it finds the first day
          * of the pay period.
          */
-
         $referenceDate = new DateTime(REFERENCE_DATE);
         $dayOne = $currentDate;
-        
+
         $interval = intval(($dayOne->diff($referenceDate, TRUE)->format('%R%a')));
-        
+
         print_r($interval);
-        
+
         $i = 0;
         while (($interval % 14) != 0) // If i have done my logic correctly, this will find the first
         {                                                       // day of the pay period prior to the user selected first day.
@@ -261,4 +279,5 @@ class Miscellaneous extends Model
         }
         return ($dayOne);
     }
+
 }
