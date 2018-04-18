@@ -27,9 +27,8 @@
 
 ?>
 <div>
-    
     <li><a href="<?php echo ROOT_PATH;?>administrators/roster">Employee Roster</a><br></li>
     <li><a href="<?php echo ROOT_PATH;?>administrators/register">Add a new employee</a><br></li>
-    <li><a href="<?php echo ROOT_PATH;?>administrators/changeuserpass">Change an Employees Password</a><br></li></li>
-    
+    <li><a href="<?php echo ROOT_PATH;?>administrators/changeuserpass">Change an Employees Password</a><br></li>
+    <li><a href="<?php echo ROOT_PATH;?>administrators/currentpay">View All Employees' Currently Recorded Hours</a><br></li>
 </div>

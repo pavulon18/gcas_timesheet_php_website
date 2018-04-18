@@ -1,0 +1,15 @@
+This file is simply a note of the types of tests which need to be ran against certain pages and methods
+
+/models/employees/timeentrypage
+for full time
+    Simple 24 hour shift
+    simple 24 hr shift with night run(s) totally <3 hours
+    simple 24 hr shift with night run(s) totally >= 3 hours
+
+    simple 24 hr shift on holiday
+    simple 24 hr shift on holiday with night run(s) totally <3 hours (hint:  Should be no difference between this and it's counterpart in the previous stanza)
+    simple 24 hr shift on holiday with night run(s) totally >= 3 hours (hint:  Should be no difference between this and it's counterpart in the previous stanza)
+
+    simple non-24 hr shift (ie 8 hr, 12 hr, meetings and trainings) no holiday
+
+and a blue million more.  I'll write more later.

@@ -156,6 +156,10 @@ class Miscellaneous extends Model
             {
                 $regHours = new DateInterval("PT0H0M");
                 $otHours = $adjustedEndTime->diff($adjustedStartTime);
+                if($otHours >= new DateInterval("PT3H0M"))
+                {
+                    $otHours = new DateInterval("PT8H0M");
+                }
                 $nonWorkHours = new DateInterval("PT0H0M");
                 return [$regHours, $otHours, $nonWorkHours];
             }

@@ -61,4 +61,9 @@ class Administrators extends Controller
         $this->returnView($viewmodel->changeuserpass(), true);
     }
     
+    protected function currentpay()
+    {
+        $viewmodel = new AdministratorModel();
+        $this->returnView($viewmodel->currentpay(), true);
+    }
 }

@@ -206,4 +206,41 @@ class AdministratorModel extends Model
         return;
     }
 
+    public function currentpay()
+    {
+        
+        /*
+         * This method will be used to display the current pay period.
+         * I am also going to try to add in the ability to enter new information
+         * from this page using a modal.
+         * 
+         * 
+         * 10) Display the current pay period information
+         * 20) Display a button to add a new entry.
+         * 30) Display buttons to delete or correct information already entered.
+         * 
+         */
+        Miscellaneous::checkIsLoggedIn();
+        $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+        
+        $now = new DateTime("now");
+        
+        $firstDayObject = Miscellaneous::determineFirstDay($now);
+        
+        $lastDayObject = $firstDayObject; //+ DateTimeImmutable::add()
+        $firstDayObject = DateTimeImmutable::createFromMutable( $firstDayObject );
+        
+        $lastDayObject->add(new DateInterval('P14D'));
+        $firstDay = $firstDayObject->format('Y-m-d') . ' 08:00:00';
+        $lastDay = $lastDayObject->format('Y-m-d') . ' 08:00:00';
+        
+        $this->query('SELECT employees.*, employee_payrollhours.* from employees, employee_payrollhours where employee_payrollhours.Employee_Number = (select employees.Employee_Number from employees ORDER BY Inserted_at DESC LIMIT 1) AND DateTime_In >= :firstDay and DateTime_In < :lastDay');
+        //$this->bind(':empNum', $_SESSION['user_data']['empNum']);
+        $this->bind('firstDay', $firstDay);
+        $this->bind('lastDay', $lastDay);
+        $rows = $this->resultSet();
+
+        return $rows;
+              
+    }
 }
