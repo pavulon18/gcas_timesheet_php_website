@@ -26,7 +26,6 @@ THE SOFTWARE.
 <body>
     <?php
     
-    Miscellaneous::checkIsLoggedIn();
     
     /*
       $ch = curl_init("https://github.com/pavulon18/gcas_timesheet_php_website/issues");
@@ -61,7 +60,26 @@ THE SOFTWARE.
         print $buffer;
     }
      * 
-     * 
+     * *****************************************************
+     * query {
+  repository(owner:"pavulon18", name:"gcas_timesheet_php_website") {
+    issues(first:100, states:OPEN) {
+      edges {
+        node {
+          title
+          url
+          labels(first:5) {
+            edges {
+              node {
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
      */
     ?>
 

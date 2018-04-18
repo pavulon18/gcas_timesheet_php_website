@@ -268,10 +268,12 @@ class EmployeeModel extends Model
 
         if ($post['submit'])
         {
-            if ($post['is24HrShift'] == 1)
+            if ($post['is24HrShift'] == 1 && $post['is_Night_Run'] = 0)
             {
                 $post['startHour'] = 8;
                 $post['startMin'] = 0;
+                $post['endHour'] = 8;
+                $post['endMin'] = 0;
                 /*
                  * first combine the $post[start data time] into a single unit.
                  * then convert it to a DateTime object
@@ -651,23 +653,6 @@ class EmployeeModel extends Model
         $this->bind('lastDay', $lastDay);
         $rows = $this->resultSet();
         return $rows;        
-       
-        /**
-         * recording what I'm thinking before I quit and forget my thoughts.
-         * 
-         * 
-         * 
-         * Now, I need to query the database for the currently logged in user for the
-         * dates between the first and last days.
-         * 
-         * I will then need to display the information in some sort of format, 
-         * preferably in the same format of our current timesheets, if I can do it.
-         * 
-         * for now, I'd settle for any easily format that is easy to read. 
-         */
-
-        
-        
        
         
     }
