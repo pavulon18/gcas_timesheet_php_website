@@ -268,7 +268,7 @@ class EmployeeModel extends Model
 
         if ($post['submit'])
         {
-            if ($post['is24HrShift'] == 1 && $post['is_Night_Run'] = 0)
+            if ($post['is24HrShift'] == 1 && $post['isNightRun'] == 0)
             {
                 $post['startHour'] = 8;
                 $post['startMin'] = 0;
