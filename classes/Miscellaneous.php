@@ -266,8 +266,6 @@ class Miscellaneous extends Model
 
         $interval = intval(($dayOne->diff($referenceDate, TRUE)->format('%R%a')));
 
-        print_r($interval);
-
         $i = 0;
         while (($interval % 14) != 0) // If i have done my logic correctly, this will find the first
         {                                                       // day of the pay period prior to the user selected first day.
