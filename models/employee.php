@@ -637,6 +637,7 @@ class EmployeeModel extends Model
         $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
         
         $now = new DateTime("now");
+        //$now = new DateTime('2018-04-15 08:00:00'); // This is for debugging the database
         
         $firstDayObject = Miscellaneous::determineFirstDay($now);
         
@@ -644,6 +645,9 @@ class EmployeeModel extends Model
         $firstDayObject = DateTimeImmutable::createFromMutable( $firstDayObject );
         
         $lastDayObject->add(new DateInterval('P14D'));
+        //$lastDayObject->add(new DateInterval('P140D'));  // Debugging the database
+        //$lastDayObject->add(new DateInterval('P200D'));
+        //$lastDayObject->add(new DateInterval('P2D'));
         $firstDay = $firstDayObject->format('Y-m-d') . ' 08:00:00';
         $lastDay = $lastDayObject->format('Y-m-d') . ' 08:00:00';
         
@@ -652,8 +656,6 @@ class EmployeeModel extends Model
         $this->bind('firstDay', $firstDay);
         $this->bind('lastDay', $lastDay);
         $rows = $this->resultSet();
-        return $rows;        
-       
-        
+        return $rows;
     }
 }

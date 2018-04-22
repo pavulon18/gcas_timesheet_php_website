@@ -47,7 +47,7 @@
                     <td><?php echo date('D', strtotime($item['DateTime_In'])); ?></td>
                     <td><?php echo date('M-d-Y', strtotime($item['DateTime_In'])); ?></td>
                     <td><?php echo date('Hi', strtotime($item['DateTime_In'])); ?></td>
-                    <td><?php echo date('Hi', strtotime($item['DateTime_In'])); ?></td>
+                    <td><?php echo date('Hi', strtotime($item['DateTime_Out'])); ?></td>
                 <?php
                 if ($item['Is_Sick_Day'] == 'Y')
                 {
@@ -79,12 +79,11 @@
                 }
                 else
                 {
-                    echo '<td> </td>';
-                }
-                echo '<td>' . date('H:i', strtotime($item['RegularTime'])) . '</td>';
-                echo '<td>' . date('H:i', strtotime($item['OverTime'])) . '</td>';
-                echo '<td>' . date('H:i', strtotime($item['NonWorkTime'])) . '</td>';
-                ?>
+                    echo '<td>-</td>';
+                } ?>
+                <td><?php echo date($item['RegularTime']); ?></td>
+                <td><?php echo date($item['OverTime']); ?></td>
+                <td><?php echo date($item['NonWorkTime']); ?></td>
                 </tr>
             </tbody>
         <?php endforeach; ?>

@@ -33,7 +33,6 @@ abstract class Controller
     {
         $this->action = $action;
         $this->request = $request;
-        
     }
     
     public function executeAction()
