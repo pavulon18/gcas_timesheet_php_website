@@ -209,6 +209,8 @@ class AdministratorModel extends Model
     public function currentpay()
     {
         
+        Miscellaneous::checkIsLoggedIn();
+        Miscellaneous::checkIsAdmin();
         /*
          * This method will be used to display the current pay period.
          * I am also going to try to add in the ability to enter new information
@@ -220,7 +222,7 @@ class AdministratorModel extends Model
          * 30) Display buttons to delete or correct information already entered.
          * 
          */
-        Miscellaneous::checkIsLoggedIn();
+
         $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
         
         $now = new DateTime("now");
@@ -240,7 +242,48 @@ class AdministratorModel extends Model
         $this->bind('lastDay', $lastDay);
         $rows = $this->resultSet();
 
+        return $rows; 
+    }
+    
+    public function historicalpay()
+    {
+        Miscellaneous::checkIsLoggedIn();
+        Miscellaneous::checkIsAdmin();
+        /**
+         * This option is inserting '18:00' into the time fields
+         * if the employee has 'null' times
+         * Otherwise, it looks as if it is correct
+         */
+        /**
+        $this->query('SELECT e1.*, eprh.* FROM employees e1 '
+                . 'LEFT OUTER JOIN employees e2 ON '
+                . 'e1.employee_number = e2.employee_number AND '
+                . 'e2.inserted_at > e1.inserted_at '
+                . 'LEFT JOIN employee_payrollhours eprh ON '
+                . 'eprh.employee_number = e1.employee_number '
+                . 'WHERE e2.employee_number is null');
+        $rows = $this->resultSet();
         return $rows;
-              
+         * 
+         */
+        
+        
+        /**
+         * Option #2
+         * Test
+         * 
+         * select e.last_name, e.most_recent, p.datetime_in
+from (select employee_number, last_name, max(inserted_at) as most_recent from employees group by employee_number) e
+join employee_payrollhours p
+on p.employee_number = e.employee_number
+         */
+        
+        $this->query('SELECT e.*, p.* ' .
+                'FROM (select *, max(inserted_at) AS most_recent ' .
+                'FROM employees GROUP BY employee_number) e ' .
+                'JOIN employee_payrollhours p ' .
+                'ON p.employee_number = e.employee_number');
+        $rows = $this->resultSet();
+        return $rows;
     }
 }

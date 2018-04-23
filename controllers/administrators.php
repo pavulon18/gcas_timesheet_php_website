@@ -66,4 +66,10 @@ class Administrators extends Controller
         $viewmodel = new AdministratorModel();
         $this->returnView($viewmodel->currentpay(), true);
     }
+    
+    protected function historicalpay()
+    {
+        $viewmodel = new AdministratorModel();
+        $this->returnView($viewmodel->historicalpay(), true);
+    }
 }

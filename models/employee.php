@@ -513,11 +513,13 @@ class EmployeeModel extends Model
         $weekOne = [];
         $weekTwo = [];
         $payPeriod = [$weekOne, $weekTwo];
+      
         //$regHours = 0.0;        // Hours the employee was actually on the clock
         //$overtimeHours = 0.0;   // Overtime hours
         //$nonWorkHours = 0.0;    // Hours paid to the employee while the employee was not
         // working.  example:  Sick Day, Vacation Day, other PTO type days.
 
+        /**
         $this->query('SELECT * FROM employee_payrollhours WHERE Employee_Number = :Employee_Number');
         $this->bind(':Employee_Number', $_SESSION['user_data']['empNum']);
         $resultSetPayroll = $this->resultSet();
@@ -557,6 +559,8 @@ class EmployeeModel extends Model
         $vacaDays = $resultSetEmployee['Vacation_Days_Remaining'];
         $personDays = $resultSetEmployee['Personal_Days_Remaining'];
         $fmlaDays = $resultSetEmployee['FMLA_Days_Remaining'];
+         * 
+         */
 
         /*
           foreach ($resultSet as $key => $value)

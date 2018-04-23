@@ -26,7 +26,7 @@
 
 ?>
 <div class="text-center">
-    <h2>Welcome to Gibson County EMS Employee Web Portal</h2>
+    <h2>Welcome to the home of Gibson County EMS Employee Web Portal</h2>
     <p class="lead">Gibson EMS Web Portal and timesheet application</p>
 </div>
 <div class="text-info">
