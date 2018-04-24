@@ -46,11 +46,23 @@
                 <tr>
                     <td><?php echo $item['Last_Name']; ?></td>
                     <td><?php echo $item['First_Name']; ?></td>
+                    <?php if ($item['DateTime_In'] != null) 
+                    { 
+                        ?>
                     <td><?php echo date('D', strtotime($item['DateTime_In'])); ?></td>
                     <td><?php echo date('M-d-Y', strtotime($item['DateTime_In'])); ?></td>
                     <td><?php echo date('Hi', strtotime($item['DateTime_In'])); ?></td>
                     <td><?php echo date('Hi', strtotime($item['DateTime_Out'])); ?></td>
-                <?php
+                    <?php
+                    }
+                    else
+                    { ?>
+                    <td><?php echo '-'; ?></td>
+                    <td><?php echo '-'; ?></td>
+                    <td><?php echo '-'; ?></td>
+                    <td><?php echo '-'; ?></td>
+                    <?php }
+                
                 if ($item['Is_Sick_Day'] == 'Y')
                 {
                     echo '<td>Sick Day</td>';
