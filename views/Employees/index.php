@@ -23,7 +23,6 @@
  * THE SOFTWARE.
  */
 
-Miscellaneous::checkIsLoggedIn();
 ?>
 <div>
 

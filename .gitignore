@@ -4,3 +4,4 @@
 /Database_tools_backup/
 /nbproject/
 /configlocal.php
+/tests/acceptance/SigninCest.php

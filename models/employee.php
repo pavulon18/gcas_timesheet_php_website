@@ -422,9 +422,13 @@ class EmployeeModel extends Model
             $calculatedTime = Miscellaneous::calculateTime($adjustedTime);  // Calculates the time for worked hours, overtime hours and non-worked hours
             // for this one entry only.
 
-            $regTime = $calculatedTime[0]->h . ':' . $calculatedTime[0]->i . ':00';
-            $overTime = $calculatedTime[1]->h . ':' . $calculatedTime[1]->i . ':00';
-            $nonWorkTime = $calculatedTime[2]->h . ':' . $calculatedTime[2]->i . ':00';
+            //$regTime = $calculatedTime[0]->h . ':' . $calculatedTime[0]->i . ':00';
+            //$overTime = $calculatedTime[1]->h . ':' . $calculatedTime[1]->i . ':00';
+            //$nonWorkTime = $calculatedTime[2]->h . ':' . $calculatedTime[2]->i . ':00';
+
+            $regTime = ($calculatedTime[0]->h) + ($calculatedTime[0]->i)/ 60 ;
+            $overTime = $calculatedTime[1]->h + $calculatedTime[1]->i / 60;
+            $nonWorkTime = $calculatedTime[2]->h + $calculatedTime[2]->i / 60;
 
             try
             {
@@ -513,11 +517,13 @@ class EmployeeModel extends Model
         $weekOne = [];
         $weekTwo = [];
         $payPeriod = [$weekOne, $weekTwo];
+      
         //$regHours = 0.0;        // Hours the employee was actually on the clock
         //$overtimeHours = 0.0;   // Overtime hours
         //$nonWorkHours = 0.0;    // Hours paid to the employee while the employee was not
         // working.  example:  Sick Day, Vacation Day, other PTO type days.
 
+        /**
         $this->query('SELECT * FROM employee_payrollhours WHERE Employee_Number = :Employee_Number');
         $this->bind(':Employee_Number', $_SESSION['user_data']['empNum']);
         $resultSetPayroll = $this->resultSet();
@@ -557,6 +563,8 @@ class EmployeeModel extends Model
         $vacaDays = $resultSetEmployee['Vacation_Days_Remaining'];
         $personDays = $resultSetEmployee['Personal_Days_Remaining'];
         $fmlaDays = $resultSetEmployee['FMLA_Days_Remaining'];
+         * 
+         */
 
         /*
           foreach ($resultSet as $key => $value)

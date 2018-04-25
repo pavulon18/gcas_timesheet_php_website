@@ -1,6 +1,6 @@
 {
     "name": "baizeenterprise/g-c-a-s-timesheet",
-    "description": "Description of project GCASTimesheet.",
+    "description": "Website for GCEMS to submit time sheets",
     "authors": [
         {
             "name": "Jim Baize",
@@ -11,7 +11,8 @@
         "pds/skeleton": "1.x"
     },
     "require-dev": {
-        "phpmailer/phpmailer": "dev-master"
+        "phpmailer/phpmailer": "dev-master",
+        "codeception/codeception": "^2.4"
     },
     "license": [
     "MIT"]

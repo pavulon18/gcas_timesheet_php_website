@@ -1,4 +1,10 @@
-INTRODUCTION
+TABLE OF CONTENTS
+  I.  Introduction
+ II.  Description of Problem
+III.  Instructions for Installation
+ IV.  Acknowledgements
+
+I. INTRODUCTION
 This project is an extention of a project I started a long time ago.  This project
 aims to reduce the work for the employees of Gibson County Ambulance Service (GCAS) (AKA Gibson County
 Emergency Medical Service [GCEMS]) to fully, completely, and accurately complete
@@ -8,7 +14,7 @@ GCEMS is a small 24 hour county owned ambulance service.  We work 24 hour shifts
 which introduces complexity into the time calculations.  Add, on top of that, our
 union contract, and the calculations go to a whole new level.
 
-DESCRIPTION OF PROBLEM
+II.  DESCRIPTION OF PROBLEM
 According to United States federal law, people who work 24 hour shifts can be docked 8 hours of
 sleep time provided these people have the reasonable expectation to be able to get
 at least 5 hours sleep.  During that 8 hour sleep time, if they are required to work
@@ -66,7 +72,26 @@ After a month of research, trial and error, and false starts, I decided to write
 the front end using PHP.  That is where I am today.  I am learning PHP and writing
 this project.
 
-ACKNOWLEDGEMENTS
+III.  INSTRUCTIONS FOR INSTALLATION
+Requirements for this project:
+
+    PHP 7.x (This project has not been tested on earlier versions.)
+    Apache 2.4 with RewriteRules Mod enabled
+    MySQL 5.7 or compatible database (the included .sql file was built with MySQL 5.7. If you want to use another database system, it will be your responsibility to convert the included .sql file to your system's needed format)
+
+Instructions
+
+    clone the repo to you local environment (Instructions for Cloning)
+    change the file named "config_example.php" to "config.php". Edit this file entering the information appropriate for your environment.
+    Import the database schema "GCEMS_empty_db.sql" into MySQL
+    Insert a new record into the table "employees" containing values for 'username', 'email', and 'Employee_Number'
+    Insert a new record into the table "employee_securityroles" using the same 'Employee_Number' and assign a 'Security_Role_ID' = '2'
+    Open up the website.
+    Browse to "Login" and click "Forgot password"
+    Follow the instructions to reset the password.
+    Log in with the new user.
+
+IV.  ACKNOWLEDGEMENTS
 __PHP and MySQL Web Development__ Fifth Edition,
 written by Luke Welling and Laura Thomson.
 
@@ -76,3 +101,5 @@ https://www.martinstoeckli.ch/php/php.html#passwordreset
 
 Special thanks to: https://github.com/flapjack17 Sean Roche for his invaluable 
 assistance on making the time entry page work as intended.
+
+(Updated April 24, 2018)
