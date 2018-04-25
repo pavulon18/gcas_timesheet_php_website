@@ -281,5 +281,4 @@ class Miscellaneous extends Model
         }
         return ($dayOne);
     }
-
 }

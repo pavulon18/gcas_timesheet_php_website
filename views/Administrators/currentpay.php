@@ -31,8 +31,9 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>Day</th>
                 <th>Last Name</th>
+                <th>First Name</th>
+                <th>Day</th>
                 <th>Date</th>
                 <th>Start Time</th>
                 <th>End Time</th>
@@ -45,12 +46,25 @@
         <?php foreach ($viewmodel as $item) : ?>
             <tbody>
                 <tr>
-                    <td><?php echo date('D', strtotime($item['DateTime_In'])); ?></td>
                     <td><?php echo $item['Last_Name']; ?></td>
+                    <td><?php echo $item['First_Name']; ?></td>
+                    <?php if ($item['DateTime_In'] != null) 
+                    { 
+                        ?>
+                    <td><?php echo date('D', strtotime($item['DateTime_In'])); ?></td>
                     <td><?php echo date('M-d-Y', strtotime($item['DateTime_In'])); ?></td>
                     <td><?php echo date('Hi', strtotime($item['DateTime_In'])); ?></td>
-                    <td><?php echo date('Hi', strtotime($item['DateTime_In'])); ?></td>
-                <?php
+                    <td><?php echo date('Hi', strtotime($item['DateTime_Out'])); ?></td>
+                    <?php
+                    }
+                    else
+                    { ?>
+                    <td><?php echo '-'; ?></td>
+                    <td><?php echo '-'; ?></td>
+                    <td><?php echo '-'; ?></td>
+                    <td><?php echo '-'; ?></td>
+                    <?php }
+                
                 if ($item['Is_Sick_Day'] == 'Y')
                 {
                     echo '<td>Sick Day</td>';
@@ -83,9 +97,9 @@
                 {
                     echo '<td> </td>';
                 }
-                echo '<td>' . date('H:i', strtotime($item['RegularTime'])) . '</td>';
-                echo '<td>' . date('H:i', strtotime($item['OverTime'])) . '</td>';
-                echo '<td>' . date('H:i', strtotime($item['NonWorkTime'])) . '</td>';
+                echo '<td>' . date(($item['RegularTime'])) . '</td>';
+                echo '<td>' . date(($item['OverTime'])) . '</td>';
+                echo '<td>' . date(($item['NonWorkTime'])) . '</td>';
                 ?>
                 </tr>
             </tbody>
