@@ -110,5 +110,9 @@
     <link rel="stylesheet" type="text/css" href="/assets/css/view.css" media="all">
     <script type="text/javascript" src="/assets/js/view.js"></script>
     <script type="text/javascript" src="/assets/js/calendar.js"></script>
+    <?php
+    $PWD = getcwd();
+    chdir('..');
+    echo 'Website Last Updated on ' . date ("F d Y H:i:s.", Miscellaneous::mostRecentModifiedFileTime($PWD, 'False')); ?>
 </body>
 </html>
