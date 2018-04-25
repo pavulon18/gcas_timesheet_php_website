@@ -28,6 +28,7 @@ Miscellaneous::checkIsLoggedIn();
 
 ?>
 <div>
+    <li><h1>This page is still under construction</h1></li>
     <li>Devise a method to separate out the entries which belong to a particular pay period.</li>
     <li>Determine the format to display the information</li>
     <li>Devise a search function</li>
@@ -43,3 +44,4 @@ Miscellaneous::checkIsLoggedIn();
             <label class="choice" for="daterangecustom">Custom Date Range</label>
         </span>
     </li>
+</div>
