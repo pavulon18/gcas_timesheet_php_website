@@ -156,7 +156,7 @@ class Miscellaneous extends Model
             {
                 $regHours = new DateInterval("PT0H0M");
                 $otHours = $adjustedEndTime->diff($adjustedStartTime);
-                if($otHours >= new DateInterval("PT3H0M"))
+                if ($otHours >= new DateInterval("PT3H0M"))
                 {
                     $otHours = new DateInterval("PT8H0M");
                 }
@@ -281,4 +281,31 @@ class Miscellaneous extends Model
         }
         return ($dayOne);
     }
+
+    public static function mostRecentModifiedFileTime($dirName, $doRecursive)
+    {
+        $d = dir($dirName);
+        $lastModified = 0;
+        while ($entry = $d->read())
+        {
+            if ($entry != "." && $entry != "..")
+            {
+                if (!is_dir($dirName . "/" . $entry))
+                {
+                    $currentModified = filemtime($dirName . "/" . $entry);
+                }
+                else if ($doRecursive && is_dir($dirName . "/" . $entry))
+                {
+                    $currentModified = Miscellaneous::mostRecentModifiedFileTime($dirName . "/" . $entry, true);
+                }
+                if ($currentModified > $lastModified)
+                {
+                    $lastModified = $currentModified;
+                }
+            }
+        }
+        $d->close();
+        return $lastModified;
+    }
+
 }
