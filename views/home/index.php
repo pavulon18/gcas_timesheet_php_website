@@ -30,7 +30,14 @@
     <p class="lead">Gibson EMS Web Portal and timesheet application</p>
 </div>
 <div class="text-info">
-    <p class="text-center">Thank you for taking the time to look at our website.</p>
-    <p class="text-center">Employees may login through this portal to access certain
+    <p class="text-left">Thank you for taking the time to look at our website.</p>
+    <p class="text-left">Employees may login through this portal to access certain
     work related functions.</p><br>
+</div>
+<div class="center">
+    <p>
+<a href="https://www.abuseipdb.com/user/19210" title="AbuseIPDB is an IP address blacklist for webmasters and sysadmins to report IP addresses engaging in abusive behavior on their networks" alt="AbuseIPDB Contributor Badge">
+	<img src="https://www.abuseipdb.com/contributor/19210.svg" style="width: 381px;border-radius: 5px;border-top: 5px solid #058403;border-right: 5px solid #111;border-bottom: 5px solid #111;border-left: 5px solid #058403;padding: 5px;background: #35c246 linear-gradient(rgba(255,255,255,0), rgba(255,255,255,.3) 50%, rgba(0,0,0,.2) 51%, rgba(0,0,0,0));padding: 5px;box-shadow: 2px 2px 1px 1px rgba(0, 0, 0, .2);">
+</a>
+    </p>
 </div>
