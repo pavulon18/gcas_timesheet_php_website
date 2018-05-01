@@ -328,7 +328,9 @@ class Miscellaneous extends Model
             $regularTime = 40;
         }
         
-        return [$regularTime, $overTime, $nonWorkTime];
+        $regularTime += $nonWorkTime;
+        
+        return ["regularTimeTotal"=>$regularTime, "overTimeTotal"=>$overTime];
     }
 
 }

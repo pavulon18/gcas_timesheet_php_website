@@ -676,6 +676,6 @@ class EmployeeModel extends Model
         $weekTwo = $this->resultSet();
         $totalsWeekTwo = Miscellaneous::weeklyTotals($weekTwo);
 
-        return [$weekOne, $totalsWeekOne, $weekTwo, $totalsWeekTwo];
+        return ["weekOne"=>$weekOne, "totalsWeekOne"=>$totalsWeekOne, "weekTwo"=>$weekTwo, "totalsWeekTwo"=>$totalsWeekTwo];
     }
 }
