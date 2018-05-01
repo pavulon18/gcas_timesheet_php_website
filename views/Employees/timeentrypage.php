@@ -95,6 +95,9 @@ Miscellaneous::checkIsLoggedIn();
                     <input id="isNightRunNo" name="isNightRun" class="element radio" type="radio" value="0" checked="true"/>
                     <label class="choice" for="isNightRunNo">No</label>
                 </span>
+                <p class="guidelines" id='nightRun'>
+                    <small>Night Runs include those times when the employee is held past his or her scheduled quitting time</small>
+                </p>
             </li>
             <li id="reason" style="display:none">
                 <label class="description" for="reason">Run Number or Reason for the entry </label>

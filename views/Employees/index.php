@@ -24,22 +24,22 @@
  */
 
 ?>
-<div>
+<div align="left">
 
-    <p>IMPORTANT INFORMATION:</p>
+    <p align="center">IMPORTANT INFORMATION:</p>
 
     <p>This web site is still under development.  This should be considered pre-alpha.  This means that any data stored in this system could be compromised, corrupted or deleted.  Any and all functionality of this site could become non-operational at any time.  This web site should not be used as your only record keeping option.  The data currently stored in this system has a good chance of being dumped before the system is released for full use.</p>
 
-    The layouts of the pages and the structures of the data could change without notice.  Always be mindful of the information being entered into the system.
+    <p>The layouts of the pages and the structures of the data could change without notice.  Always be mindful of the information being entered into the system.</p>
 
-    <p>In its current state, this web site should not be considered secure.  Although the designers are striving to build this web site from the ground up with safety and security in mind, there is currently no guarantee of security.
+    <p>In its current state, this web site should not be considered secure.  Although the designers are striving to build this web site from the ground up with safety and security in mind, there is currently no guarantee of security.</p>
 
-        You are encouraged to try to break the system.  If you believe you have found an error, bug, anomaly, or security related issue, please bring it to the attention of the designers.  If you have any suggestions for new features or improvements of the current features, please notify the designers in a timely fashion.
+    <p>You are encouraged to try to break the system.  If you believe you have found an error, bug, anomaly, or security related issue, please bring it to the attention of the designers.  If you have any suggestions for new features or improvements of the current features, please notify the designers in a timely fashion.</p>
 
-        If you would like to volunteer your time and talents to this project, there are plenty of ways you can contribute.  Simply by using this software and giving feedback will help move this project along to a product that is easy to understand and easy to use.  If you have any art work or pictures, to which you have the legal right to use, you may submit that for inclusion into the web site.  If you know how to code in HTML, PHP, JavaScript, CSS, or any other similar skills, feel free to tackle one or more of the issues located on <a href="https://github.com/pavulon18/gcas_timesheet_php_website/issues"></a>
+    <p>If you would like to volunteer your time and talents to this project, there are plenty of ways you can contribute.  Simply by using this software and giving feedback will help move this project along to a product that is easy to understand and easy to use.  If you have any art work or pictures, to which you have the legal right to use, you may submit that for inclusion into the web site.  If you know how to code in HTML, PHP, JavaScript, CSS, or any other similar skills, feel free to tackle one or more of the issues located <a href="https://github.com/pavulon18/gcas_timesheet_php_website/issues">here</a>.</p>
         (April 11, 2018)
 </div>
-<div>
+<div align="left">
     <li><a href="<?php echo ROOT_URL; ?>employees/currentpay"> Current Pay Period </a></li>
     <li><a href="<?php echo ROOT_URL; ?>employees/historicalpay"> Historical Pay Period </a></li>
     <li><a href="<?php echo ROOT_URL; ?>employees/ptodays"> PTO Days Remaining </a></li>

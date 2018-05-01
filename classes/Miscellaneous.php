@@ -156,7 +156,7 @@ class Miscellaneous extends Model
             {
                 $regHours = new DateInterval("PT0H0M");
                 $otHours = $adjustedEndTime->diff($adjustedStartTime);
-                if($otHours >= new DateInterval("PT3H0M"))
+                if ($otHours >= new DateInterval("PT3H0M"))
                 {
                     $otHours = new DateInterval("PT8H0M");
                 }
@@ -262,7 +262,8 @@ class Miscellaneous extends Model
          * of the pay period.
          */
         $referenceDate = new DateTime(REFERENCE_DATE);
-        $dayOne = $currentDate;
+        $dayOne = new DateTime($currentDate->format('Y-m-d'));
+        $dayOne->setTime(8, 00, 00);
 
         $interval = intval(($dayOne->diff($referenceDate, TRUE)->format('%R%a')));
 
@@ -281,4 +282,55 @@ class Miscellaneous extends Model
         }
         return ($dayOne);
     }
+
+    public static function mostRecentModifiedFileTime($dirName, $doRecursive)
+    {
+        $d = dir($dirName);
+        $lastModified = 0;
+        while ($entry = $d->read())
+        {
+            if ($entry != "." && $entry != "..")
+            {
+                if (!is_dir($dirName . "/" . $entry))
+                {
+                    $currentModified = filemtime($dirName . "/" . $entry);
+                }
+                else if ($doRecursive && is_dir($dirName . "/" . $entry))
+                {
+                    $currentModified = Miscellaneous::mostRecentModifiedFileTime($dirName . "/" . $entry, true);
+                }
+                if ($currentModified > $lastModified)
+                {
+                    $lastModified = $currentModified;
+                }
+            }
+        }
+        $d->close();
+        return $lastModified;
+    }
+    
+    public static function weeklyTotals($array)
+    {
+        $regularTime = 0;
+        $overTime = 0;
+        $nonWorkTime = 0;
+        
+        foreach($array as $item)
+        {
+            $regularTime += $item['RegularTime'];
+            $overTime += $item['OverTime'];
+            $nonWorkTime += $item['NonWorkTime'];
+        }
+        
+        if ($regularTime > 40)
+        {
+            $overTime += ($regularTime - 40);
+            $regularTime = 40;
+        }
+        
+        $regularTime += $nonWorkTime;
+        
+        return ["regularTimeTotal"=>$regularTime, "overTimeTotal"=>$overTime];
+    }
+
 }

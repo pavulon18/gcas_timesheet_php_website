@@ -645,25 +645,37 @@ class EmployeeModel extends Model
         $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
         
         $now = new DateTime("now");
-        //$now = new DateTime('2018-04-15 08:00:00'); // This is for debugging the database
         
         $firstDayObject = Miscellaneous::determineFirstDay($now);
         
-        $lastDayObject = $firstDayObject; //+ DateTimeImmutable::add()
-        $firstDayObject = DateTimeImmutable::createFromMutable( $firstDayObject );
-        
+        $lastDayObject = new DateTime($firstDayObject->format('Y-m-d'));
         $lastDayObject->add(new DateInterval('P14D'));
-        //$lastDayObject->add(new DateInterval('P140D'));  // Debugging the database
-        //$lastDayObject->add(new DateInterval('P200D'));
-        //$lastDayObject->add(new DateInterval('P2D'));
-        $firstDay = $firstDayObject->format('Y-m-d') . ' 08:00:00';
-        $lastDay = $lastDayObject->format('Y-m-d') . ' 08:00:00';
         
-        $this->query('SELECT * from employee_payrollhours where Employee_Number = :empNum and DateTime_In >= :firstDay and DateTime_In < :lastDay');
+        $middleDayObject = new DateTime($firstDayObject->format('Y-m-d'));
+        $middleDayObject->add(new DateInterval('P7D'));
+
+        $firstDayObject = DateTimeImmutable::createFromMutable( $firstDayObject );
+        $middleDayObject = DateTimeImmutable::createFromMutable($middleDayObject);
+        $lastDayObject = DateTimeImmutable::createFromMutable($lastDayObject);
+
+        $firstDay  = $firstDayObject->format('Y-m-d') . ' 08:00:00';
+        $middleDay = $middleDayObject->format('Y-m-d') . ' 08:00:00';
+        $lastDay   = $lastDayObject->format('Y-m-d') . ' 08:00:00';
+        
+        $this->query('SELECT * from employee_payrollhours where Employee_Number = :empNum and DateTime_In >= :firstDay and DateTime_In < :middleDay');
         $this->bind(':empNum', $_SESSION['user_data']['empNum']);
         $this->bind('firstDay', $firstDay);
+        $this->bind('middleDay', $middleDay);
+        $weekOne = $this->resultSet();
+        $totalsWeekOne = Miscellaneous::weeklyTotals($weekOne);
+        
+        $this->query('SELECT * from employee_payrollhours where Employee_Number = :empNum and DateTime_In >= :middleDay and DateTime_In < :lastDay');
+        $this->bind(':empNum', $_SESSION['user_data']['empNum']);
+        $this->bind('middleDay', $middleDay);
         $this->bind('lastDay', $lastDay);
-        $rows = $this->resultSet();
-        return $rows;
+        $weekTwo = $this->resultSet();
+        $totalsWeekTwo = Miscellaneous::weeklyTotals($weekTwo);
+
+        return ["weekOne"=>$weekOne, "totalsWeekOne"=>$totalsWeekOne, "weekTwo"=>$weekTwo, "totalsWeekTwo"=>$totalsWeekTwo];
     }
 }
