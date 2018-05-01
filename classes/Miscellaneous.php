@@ -262,7 +262,8 @@ class Miscellaneous extends Model
          * of the pay period.
          */
         $referenceDate = new DateTime(REFERENCE_DATE);
-        $dayOne = $currentDate;
+        $dayOne = new DateTime($currentDate->format('Y-m-d'));
+        $dayOne->setTime(8, 00, 00);
 
         $interval = intval(($dayOne->diff($referenceDate, TRUE)->format('%R%a')));
 
@@ -306,6 +307,28 @@ class Miscellaneous extends Model
         }
         $d->close();
         return $lastModified;
+    }
+    
+    public static function weeklyTotals($array)
+    {
+        $regularTime = 0;
+        $overTime = 0;
+        $nonWorkTime = 0;
+        
+        foreach($array as $item)
+        {
+            $regularTime += $item['RegularTime'];
+            $overTime += $item['OverTime'];
+            $nonWorkTime += $item['NonWorkTime'];
+        }
+        
+        if ($regularTime > 40)
+        {
+            $overTime += ($regularTime - 40);
+            $regularTime = 40;
+        }
+        
+        return [$regularTime, $overTime, $nonWorkTime];
     }
 
 }

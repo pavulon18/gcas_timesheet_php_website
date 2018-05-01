@@ -25,8 +25,8 @@
  * https://jqueryvalidation.org/
  */
 
-//print_r($viewmodel);
-//die();
+extract($viewmodel);
+
 ?>
 
 <div class="table-responsive">
@@ -46,21 +46,21 @@
         <?php foreach ($viewmodel as $item) : ?>
             <tbody>
                 <tr>
-                    <?php 
+                    <?php
                     /**
                      * Yes, I changed styles between the first set and second set.
-                     * It was an experiement to see which way was easier.
+                     * It was an experiment to see which way was easier.
                      * 
                      * The verdict is still out.
                      */
-                    if ($item['DateTime_In'] != null) 
+                    if ($item['DateTime_In'] != null)
                     {
                         ?>
                         <td><?php echo date('D', strtotime($item['DateTime_In'])); ?></td>
                         <td><?php echo date('M-d-Y', strtotime($item['DateTime_In'])); ?></td>
                         <td><?php echo date(($item['DateTime_In'])); ?></td>
                         <td><?php echo date(($item['DateTime_Out'])); ?></td>
-                    <?php
+                        <?php
                     }
                     else
                     {
@@ -69,7 +69,7 @@
                         echo '<td>-</td>';
                         echo '<td>-</td>';
                     }
-                    
+
                     if ($item['Is_Sick_Day'] == 'Y')
                     {
                         echo '<td>Sick Day</td>';

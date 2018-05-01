@@ -6,7 +6,12 @@
             <file>file:/C:/wamp64/www/GCASTimesheet/models/administrator.php</file>
             <file>file:/C:/wamp64/www/GCASTimesheet/views/Administrators/currentpay.php</file>
             <file>file:/C:/wamp64/www/GCASTimesheet/models/employee.php</file>
+            <file>file:/C:/wamp64/www/GCASTimesheet/views/main.php</file>
+            <file>file:/C:/wamp64/www/GCASTimesheet/views/home/index.php</file>
             <file>file:/C:/wamp64/www/GCASTimesheet/classes/Miscellaneous.php</file>
+            <file>file:/C:/wamp64/www/GCASTimesheet/db_setup.sh</file>
+            <file>file:/C:/wamp64/www/GCASTimesheet/views/Administrators/historicalpay.php</file>
+            <file>file:/C:/wamp64/www/GCASTimesheet/config.php</file>
         </group>
     </open-files>
 </project-private>
