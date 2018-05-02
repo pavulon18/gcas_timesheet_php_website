@@ -1,10 +1,11 @@
 TABLE OF CONTENTS
-  I.  Introduction
- II.  Description of Problem
-III.  Instructions for Installation
- IV.  Acknowledgements
 
-I. INTRODUCTION
+1.  Introduction
+2.  Description of Problem
+3.  Instructions for Installation
+4.  Acknowledgements
+
+1. INTRODUCTION
 This project is an extention of a project I started a long time ago.  This project
 aims to reduce the work for the employees of Gibson County Ambulance Service (GCAS) (AKA Gibson County
 Emergency Medical Service [GCEMS]) to fully, completely, and accurately complete
@@ -14,7 +15,7 @@ GCEMS is a small 24 hour county owned ambulance service.  We work 24 hour shifts
 which introduces complexity into the time calculations.  Add, on top of that, our
 union contract, and the calculations go to a whole new level.
 
-II.  DESCRIPTION OF PROBLEM
+2.  DESCRIPTION OF PROBLEM
 According to United States federal law, people who work 24 hour shifts can be docked 8 hours of
 sleep time provided these people have the reasonable expectation to be able to get
 at least 5 hours sleep.  During that 8 hour sleep time, if they are required to work
@@ -72,7 +73,7 @@ After a month of research, trial and error, and false starts, I decided to write
 the front end using PHP.  That is where I am today.  I am learning PHP and writing
 this project.
 
-III.  INSTRUCTIONS FOR INSTALLATION
+3.  INSTRUCTIONS FOR INSTALLATION
 Requirements for this project:
 
     PHP 7.x (This project has not been tested on earlier versions.)
@@ -91,7 +92,7 @@ Instructions
     Follow the instructions to reset the password.
     Log in with the new user.
 
-IV.  ACKNOWLEDGEMENTS
+4.  ACKNOWLEDGEMENTS
 __PHP and MySQL Web Development__ Fifth Edition,
 written by Luke Welling and Laura Thomson.
 
