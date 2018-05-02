@@ -94,12 +94,13 @@ CREATE TABLE `employee_payrollhours` (
   `Is_Payroll_Approved` enum('Y','N') DEFAULT 'N' COMMENT 'Payroll approved by administrator',
   `Payroll_Approved_By` int(11) DEFAULT NULL COMMENT 'By administrator',
   `Payroll_Approval_Date` datetime DEFAULT NULL COMMENT 'By administrator',
-  `RegularTime` decimal(6,3) DEFAULT NULL,
-  `OverTime` decimal(6,3) DEFAULT NULL,
-  `NonWorkTime` decimal(6,3) DEFAULT NULL,
+  `RegularTime` decimal(6,3) NOT NULL DEFAULT '0.000',
+  `OverTime` decimal(6,3) NOT NULL DEFAULT '0.000',
+  `NonWorkTime` decimal(6,3) NOT NULL DEFAULT '0.000',
+  `NightTime` decimal(6,3) NOT NULL DEFAULT '0.000',
   `Inserted_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Deleted_at` datetime DEFAULT NULL,
-  `Has_Employee_Locked` enum('Y','N') DEFAULT 'N',
+  `Has_Employee_Locked` enum('Y','N') NOT NULL DEFAULT 'N',
   `Employee_Locked_DateTime` datetime DEFAULT NULL,
   `Reason` varchar(256) DEFAULT NULL COMMENT 'Used to document the run number for night runs and any other reasons for time not documented by other means.',
   PRIMARY KEY (`Employee_Number`,`DateTime_In`),
@@ -202,7 +203,7 @@ CREATE TABLE `recoveryemails_enc` (
   PRIMARY KEY (`ID`),
   KEY `FK_Employee_Number_idx` (`Employee_Number`),
   CONSTRAINT `FK_rec_email_employee` FOREIGN KEY (`Employee_Number`) REFERENCES `employees` (`Employee_Number`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8 COMMENT='This table will be used to track password recovery attempts.';
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8 COMMENT='This table will be used to track password recovery attempts.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -240,4 +241,4 @@ CREATE TABLE `security_roles` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-23 22:35:09
+-- Dump completed on 2018-05-02 17:07:04
