@@ -108,8 +108,8 @@ extract($viewmodel);
                 </tr>
             <?php endforeach; ?>
             <tr align='right'>
-                <td><?php echo 'Regular Time: ' . $totalsWeekOne['regularTimeTotal']; ?></td>
-                <td><?php echo 'OverTime: ' . $totalsWeekOne['overTimeTotal']; ?></td>
+                <td><?php echo 'Regular Time: ' . $totalsWeekOne['regularTimeTotal'] . ' hrs'; ?></td>
+                <td><?php echo 'OverTime: ' . $totalsWeekOne['overTimeTotal'] . ' hrs'; ?></td>
             </tr>
             <?php foreach ($weekTwo as $item) : ?>
                 <tr>
@@ -182,3 +182,4 @@ extract($viewmodel);
         </tbody>
     </table>
 </div>
+
