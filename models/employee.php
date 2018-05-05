@@ -422,10 +422,10 @@ class EmployeeModel extends Model
             $calculatedTime = Miscellaneous::calculateTime($adjustedTime);  // Calculates the time for worked hours, overtime hours and non-worked hours
             // for this one entry only.
 
-            $regTime = ($calculatedTime[0]->h) + ($calculatedTime[0]->i)/ 60 ;
-            $overTime = $calculatedTime[1]->h + $calculatedTime[1]->i / 60;
-            $nonWorkTime = $calculatedTime[2]->h + $calculatedTime[2]->i / 60;
-            $nightTime = $calculatedTime[3]->h + $calculatedTime[3]->i / 60;
+            $regTime = ($calculatedTime["regHours"]->h) + ($calculatedTime["regHours"]->i)/ 60 ;
+            $overTime = $calculatedTime["otHours"]->h + $calculatedTime["otHours"]->i / 60;
+            $nonWorkTime = $calculatedTime["ptoHours"]->h + $calculatedTime["ptoHours"]->i / 60;
+            $nightTime = $calculatedTime["nightHours"]->h + $calculatedTime["nightHours"]->i / 60;
 
             try
             {
