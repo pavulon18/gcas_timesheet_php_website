@@ -149,7 +149,6 @@ class Miscellaneous extends Model
 
         if ($adjustedTime['is24HrShift'])
         {
-            echo '<p>is24HrShift</p><br>';
             if (!$adjustedTime['isNightRun'] && !$adjustedTime['isHoliday'] && !$adjustedTime['isPTO'])
             {
                 $regHours = new DateInterval("PT16H0M");
@@ -160,6 +159,7 @@ class Miscellaneous extends Model
             }
             else if ($adjustedTime['isNightRun'] && !$adjustedTime['isHoliday'] && !$adjustedTime['isPTO'])
             {
+                // if the night run starts and ends within the designated sleep time (2300 - 0700)
                 if ((($adjustedStartTime->format('H:i') >= '23:00' && $adjustedStartTime->format('H:i') <= '23:59') || ($adjustedStartTime->format('H:i') >= '00:00' && $adjustedStartTime->format('H:i') <= '07:00')) && (($adjustedEndTime->format('H:i') >= '23:00' && $adjustedEndTime->format('H:i') <= '23:59') || ($adjustedEndTime->format('H:i') >= '00:00' && $adjustedEndTime->format('H:i') <= '07:00')))
                 {
                     $regHours = new DateInterval("PT0H0M");
@@ -168,6 +168,7 @@ class Miscellaneous extends Model
                     $nightHours = $adjustedEndTime->diff($adjustedStartTime);
                     return [$regHours, $otHours, $nonWorkHours, $nightHours];
                 }
+                // if the night run starts between 2300 and 0700 and the end time is between 0700 and 0800
                 elseif ((($adjustedStartTime->format('H:i') >= '23:00' && $adjustedStartTime->format('H:i') <= '23:59') || ($adjustedStartTime->format('H:i') >= '00:00' && $adjustedStartTime->format('H:i') <= '07:00')) && (($adjustedEndTime->format('H:i') >= '07:00' && $adjustedEndTime->format('H:i') <= '08:00')))
                 {
                     $regHours = new DateInterval("PT0H0M");                    //  I need to figure out how to keep the date portion and set the time to 07:00.  I think I've done this some place else.  I will have to look for it.
@@ -176,6 +177,7 @@ class Miscellaneous extends Model
                     $nightHours = (new DateTime($adjustedEndTime->setTime(7, 00, 00)))->diff($adjustedStartTime);
                     return [$regHours, $otHours, $nonWorkHours, $nightHours];
                 }
+                // if the night run starts between 2300 and 0700 and ends after 0800
                 elseif ((($adjustedStartTime->format('H:i') >= '23:00' && $adjustedStartTime->format('H:i') <= '23:59') || ($adjustedStartTime->format('H:i') >= '00:00' && $adjustedStartTime->format('H:i') <= '07:00')) && (($adjustedEndTime->format('H:i') >= '08:00')))
                 {
                     $regHours = new DateInterval("PT0H0M");
@@ -185,6 +187,15 @@ class Miscellaneous extends Model
                     $nonWorkHours = new DateInterval("PT0H0M");
                     $nightHours = (new DateTime($adjustedEndTime->setTime(7, 00, 00)))->diff($adjustedStartTime);
                     
+                    return [$regHours, $otHours, $nonWorkHours, $nightHours];
+                }
+                // if the night run starts before 2300 and ends after 2300 and before 0700
+                elseif($adjustedStartTime->format('H:i') <= '23:00' && (($adjustedEndTime->format('H:i') >= '23:00' && $adjustedEndTime->format('H:i') <= '23:59') || ($adjustedEndTime->format('H:i') >= '00:00' && $adjustedEndTime->format('H:i') <= '07:00')))
+                {
+                    $regHours = new DateInterval("PT0H0M");
+                    $otHours = new DateInterval("PT0H0M");
+                    $nonWorkHours = new DateInterval("PT0H0M");
+                    $nightHours = new DateTime($adjustedEndTime->diff(new DateTime($adjustedStartTime->setTime(23,00,00))));
                     return [$regHours, $otHours, $nonWorkHours, $nightHours];
                 }
             }
@@ -385,5 +396,6 @@ class Miscellaneous extends Model
 
         return ["regularTimeTotal" => $regularTime, "overTimeTotal" => $overTime];
     }
-
+    
+   // public static function 
 }

@@ -108,6 +108,7 @@ extract($viewmodel);
                 </tr>
             <?php endforeach; ?>
             <tr align='right'>
+                <td>Week One Totals:</td>
                 <td><?php echo 'Regular Time: ' . $totalsWeekOne['regularTimeTotal'] . ' hrs'; ?></td>
                 <td><?php echo 'OverTime: ' . $totalsWeekOne['overTimeTotal'] . ' hrs'; ?></td>
             </tr>
@@ -176,10 +177,12 @@ extract($viewmodel);
                 </tr>
             <?php endforeach; ?>
             <tr align='right'>
-                <td><?php echo 'Regular Time: ' . $totalsWeekTwo['regularTimeTotal']; ?></td>
-                <td><?php echo 'OverTime: ' . $totalsWeekTwo['overTimeTotal']; ?></td>
+                <td>Week Two Totals</td>
+                <td><?php echo 'Regular Time: ' . $totalsWeekTwo['regularTimeTotal'] . ' hrs'; ?></td>
+                <td><?php echo 'OverTime: ' . $totalsWeekTwo['overTimeTotal'] . ' hrs'; ?></td>
             </tr>
         </tbody>
     </table>
 </div>
 
+<input type="submit" value="Recalculate Times" name="recalculateTimes" />
