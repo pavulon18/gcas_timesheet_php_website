@@ -425,6 +425,7 @@ class EmployeeModel extends Model
             $regTime = ($calculatedTime[0]->h) + ($calculatedTime[0]->i)/ 60 ;
             $overTime = $calculatedTime[1]->h + $calculatedTime[1]->i / 60;
             $nonWorkTime = $calculatedTime[2]->h + $calculatedTime[2]->i / 60;
+            $nightTime = $calculatedTime[3]->h + $calculatedTime[3]->i / 60;
 
             try
             {
@@ -432,9 +433,9 @@ class EmployeeModel extends Model
 
                 $this->query('INSERT INTO employee_payrollhours '
                         . '(Employee_Number, DateTime_In, DateTime_Out, Is_24Hour_Shift, Is_Sick_Day, Is_Vacation_Day, Is_Personal_Day, '
-                        . 'Is_Holiday, Is_Berevement_Day, Is_FMLA_Day, Is_Night_Run, RegularTime, OverTime, NonWorkTime) '
+                        . 'Is_Holiday, Is_Berevement_Day, Is_FMLA_Day, Is_Night_Run, RegularTime, OverTime, NonWorkTime, NightTime) '
                         . 'VALUES (:empNum, :startTime, :endTime, :is24, :isSick, :isVaca, :isPersonal, :isHoliday, :isBereve, :isFMLA, :isNight, '
-                        . ':regTime, :overTime, :nonWorkTime)');
+                        . ':regTime, :overTime, :nonWorkTime, :nightTime)');
                 $this->bind(':empNum', $_SESSION['user_data']['empNum']);
                 $this->bind(':startTime', $startDateTime);
                 $this->bind(':endTime', $endDateTime);
@@ -450,6 +451,7 @@ class EmployeeModel extends Model
                 $this->bind(':regTime', $regTime);
                 $this->bind(':overTime', $overTime);
                 $this->bind(':nonWorkTime', $nonWorkTime);
+                $this->bind('nightTime', $nightTime);
                 $this->execute();
 
                 $this->transactionCommit();
