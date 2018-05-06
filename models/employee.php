@@ -427,6 +427,11 @@ class EmployeeModel extends Model
             $nonWorkTime = $calculatedTime["ptoHours"]->h + $calculatedTime["ptoHours"]->i / 60;
             $nightTime = $calculatedTime["nightHours"]->h + $calculatedTime["nightHours"]->i / 60;
 
+            $this->insertTime($startDateTime, $endDateTime, $is24, $isSick, $isVaca, $isPerson, $isHoliday, $isBerev, $isFMLA, $isNightRun, $regTime, $overTime, $nonWorkTime, $nightTime);
+            /**
+             * going to try to move this to a function since I need to use it again
+             * elsewhere.
+             * 
             try
             {
                 $this->transactionStart(); // Starting a transaction so if any one part of this fails, the whole transaction will be rolled back.
@@ -462,6 +467,8 @@ class EmployeeModel extends Model
                 echo $ex->getMessage();
                 Messages::setMsg($ex->getMessage(), 'error');
             }
+             * 
+             */
         }
     }
 
@@ -644,21 +651,40 @@ class EmployeeModel extends Model
         
         $now = new DateTime("now");
         
-        $firstDayObject = Miscellaneous::determineFirstDay($now);
+        /**
+         * Refactoring some code.  This was the original code.  I wanted to keep
+         * it until I was sure the refactored code was working properly.
+         * May 5, 2018
+         * 
+         * $firstDayObject = Miscellaneous::determineFirstDay($now);
+         *
+         *
+         * $lastDayObject = new DateTime($firstDayObject->format('Y-m-d'));
+         * $lastDayObject->add(new DateInterval('P14D'))->setTime(8,00,00);
+         *
+         * 
+         *       
+         * $middleDayObject = new DateTime($firstDayObject->format('Y-m-d'));
+         * $middleDayObject->add(new DateInterval('P7D'))->setTime(8,00,00);
+         * 
+         */
         
-        $lastDayObject = new DateTime($firstDayObject->format('Y-m-d'));
-        $lastDayObject->add(new DateInterval('P14D'))->setTime(8,00,00);
-        
-        $middleDayObject = new DateTime($firstDayObject->format('Y-m-d'));
-        $middleDayObject->add(new DateInterval('P7D'))->setTime(8,00,00);
+        $definePayPeriod = Miscellaneous::definePayPeriod($now);
 
-        $firstDayObject = DateTimeImmutable::createFromMutable( $firstDayObject );
-        $middleDayObject = DateTimeImmutable::createFromMutable($middleDayObject);
-        $lastDayObject = DateTimeImmutable::createFromMutable($lastDayObject);
+        $firstDayObject = DateTimeImmutable::createFromMutable($definePayPeriod['firstDay']);
+        $middleDayObject = DateTimeImmutable::createFromMutable($definePayPeriod['middleDay']);
+        $lastDayObject = DateTimeImmutable::createFromMutable($definePayPeriod['lastDay']);
 
         $firstDay  = $firstDayObject->format('Y-m-d') . ' 08:00:00';
         $middleDay = $middleDayObject->format('Y-m-d') . ' 08:00:00';
         $lastDay   = $lastDayObject->format('Y-m-d') . ' 08:00:00';
+        
+        /**
+         * I should be able to combine the following two queries
+         * look at https://www.sitepoint.com/re-introducing-pdo-the-right-way-to-access-databases-in-php/
+         * for examples
+         * 
+         */
         
         $this->query('SELECT * from employee_payrollhours where Employee_Number = :empNum and DateTime_In >= :firstDay and DateTime_In < :middleDay');
         $this->bind(':empNum', $_SESSION['user_data']['empNum']);
@@ -675,5 +701,23 @@ class EmployeeModel extends Model
         $totalsWeekTwo = Miscellaneous::weeklyTotals($weekTwo);
 
         return ["weekOne"=>$weekOne, "totalsWeekOne"=>$totalsWeekOne, "weekTwo"=>$weekTwo, "totalsWeekTwo"=>$totalsWeekTwo];
+    }
+    
+    public function recalculateTime()
+    {
+        $definePayPeriod = Miscellaneous::definePayPeriod($now);
+
+        $firstDayObject = DateTimeImmutable::createFromMutable($definePayPeriod['firstDay']);
+        $middleDayObject = DateTimeImmutable::createFromMutable($definePayPeriod['middleDay']);
+        $lastDayObject = DateTimeImmutable::createFromMutable($definePayPeriod['lastDay']);
+
+        $this->query('SELECT * from employee_payrollhours where Employee_Number = :empNum and DateTime_In >= :firstDay and DateTime_In < :middleDay');
+        $this->bind(':empNum', $_SESSION['user_data']['empNum']);
+        $this->bind('firstDay', $firstDay);
+        $this->bind('middleDay', $middleDay);
+        $results = $this->resultSet();
+        
+        
+        
     }
 }

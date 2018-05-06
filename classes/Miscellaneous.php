@@ -143,7 +143,7 @@ class Miscellaneous extends Model
         $regHours = 0;
         $nonWorkHours = 0;
         $nightHours = 0;
-        
+
         $adjustedStartTime = new DateTimeImmutable($adjustedTime['startYear'] . '-' . $adjustedTime['startMonth'] . '-' . $adjustedTime['startDay'] . ' ' . $adjustedTime['startHour'] . ':' . $adjustedTime['startMin'] . ':00');
         $adjustedEndTime = new DateTimeImmutable($adjustedTime['endYear'] . '-' . $adjustedTime['endMonth'] . '-' . $adjustedTime['endDay'] . ' ' . $adjustedTime['endHour'] . ':' . $adjustedTime['endMin'] . ':00');
 
@@ -155,7 +155,10 @@ class Miscellaneous extends Model
                 $otHours = new DateInterval("PT0H0M");
                 $nonWorkHours = new DateInterval("PT0H0M");
                 $nightHours = new DateInterval("PT0H0M");
-                return [$regHours, $otHours, $nonWorkHours, $nightHours];
+                return ["regHours" => $regHours,
+                    "otHours" => $otHours,
+                    "ptoHours" => $nonWorkHours,
+                    "nightHours" => $nightHours];
             }
             else if ($adjustedTime['isNightRun'] && !$adjustedTime['isHoliday'] && !$adjustedTime['isPTO'])
             {
@@ -166,7 +169,10 @@ class Miscellaneous extends Model
                     $otHours = new DateInterval("PT0H0M");
                     $nonWorkHours = new DateInterval("PT0H0M");
                     $nightHours = $adjustedEndTime->diff($adjustedStartTime);
-                    return [$regHours, $otHours, $nonWorkHours, $nightHours];
+                    return ["regHours" => $regHours,
+                        "otHours" => $otHours,
+                        "ptoHours" => $nonWorkHours,
+                        "nightHours" => $nightHours];
                 }
                 // if the night run starts between 2300 and 0700 and the end time is between 0700 and 0800
                 elseif ((($adjustedStartTime->format('H:i') >= '23:00' && $adjustedStartTime->format('H:i') <= '23:59') || ($adjustedStartTime->format('H:i') >= '00:00' && $adjustedStartTime->format('H:i') <= '07:00')) && (($adjustedEndTime->format('H:i') >= '07:00' && $adjustedEndTime->format('H:i') <= '08:00')))
@@ -175,7 +181,10 @@ class Miscellaneous extends Model
                     $otHours = new DateInterval("PT0H0M");
                     $nonWorkHours = new DateInterval("PT0H0M");
                     $nightHours = (new DateTime($adjustedEndTime->setTime(7, 00, 00)))->diff($adjustedStartTime);
-                    return [$regHours, $otHours, $nonWorkHours, $nightHours];
+                    return ["regHours" => $regHours,
+                        "otHours" => $otHours,
+                        "ptoHours" => $nonWorkHours,
+                        "nightHours" => $nightHours];
                 }
                 // if the night run starts between 2300 and 0700 and ends after 0800
                 elseif ((($adjustedStartTime->format('H:i') >= '23:00' && $adjustedStartTime->format('H:i') <= '23:59') || ($adjustedStartTime->format('H:i') >= '00:00' && $adjustedStartTime->format('H:i') <= '07:00')) && (($adjustedEndTime->format('H:i') >= '08:00')))
@@ -186,17 +195,22 @@ class Miscellaneous extends Model
                     $otHours = $adjustedEndTime->diff(new DateTime($adjustedEndTime->setTime(8, 00, 00)));
                     $nonWorkHours = new DateInterval("PT0H0M");
                     $nightHours = (new DateTime($adjustedEndTime->setTime(7, 00, 00)))->diff($adjustedStartTime);
-                    
-                    return [$regHours, $otHours, $nonWorkHours, $nightHours];
+                    return ["regHours" => $regHours,
+                        "otHours" => $otHours,
+                        "ptoHours" => $nonWorkHours,
+                        "nightHours" => $nightHours];
                 }
                 // if the night run starts before 2300 and ends after 2300 and before 0700
-                elseif($adjustedStartTime->format('H:i') <= '23:00' && (($adjustedEndTime->format('H:i') >= '23:00' && $adjustedEndTime->format('H:i') <= '23:59') || ($adjustedEndTime->format('H:i') >= '00:00' && $adjustedEndTime->format('H:i') <= '07:00')))
+                elseif ($adjustedStartTime->format('H:i') <= '23:00' && (($adjustedEndTime->format('H:i') >= '23:00' && $adjustedEndTime->format('H:i') <= '23:59') || ($adjustedEndTime->format('H:i') >= '00:00' && $adjustedEndTime->format('H:i') <= '07:00')))
                 {
                     $regHours = new DateInterval("PT0H0M");
                     $otHours = new DateInterval("PT0H0M");
                     $nonWorkHours = new DateInterval("PT0H0M");
-                    $nightHours = new DateTime($adjustedEndTime->diff(new DateTime($adjustedStartTime->setTime(23,00,00))));
-                    return [$regHours, $otHours, $nonWorkHours, $nightHours];
+                    $nightHours = new DateTime($adjustedEndTime->diff(new DateTime($adjustedStartTime->setTime(23, 00, 00))));
+                    return ["regHours" => $regHours,
+                        "otHours" => $otHours,
+                        "ptoHours" => $nonWorkHours,
+                        "nightHours" => $nightHours];
                 }
             }
             else if (!$adjustedTime['isNightRun'] && $adjustedTime['isHoliday'] && !$adjustedTime['isPTO'])
@@ -205,7 +219,10 @@ class Miscellaneous extends Model
                 $otHours = new DateInterval("PT16H0M");
                 $nonWorkHours = new DateInterval("PT8H0M");
                 $nightHours = new DateInterval("PT0H0M");
-                return [$regHours, $otHours, $nonWorkHours, $nightHours];
+                return ["regHours" => $regHours,
+                    "otHours" => $otHours,
+                    "ptoHours" => $nonWorkHours,
+                    "nightHours" => $nightHours];
             }
             else if (!$adjustedTime['isNightRun'] && !$adjustedTime['isHoliday'] && $adjustedTime['isPTO'])
             {
@@ -213,7 +230,10 @@ class Miscellaneous extends Model
                 $otHours = new DateInterval("PT0H0M");
                 $nonWorkHours = new DateTimeImmutable('16:00');
                 $nightHours = new DateInterval("PT0H0M");
-                return [$regHours, $otHours, $nonWorkHours, $nightHours];
+                return ["regHours" => $regHours,
+                    "otHours" => $otHours,
+                    "ptoHours" => $nonWorkHours,
+                    "nightHours" => $nightHours];
             }
         }
         else if (!$adjustedTime['is24HrShift'])
@@ -224,7 +244,10 @@ class Miscellaneous extends Model
                 $otHours = new DateInterval("PT0H0M");
                 $nonWorkHours = $adjustedEndTime->diff($adjustedStartTime);
                 $nightHours = new DateInterval("PT0H0M");
-                return [$regHours, $otHours, $nonWorkHours, $nightHours];
+                return ["regHours" => $regHours,
+                    "otHours" => $otHours,
+                    "ptoHours" => $nonWorkHours,
+                    "nightHours" => $nightHours];
             }
             else if (!$adjustedTime['isNightRun'] && $adjustedTime['isHoliday'] && !$adjustedTime['isPTO']) // Need to differentiate between when one works and does not work
             {
@@ -232,7 +255,10 @@ class Miscellaneous extends Model
                 $otHours = $adjustedEndTime->diff($adjustedStartTime);
                 $nonWorkHours = new DateInterval("PT8H0M");
                 $nightHours = new DateInterval("PT0H0M");
-                return [$regHours, $otHours, $nonWorkHours, $nightHours];
+                return ["regHours" => $regHours,
+                    "otHours" => $otHours,
+                    "ptoHours" => $nonWorkHours,
+                    "nightHours" => $nightHours];
             }
             else if (!$adjustedTime['isNightRun'] && !$adjustedTime['isHoliday'] && !$adjustedTime['isPTO']) // Need to differentiate between when one works and does not work
             {
@@ -240,7 +266,10 @@ class Miscellaneous extends Model
                 $otHours = new DateInterval("PT0H0M");
                 $nonWorkHours = new DateInterval("PT0H0M");
                 $nightHours = new DateInterval("PT0H0M");
-                return [$regHours, $otHours, $nonWorkHours, $nightHours];
+                return ["regHours" => $regHours,
+                    "otHours" => $otHours,
+                    "ptoHours" => $nonWorkHours,
+                    "nightHours" => $nightHours];
             }
             else
             {
@@ -321,6 +350,43 @@ class Miscellaneous extends Model
         return ($dayOne);
     }
 
+    public static function definePayPeriod($currentDate)
+    {
+        /**
+         * This will determine the first day of a pay period
+         * The parameter passed to this function will be the date in question.
+         * This function will then count backwards until it finds the first day
+         * of the pay period.
+         */
+        $referenceDate = new DateTime(REFERENCE_DATE);
+        $dayOne = new DateTime($currentDate->format('Y-m-d'));
+        $dayOne->setTime(8, 00, 00);
+
+        $interval = intval(($dayOne->diff($referenceDate, TRUE)->format('%R%a')));
+
+        $i = 0;
+        while (($interval % 14) != 0) // If i have done my logic correctly, this will find the first
+        {                                                       // day of the pay period prior to the user selected first day.
+            $dayOne->modify("-1 day");
+            $interval = intval(($dayOne->diff($referenceDate, TRUE)->format('%R%a')));
+            $i++;
+            if ($i > 20)
+            {
+                Messages::setMsg('There was a problem finding the first day of the pay period', 'error');
+                echo "<META http-equiv='refresh' content='0;URL=" . ROOT_URL . "employees'>";
+                die();
+            }
+        }
+
+        $middleDayObject = new DateTime($dayOne->format('Y-m-d'));
+        $middleDayObject->add(new DateInterval('P7D'))->setTime(8, 00, 00);
+
+        $lastDayObject = new DateTime($dayOne->format('Y-m-d'));
+        $lastDayObject->add(new DateInterval('P14D'))->setTime(8, 00, 00);
+
+        return ['firstDay' => $dayOne, 'middleDay' => $middleDayObject, 'lastDay' => $lastDayObject];
+    }
+
     public static function mostRecentModifiedFileTime($dirName, $doRecursive)
     {
         $d = dir($dirName);
@@ -352,29 +418,21 @@ class Miscellaneous extends Model
         $regularTime = 0;
         $overTime = 0;
         $nonWorkTime = 0;
+        $nightTime = 0;
 
+        /**
+         * I think I'm having trouble with trying to iterate over an array while
+         * it is nested inside a loop using the same array.
+         * I'm going to try to setup a second array which is equal to the first
+         * to see if that changes the outcome.
+         * 
+         * well, that didn't seem to help.
+         */
         foreach ($array as $counter)
         {
             if ($counter['Is_Night_Run'] == 'N' && $counter['Is_24Hour_Shift'] == 'Y')
             {
-                $tempStart = (new DateTime($counter['DateTime_In']))->setTime(23, 00, 00);
-                $tempEnd = (new DateTime($counter['DateTime_Out']))->setTime(07, 00, 00);
-                $nightTime = 0;
-                foreach ($array as $item2)
-                {
-                    if ($item2['DateTime_In'] >= $tempStart && $item2['DateTime_In'] <= $tempEnd)
-                    {
-                        $nightTime += $item2['NightTime'];
-                        if ($nightTime >= 3)
-                        {
-                            $nightTime = 8;
-                            break;
-                        }
-                        //endif;
-                    }
-                    //endif;
-                }
-                //endforeach;
+                $nightTime = Miscellaneous::sumNightHours($counter['DateTime_In'], $array);
             }
             else //(!$item['isNightRun'])
             {
@@ -382,7 +440,6 @@ class Miscellaneous extends Model
                 $overTime += $counter['OverTime'];
                 $nonWorkTime += $counter['NonWorkTime'];
             }
-            
         }
         //endforeach;
 
@@ -393,9 +450,34 @@ class Miscellaneous extends Model
         }
 
         $regularTime += $nonWorkTime;
+        $overTime += $nightTime;
 
         return ["regularTimeTotal" => $regularTime, "overTimeTotal" => $overTime];
     }
-    
-   // public static function 
+
+    public static function sumNightHours($startDateTime, $array)
+    {
+        $startDateTime = new DateTime($startDateTime);
+        $startDateTime->setTime(23,00,00);
+        
+        $endDateTime = new DateTime($startDateTime->format('Y-m-d'));
+        $endDateTime->modify('+1 day');
+        $endDateTime->setTime(07,00,00);
+        
+        $nightTime = 0;
+        foreach ($array as $item)
+        {
+            if ($item['Is_Night_Run'] == 'Y' && (($item['DateTime_In'] >= $startDateTime && $item['DateTime_In'] <= $endDateTime) || ($item['DateTime_Out'] >= $startDateTime && $item['DateTime_Out'] <= $endDateTime)))
+            {
+                $nightTime += $item['NightTime'];
+                if ($nightTime >= 3)
+                {
+                    $nightTime += 8;
+                    break;
+                }
+            }
+        }
+        return $nightTime;
+    }
+
 }
