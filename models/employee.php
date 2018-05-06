@@ -66,7 +66,8 @@ class EmployeeModel extends Model
                 //Checking if the password has been expired.  If yes then the password will need to be changed.
                 // Need to add this functionality
                 header('Location: ' . ROOT_URL . 'employees');
-            } else
+            }
+            else
             {
                 Messages::setMsg('Incorrect Login', 'error');
             }
@@ -142,14 +143,17 @@ class EmployeeModel extends Model
             Messages::setMsg('The token is invalid.', 'error');
             //header('Location: ' . ROOT_URL);
             return;
-        } elseif (!hash_equals($item, hash('sha256', $id, FALSE)) || isset($result['Redeemed_DateTime'])) // March 13, 2018 -- Still need to test the Redeemed part of this statement
+        }
+        elseif (!hash_equals($item, hash('sha256', $id, FALSE)) || isset($result['Redeemed_DateTime'])) // March 13, 2018 -- Still need to test the Redeemed part of this statement
         {
             Messages::setMsg('<p>The token does not exist or has already been used.<br/></p>', 'error');
             //header('Location: ' . ROOT_URL);
-        } elseif (StoPasswordReset::isTokenExpired($createDateTime))  // Check whether the token has expired
+        }
+        elseif (StoPasswordReset::isTokenExpired($createDateTime))  // Check whether the token has expired
         {
             Messages::setMsg('The token has expired.', 'error');
-        } else
+        }
+        else
         {
             $this->query('UPDATE recoveryemails_enc SET Redeemed_DateTime = now() where Token = :token');
             $this->bind(':token', hash('sha256', $id, FALSE));
@@ -224,7 +228,8 @@ class EmployeeModel extends Model
                 Messages::setMsg('The old password must be supplied.', 'error');
                 return; // do I want a return statement or do I want
                 //header('Location: ' . ROOT_URL);  // this header statement?
-            } elseif (!password_verify($post['oldPassword'], $row['password']))
+            }
+            elseif (!password_verify($post['oldPassword'], $row['password']))
             {
                 Messages::setMsg('There was an error.  Please try again.', 'error');
                 return; // do I want a return statement or do I want
@@ -290,7 +295,8 @@ class EmployeeModel extends Model
                 $post['endDay'] = $endDTArray['day'];
                 $post['endHour'] = $endDTArray['hour'];
                 $post['endMin'] = $endDTArray['minute'];
-            } else
+            }
+            else
             {
                 $startDateTime = $post['startYear'] . '-' . $post['startMonth'] . '-' . $post['startDay'] . ' ' . $post['startHour'] . ':' . $post['startMin'] . ':00';
                 $endDateTime = $post['endYear'] . '-' . $post['endMonth'] . '-' . $post['endDay'] . ' ' . $post['endHour'] . ':' . $post['endMin'] . ':00';
@@ -320,10 +326,12 @@ class EmployeeModel extends Model
             if ($post['is24HrShift'] == 0)
             {
                 $is24 = 'N';
-            } else if ($post['is24HrShift'] == 1)
+            }
+            else if ($post['is24HrShift'] == 1)
             {
                 $is24 = 'Y';
-            } else
+            }
+            else
             {
                 Messages::setMsg('Invalid Entry.  Please Try again.', 'error');
             }
@@ -331,10 +339,12 @@ class EmployeeModel extends Model
             if ($post['isHoliday'] == 0)
             {
                 $isHoliday = 'N';
-            } else if ($post['isHoliday'] == 1)
+            }
+            else if ($post['isHoliday'] == 1)
             {
                 $isHoliday = 'Y';
-            } else
+            }
+            else
             {
                 Messages::setMsg('Invalid Entry.  Please Try again.', 'error');
             }
@@ -342,7 +352,8 @@ class EmployeeModel extends Model
             if ($post['isPTO'] == 0)
             {
                 $isPTO = 'N';
-            } else if ($post['isPTO'] == 1)
+            }
+            else if ($post['isPTO'] == 1)
             {
                 $isPTO = 'Y';
 
@@ -397,7 +408,8 @@ class EmployeeModel extends Model
                         $isFMLA = 'N';
                         break;
                 }
-            } else
+            }
+            else
             {
                 Messages::setMsg('Invalid Entry.  Please Try again.', 'error');
             }
@@ -406,23 +418,26 @@ class EmployeeModel extends Model
             {
                 $isNightRun = 'N';
                 $post['isNightRun'] = 'N';
-            } else if ($post['isNightRun'] == 0)
+            }
+            else if ($post['isNightRun'] == 0)
             {
                 $isNightRun = 'N';
-            } else if ($post['isNightRun'] == 1)
+            }
+            else if ($post['isNightRun'] == 1)
             {
                 $isNightRun = 'Y';
-            } else
+            }
+            else
             {
                 Messages::setMsg('Invalid Entry.  Please Try again.', 'error');
             }
 
             $adjustedTime = Miscellaneous::timeAdjust($post);      //Adjusts the time to the nearest 15 min in favor of the employee
 
-            $calculatedTime = Miscellaneous::calculateTime($adjustedTime);  // Calculates the time for worked hours, overtime hours and non-worked hours
+            $calculatedTime = Miscellaneous::calculateTime($adjustedTime);  // Calculates the time for worked hours, overtime hours, non-worked hours, and night time hours
             // for this one entry only.
 
-            $regTime = ($calculatedTime["regHours"]->h) + ($calculatedTime["regHours"]->i)/ 60 ;
+            $regTime = ($calculatedTime["regHours"]->h) + ($calculatedTime["regHours"]->i) / 60;
             $overTime = $calculatedTime["otHours"]->h + $calculatedTime["otHours"]->i / 60;
             $nonWorkTime = $calculatedTime["ptoHours"]->h + $calculatedTime["ptoHours"]->i / 60;
             $nightTime = $calculatedTime["nightHours"]->h + $calculatedTime["nightHours"]->i / 60;
@@ -432,41 +447,41 @@ class EmployeeModel extends Model
              * going to try to move this to a function since I need to use it again
              * elsewhere.
              * 
-            try
-            {
-                $this->transactionStart(); // Starting a transaction so if any one part of this fails, the whole transaction will be rolled back.
+              try
+              {
+              $this->transactionStart(); // Starting a transaction so if any one part of this fails, the whole transaction will be rolled back.
 
-                $this->query('INSERT INTO employee_payrollhours '
-                        . '(Employee_Number, DateTime_In, DateTime_Out, Is_24Hour_Shift, Is_Sick_Day, Is_Vacation_Day, Is_Personal_Day, '
-                        . 'Is_Holiday, Is_Berevement_Day, Is_FMLA_Day, Is_Night_Run, RegularTime, OverTime, NonWorkTime, NightTime) '
-                        . 'VALUES (:empNum, :startTime, :endTime, :is24, :isSick, :isVaca, :isPersonal, :isHoliday, :isBereve, :isFMLA, :isNight, '
-                        . ':regTime, :overTime, :nonWorkTime, :nightTime)');
-                $this->bind(':empNum', $_SESSION['user_data']['empNum']);
-                $this->bind(':startTime', $startDateTime);
-                $this->bind(':endTime', $endDateTime);
-                $this->bind(':is24', $is24);
-                $this->bind(':isSick', $isSick);
-                $this->bind(':isVaca', $isVaca);
-                $this->bind(':isPersonal', $isPerson);
-                $this->bind(':isHoliday', $isHoliday);
-                $this->bind(':isBereve', $isBerev);
-                $this->bind(':isFMLA', $isFMLA);
-                //$this->bind(':isShortTerm', $is) // does the administrator or employee need to set the long term and short term disability?
-                $this->bind(':isNight', $isNightRun);
-                $this->bind(':regTime', $regTime);
-                $this->bind(':overTime', $overTime);
-                $this->bind(':nonWorkTime', $nonWorkTime);
-                $this->bind('nightTime', $nightTime);
-                $this->execute();
+              $this->query('INSERT INTO employee_payrollhours '
+              . '(Employee_Number, DateTime_In, DateTime_Out, Is_24Hour_Shift, Is_Sick_Day, Is_Vacation_Day, Is_Personal_Day, '
+              . 'Is_Holiday, Is_Berevement_Day, Is_FMLA_Day, Is_Night_Run, RegularTime, OverTime, NonWorkTime, NightTime) '
+              . 'VALUES (:empNum, :startTime, :endTime, :is24, :isSick, :isVaca, :isPersonal, :isHoliday, :isBereve, :isFMLA, :isNight, '
+              . ':regTime, :overTime, :nonWorkTime, :nightTime)');
+              $this->bind(':empNum', $_SESSION['user_data']['empNum']);
+              $this->bind(':startTime', $startDateTime);
+              $this->bind(':endTime', $endDateTime);
+              $this->bind(':is24', $is24);
+              $this->bind(':isSick', $isSick);
+              $this->bind(':isVaca', $isVaca);
+              $this->bind(':isPersonal', $isPerson);
+              $this->bind(':isHoliday', $isHoliday);
+              $this->bind(':isBereve', $isBerev);
+              $this->bind(':isFMLA', $isFMLA);
+              //$this->bind(':isShortTerm', $is) // does the administrator or employee need to set the long term and short term disability?
+              $this->bind(':isNight', $isNightRun);
+              $this->bind(':regTime', $regTime);
+              $this->bind(':overTime', $overTime);
+              $this->bind(':nonWorkTime', $nonWorkTime);
+              $this->bind('nightTime', $nightTime);
+              $this->execute();
 
-                $this->transactionCommit();
-                Messages::setMsg('Success', 'success');
-            } catch (PDOException $ex)
-            {
-                $this->transactionRollback();
-                echo $ex->getMessage();
-                Messages::setMsg($ex->getMessage(), 'error');
-            }
+              $this->transactionCommit();
+              Messages::setMsg('Success', 'success');
+              } catch (PDOException $ex)
+              {
+              $this->transactionRollback();
+              echo $ex->getMessage();
+              Messages::setMsg($ex->getMessage(), 'error');
+              }
              * 
              */
         }
@@ -522,55 +537,54 @@ class EmployeeModel extends Model
         $weekOne = [];
         $weekTwo = [];
         $payPeriod = [$weekOne, $weekTwo];
-      
+
         //$regHours = 0.0;        // Hours the employee was actually on the clock
         //$overtimeHours = 0.0;   // Overtime hours
         //$nonWorkHours = 0.0;    // Hours paid to the employee while the employee was not
         // working.  example:  Sick Day, Vacation Day, other PTO type days.
 
         /**
-        $this->query('SELECT * FROM employee_payrollhours WHERE Employee_Number = :Employee_Number');
-        $this->bind(':Employee_Number', $_SESSION['user_data']['empNum']);
-        $resultSetPayroll = $this->resultSet();
-        if (empty($resultSetPayroll))
-        {
-            Messages::setMsg('There is no data to retrieve for this user', 'error');
-            header('Location: ' . ROOT_URL . 'employees');
-        }
+          $this->query('SELECT * FROM employee_payrollhours WHERE Employee_Number = :Employee_Number');
+          $this->bind(':Employee_Number', $_SESSION['user_data']['empNum']);
+          $resultSetPayroll = $this->resultSet();
+          if (empty($resultSetPayroll))
+          {
+          Messages::setMsg('There is no data to retrieve for this user', 'error');
+          header('Location: ' . ROOT_URL . 'employees');
+          }
 
-        $this->query('SELECT * FROM employees WHERE Employee_Number = :Employee_Number ORDER BY Inserted_at DESC LIMIT 1');
-        $this->bind(':Employee_Number', $_SESSION['user_data']['empNum']);
-        $resultSetEmployee = $this->resultSet();
+          $this->query('SELECT * FROM employees WHERE Employee_Number = :Employee_Number ORDER BY Inserted_at DESC LIMIT 1');
+          $this->bind(':Employee_Number', $_SESSION['user_data']['empNum']);
+          $resultSetEmployee = $this->resultSet();
 
-        $dow = 1;  // $dow = day of week.  This is an internal counter to track the days.
+          $dow = 1;  // $dow = day of week.  This is an internal counter to track the days.
 
-        ${"day" . $dow} = array(
-            '$regHours' => '0.0',
-            '$overtimeHours' => '0.0',
-            '$nonWorkHours' => '0.0',
-        );
+          ${"day" . $dow} = array(
+          '$regHours' => '0.0',
+          '$overtimeHours' => '0.0',
+          '$nonWorkHours' => '0.0',
+          );
 
 
-        $empNum = $resultSetPayroll['Employee_Number'];
-        $dateTimeIn = $resultSetPayroll['DateTime_In'];
-        $dateTimeOut = $resultSetPayroll['DateTime_Out'];
-        $is24 = $resultSetPayroll['Is_24Hour_Shift'];
-        $isSickDay = $resultSetPayroll['Is_Sick_Day'];
-        $isVacation = $resultSetPayroll['Is_Vacation_Day'];
-        $isHoliday = $resultSetPayroll['Is_Holiday'];
-        $isBerevement = $resultSetPayroll['Is_Berevement_Day'];
-        $isFMLA = $resultSetPayroll['Is_FMLA_Day'];
-        $isShortTerm = $resultSetPayroll['Is_Short_Term_Disablility_Day'];
-        $isLongTerm = $resultSetPayroll['Is_Long_Term_Disability_Day'];
-        $isNightRun = $resultSetPayroll['Is_Night_Run'];
+          $empNum = $resultSetPayroll['Employee_Number'];
+          $dateTimeIn = $resultSetPayroll['DateTime_In'];
+          $dateTimeOut = $resultSetPayroll['DateTime_Out'];
+          $is24 = $resultSetPayroll['Is_24Hour_Shift'];
+          $isSickDay = $resultSetPayroll['Is_Sick_Day'];
+          $isVacation = $resultSetPayroll['Is_Vacation_Day'];
+          $isHoliday = $resultSetPayroll['Is_Holiday'];
+          $isBerevement = $resultSetPayroll['Is_Berevement_Day'];
+          $isFMLA = $resultSetPayroll['Is_FMLA_Day'];
+          $isShortTerm = $resultSetPayroll['Is_Short_Term_Disablility_Day'];
+          $isLongTerm = $resultSetPayroll['Is_Long_Term_Disability_Day'];
+          $isNightRun = $resultSetPayroll['Is_Night_Run'];
 
-        $sickDays = $resultSetEmployee['Sick_Days_Remaining'];
-        $vacaDays = $resultSetEmployee['Vacation_Days_Remaining'];
-        $personDays = $resultSetEmployee['Personal_Days_Remaining'];
-        $fmlaDays = $resultSetEmployee['FMLA_Days_Remaining'];
+          $sickDays = $resultSetEmployee['Sick_Days_Remaining'];
+          $vacaDays = $resultSetEmployee['Vacation_Days_Remaining'];
+          $personDays = $resultSetEmployee['Personal_Days_Remaining'];
+          $fmlaDays = $resultSetEmployee['FMLA_Days_Remaining'];
          * 
          */
-
         /*
           foreach ($resultSet as $key => $value)
           {
@@ -590,19 +604,20 @@ class EmployeeModel extends Model
          * Take the user's requested first day of search and find the mod of it
          * and the reference date. If mod = 0, then it is the first day of a pay period
          * otherwise it is not.
-         */        
+         */
     }
 
     public function ptodays()
     {
         Miscellaneous::checkIsLoggedIn();
-        
+
         try
         {
             $this->query('SELECT * FROM employees WHERE Employee_Number = :Employee_Number ORDER BY Inserted_at DESC LIMIT 1');
             $this->bind(':Employee_Number', $_SESSION['user_data']['empNum']);
             $row = $this->single();
-        } catch (PDOException $ex)
+        }
+        catch (PDOException $ex)
         //if (empty($row))
         {
             Messages::setMsg($ex->getMessage(), 'error');
@@ -634,7 +649,7 @@ class EmployeeModel extends Model
 
     public function currentpay()
     {
-        
+
         /*
          * This method will be used to display the current pay period.
          * I am also going to try to add in the ability to enter new information
@@ -648,9 +663,9 @@ class EmployeeModel extends Model
          */
         Miscellaneous::checkIsLoggedIn();
         $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-        
+
         $now = new DateTime("now");
-        
+
         /**
          * Refactoring some code.  This was the original code.  I wanted to keep
          * it until I was sure the refactored code was working properly.
@@ -668,41 +683,39 @@ class EmployeeModel extends Model
          * $middleDayObject->add(new DateInterval('P7D'))->setTime(8,00,00);
          * 
          */
-        
         $definePayPeriod = Miscellaneous::definePayPeriod($now);
 
         $firstDayObject = DateTimeImmutable::createFromMutable($definePayPeriod['firstDay']);
         $middleDayObject = DateTimeImmutable::createFromMutable($definePayPeriod['middleDay']);
         $lastDayObject = DateTimeImmutable::createFromMutable($definePayPeriod['lastDay']);
 
-        $firstDay  = $firstDayObject->format('Y-m-d') . ' 08:00:00';
+        $firstDay = $firstDayObject->format('Y-m-d') . ' 08:00:00';
         $middleDay = $middleDayObject->format('Y-m-d') . ' 08:00:00';
-        $lastDay   = $lastDayObject->format('Y-m-d') . ' 08:00:00';
-        
+        $lastDay = $lastDayObject->format('Y-m-d') . ' 08:00:00';
+
         /**
          * I should be able to combine the following two queries
          * look at https://www.sitepoint.com/re-introducing-pdo-the-right-way-to-access-databases-in-php/
          * for examples
          * 
          */
-        
         $this->query('SELECT * from employee_payrollhours where Employee_Number = :empNum and DateTime_In >= :firstDay and DateTime_In < :middleDay');
         $this->bind(':empNum', $_SESSION['user_data']['empNum']);
-        $this->bind('firstDay', $firstDay);
-        $this->bind('middleDay', $middleDay);
+        $this->bind(':firstDay', $firstDay);
+        $this->bind(':middleDay', $middleDay);
         $weekOne = $this->resultSet();
         $totalsWeekOne = Miscellaneous::weeklyTotals($weekOne);
-        
+
         $this->query('SELECT * from employee_payrollhours where Employee_Number = :empNum and DateTime_In >= :middleDay and DateTime_In < :lastDay');
         $this->bind(':empNum', $_SESSION['user_data']['empNum']);
-        $this->bind('middleDay', $middleDay);
-        $this->bind('lastDay', $lastDay);
+        $this->bind(':middleDay', $middleDay);
+        $this->bind(':lastDay', $lastDay);
         $weekTwo = $this->resultSet();
         $totalsWeekTwo = Miscellaneous::weeklyTotals($weekTwo);
 
-        return ["weekOne"=>$weekOne, "totalsWeekOne"=>$totalsWeekOne, "weekTwo"=>$weekTwo, "totalsWeekTwo"=>$totalsWeekTwo];
+        return ["weekOne" => $weekOne, "totalsWeekOne" => $totalsWeekOne, "weekTwo" => $weekTwo, "totalsWeekTwo" => $totalsWeekTwo];
     }
-    
+
     public function recalculateTime()
     {
         $definePayPeriod = Miscellaneous::definePayPeriod($now);
@@ -711,13 +724,18 @@ class EmployeeModel extends Model
         $middleDayObject = DateTimeImmutable::createFromMutable($definePayPeriod['middleDay']);
         $lastDayObject = DateTimeImmutable::createFromMutable($definePayPeriod['lastDay']);
 
-        $this->query('SELECT * from employee_payrollhours where Employee_Number = :empNum and DateTime_In >= :firstDay and DateTime_In < :middleDay');
+        $this->query('SELECT * from employee_payrollhours where Employee_Number = :empNum and DateTime_In >= :firstDay and DateTime_In < :lastDay');
         $this->bind(':empNum', $_SESSION['user_data']['empNum']);
-        $this->bind('firstDay', $firstDay);
-        $this->bind('middleDay', $middleDay);
+        $this->bind(':firstDay', $firstDay);
+        $this->bind(':lastDay', $lastDay);
         $results = $this->resultSet();
-        
-        
-        
+
+        foreach ($results as $item)
+        {
+            $calculatedTime = Miscellaneous::calculateTime($item);
+            $this->insertTime($startDateTime, $endDateTime, $is24, $isSick, $isVaca, $isPerson, $isHoliday, $isBerev, $isFMLA, $isNightRun, $regTime, $overTime, $nonWorkTime, $nightTime);
+        }
+        return;
     }
+
 }
