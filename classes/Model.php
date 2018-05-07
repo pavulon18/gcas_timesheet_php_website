@@ -195,7 +195,7 @@ abstract class Model
             $this->bind(':regTime', $regTime);
             $this->bind(':overTime', $overTime);
             $this->bind(':nonWorkTime', $nonWorkTime);
-            $this->bind('nightTime', $nightTime);
+            $this->bind(':nightTime', $nightTime);
             $this->execute();
 
             $this->transactionCommit();

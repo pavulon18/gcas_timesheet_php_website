@@ -716,13 +716,18 @@ class EmployeeModel extends Model
         return ["weekOne" => $weekOne, "totalsWeekOne" => $totalsWeekOne, "weekTwo" => $weekTwo, "totalsWeekTwo" => $totalsWeekTwo];
     }
 
-    public function recalculateTime()
+    public function recalculatetime()
     {
+        $now = new DateTime("now");
         $definePayPeriod = Miscellaneous::definePayPeriod($now);
 
         $firstDayObject = DateTimeImmutable::createFromMutable($definePayPeriod['firstDay']);
         $middleDayObject = DateTimeImmutable::createFromMutable($definePayPeriod['middleDay']);
         $lastDayObject = DateTimeImmutable::createFromMutable($definePayPeriod['lastDay']);
+        
+        $firstDay = $firstDayObject->format('Y-m-d') . ' 08:00:00';
+        $middleDay = $middleDayObject->format('Y-m-d') . ' 08:00:00';
+        $lastDay = $lastDayObject->format('Y-m-d') . ' 08:00:00';
 
         $this->query('SELECT * from employee_payrollhours where Employee_Number = :empNum and DateTime_In >= :firstDay and DateTime_In < :lastDay');
         $this->bind(':empNum', $_SESSION['user_data']['empNum']);

@@ -139,13 +139,17 @@ class Miscellaneous extends Model
          * This method does not look at the total hours for a week.  The overtime
          * adjustments worked hours > 40 for the week will be made elsewhere.
          */
+        
+        //print_r($adjustedTime);
+        //die();
+        
         $otHours = 0;
         $regHours = 0;
         $nonWorkHours = 0;
         $nightHours = 0;
 
-        $adjustedStartTime = new DateTimeImmutable($adjustedTime['startYear'] . '-' . $adjustedTime['startMonth'] . '-' . $adjustedTime['startDay'] . ' ' . $adjustedTime['startHour'] . ':' . $adjustedTime['startMin'] . ':00');
-        $adjustedEndTime = new DateTimeImmutable($adjustedTime['endYear'] . '-' . $adjustedTime['endMonth'] . '-' . $adjustedTime['endDay'] . ' ' . $adjustedTime['endHour'] . ':' . $adjustedTime['endMin'] . ':00');
+        //$adjustedStartTime = new DateTimeImmutable($adjustedTime['startYear'] . '-' . $adjustedTime['startMonth'] . '-' . $adjustedTime['startDay'] . ' ' . $adjustedTime['startHour'] . ':' . $adjustedTime['startMin'] . ':00');
+        //$adjustedEndTime = new DateTimeImmutable($adjustedTime['endYear'] . '-' . $adjustedTime['endMonth'] . '-' . $adjustedTime['endDay'] . ' ' . $adjustedTime['endHour'] . ':' . $adjustedTime['endMin'] . ':00');
 
         if ($adjustedTime['is24HrShift'])
         {
@@ -335,8 +339,8 @@ class Miscellaneous extends Model
         $interval = intval(($dayOne->diff($referenceDate, TRUE)->format('%R%a')));
 
         $i = 0;
-        while (($interval % 14) != 0) // If i have done my logic correctly, this will find the first
-        {                                                       // day of the pay period prior to the user selected first day.
+        while (($interval % 14) != 0) // First day of the pay period prior to the user selected first day.
+        {
             $dayOne->modify("-1 day");
             $interval = intval(($dayOne->diff($referenceDate, TRUE)->format('%R%a')));
             $i++;
@@ -420,21 +424,16 @@ class Miscellaneous extends Model
         $nonWorkTime = 0;
         $nightTime = 0;
 
-        /**
-         * I think I'm having trouble with trying to iterate over an array while
-         * it is nested inside a loop using the same array.
-         * I'm going to try to setup a second array which is equal to the first
-         * to see if that changes the outcome.
-         * 
-         * well, that didn't seem to help.
-         */
         foreach ($array as $counter)
         {
             if ($counter['Is_Night_Run'] == 'N' && $counter['Is_24Hour_Shift'] == 'Y')
             {
                 $nightTime = Miscellaneous::sumNightHours($counter['DateTime_In'], $array);
+                $regularTime += $counter['RegularTime'];
+                $overTime += $counter['OverTime'];
+                $nonWorkTime += $counter['NonWorkTime'];
             }
-            else //(!$item['isNightRun'])
+            elseif (!$counter['Is_Night_Run'])
             {
                 $regularTime += $counter['RegularTime'];
                 $overTime += $counter['OverTime'];
@@ -457,17 +456,20 @@ class Miscellaneous extends Model
 
     public static function sumNightHours($startDateTime, $array)
     {
-        $startDateTime = new DateTime($startDateTime);
-        $startDateTime->setTime(23,00,00);
-        
-        $endDateTime = new DateTime($startDateTime->format('Y-m-d'));
-        $endDateTime->modify('+1 day');
-        $endDateTime->setTime(07,00,00);
-        
+        $startNightTime = new DateTime($startDateTime);
+        $startNightTime->setTime(23, 00, 00);
+        //$startDateTime->format('Y-m-d H:i:s');
+
+        $endNightTime = new DateTime($startDateTime);
+        $endNightTime->modify('+1 day');
+        $endNightTime->setTime(07, 00, 00);
+        //$endDateTime->format('Y-m-d H:i:s');
+
         $nightTime = 0;
+
         foreach ($array as $item)
         {
-            if ($item['Is_Night_Run'] == 'Y' && (($item['DateTime_In'] >= $startDateTime && $item['DateTime_In'] <= $endDateTime) || ($item['DateTime_Out'] >= $startDateTime && $item['DateTime_Out'] <= $endDateTime)))
+            if ($item['Is_Night_Run'] === 'Y')
             {
                 $nightTime += $item['NightTime'];
                 if ($nightTime >= 3)

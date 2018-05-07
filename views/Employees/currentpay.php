@@ -185,4 +185,4 @@ extract($viewmodel);
     </table>
 </div>
 
-<input type="submit" value="Recalculate Times" name="recalculateTimes" />
+<a href="<?php echo ROOT_URL; ?>employees/recalculatetime" class="btn btn-default">Recalculate Times</a>
