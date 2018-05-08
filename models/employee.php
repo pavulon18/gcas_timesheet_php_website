@@ -255,12 +255,12 @@ class EmployeeModel extends Model
     public function timeentrypage()
     {
         Miscellaneous::checkIsLoggedIn();
-        $isVaca = 'N';
-        $isPerson = 'N';
-        $isSick = 'N';
-        $isBerev = 'N';
-        $isFMLA = 'N';
-        $isNightRun = 'N';
+        $Is_Vacation_Day = 'N';
+        $Is_Personal_Day = 'N';
+        $Is_Sick_Day = 'N';
+        $Is_Berevement_Day = 'N';
+        $Is_FMLA_Day = 'N';
+        $Is_Night_Run = 'N';
 
         $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
@@ -273,7 +273,7 @@ class EmployeeModel extends Model
 
         if ($post['submit'])
         {
-            if ($post['is24HrShift'] == 1 && $post['isNightRun'] == 0)
+            if ($post['Is_24Hour_Shift'] == 1 && $post['Is_Night_Run'] == 0)
             {
                 $post['startHour'] = 8;
                 $post['startMin'] = 0;
@@ -285,10 +285,10 @@ class EmployeeModel extends Model
                  * add one day and assign that value to endDateTime
                  * convert startDateTime back to a format usable by the database
                  */
-                $startDateTime = new DateTimeImmutable($post['startYear'] . '-' . $post['startMonth'] . '-' . $post['startDay'] . ' 08:00:00');
-                $endDateTime = $startDateTime->modify('+1 day')->format('Y-m-d H:i:s');
-                $startDateTime = $startDateTime->format('Y-m-d H:i:s');
-                $endDTArray = date_parse($endDateTime);
+                $DateTime_In = new DateTimeImmutable($post['startYear'] . '-' . $post['startMonth'] . '-' . $post['startDay'] . ' 08:00:00');
+                $DateTime_Out = $DateTime_In->modify('+1 day')->format('Y-m-d H:i:s');
+                $DateTime_In = $DateTime_In->format('Y-m-d H:i:s');
+                $endDTArray = date_parse($DateTime_Out);
 
                 $post['endYear'] = $endDTArray['year'];
                 $post['endMonth'] = $endDTArray['month'];
@@ -298,64 +298,64 @@ class EmployeeModel extends Model
             }
             else
             {
-                $startDateTime = $post['startYear'] . '-' . $post['startMonth'] . '-' . $post['startDay'] . ' ' . $post['startHour'] . ':' . $post['startMin'] . ':00';
-                $endDateTime = $post['endYear'] . '-' . $post['endMonth'] . '-' . $post['endDay'] . ' ' . $post['endHour'] . ':' . $post['endMin'] . ':00';
+                $DateTime_In = $post['startYear'] . '-' . $post['startMonth'] . '-' . $post['startDay'] . ' ' . $post['startHour'] . ':' . $post['startMin'] . ':00';
+                $DateTime_Out = $post['endYear'] . '-' . $post['endMonth'] . '-' . $post['endDay'] . ' ' . $post['endHour'] . ':' . $post['endMin'] . ':00';
             }
 
             // Checks for null values.  If values are null, assign a value of 0
-            if (!isset($post['isNightRun']))
+            if (!isset($post['Is_Night_Run']))
             {
-                $post['isNightRun'] = 0;
+                $post['Is_Night_Run'] = 0;
             }
-            if (!isset($post['isPTO']))
+            if (!isset($post['Is_PTO']))
             {
-                $post['isPTO'] = 0;
+                $post['Is_PTO'] = 0;
             }
-            if (!isset($post['isHoliday']))
+            if (!isset($post['Is_Holiday']))
             {
-                $post['isHoliday'] = 0;
+                $post['Is_Holiday'] = 0;
             }
 
 
-            if (new DateTimeImmutable($startDateTime) > new DateTimeImmutable($endDateTime))
+            if (new DateTimeImmutable($DateTime_In) > new DateTimeImmutable($DateTime_Out))
             {
                 Messages::setMsg('The Start Date / Time must be earlier than the End Date / Time', 'error');
                 return; // do I want a return statement or do I want something different?
             }
 
-            if ($post['is24HrShift'] == 0)
+            if ($post['Is_24Hour_Shift'] == 0)
             {
-                $is24 = 'N';
+                $Is_24Hour_Shift = 'N';
             }
-            else if ($post['is24HrShift'] == 1)
+            else if ($post['Is_24Hour_Shift'] == 1)
             {
-                $is24 = 'Y';
-            }
-            else
-            {
-                Messages::setMsg('Invalid Entry.  Please Try again.', 'error');
-            }
-
-            if ($post['isHoliday'] == 0)
-            {
-                $isHoliday = 'N';
-            }
-            else if ($post['isHoliday'] == 1)
-            {
-                $isHoliday = 'Y';
+                $Is_24Hour_Shift = 'Y';
             }
             else
             {
                 Messages::setMsg('Invalid Entry.  Please Try again.', 'error');
             }
 
-            if ($post['isPTO'] == 0)
+            if ($post['Is_Holiday'] == 0)
             {
-                $isPTO = 'N';
+                $Is_Holiday = 'N';
             }
-            else if ($post['isPTO'] == 1)
+            else if ($post['Is_Holiday'] == 1)
             {
-                $isPTO = 'Y';
+                $Is_Holiday = 'Y';
+            }
+            else
+            {
+                Messages::setMsg('Invalid Entry.  Please Try again.', 'error');
+            }
+
+            if ($post['Is_PTO'] == 0)
+            {
+                $Is_PTO = 'N';
+            }
+            else if ($post['Is_PTO'] == 1)
+            {
+                $Is_PTO = 'Y';
 
                 /*
                  * Pull the value of whichPTO obtained from the data input page
@@ -414,16 +414,16 @@ class EmployeeModel extends Model
                 Messages::setMsg('Invalid Entry.  Please Try again.', 'error');
             }
 
-            if (!isset($post['isNightRun']))
+            if (!isset($post['Is_Night_Run']))
             {
                 $isNightRun = 'N';
-                $post['isNightRun'] = 'N';
+                $post['Is_Night_Run'] = 'N';
             }
-            else if ($post['isNightRun'] == 0)
+            else if ($post['Is_Night_Run'] == 0)
             {
                 $isNightRun = 'N';
             }
-            else if ($post['isNightRun'] == 1)
+            else if ($post['Is_Night_Run'] == 1)
             {
                 $isNightRun = 'Y';
             }

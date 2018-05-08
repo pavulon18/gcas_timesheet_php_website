@@ -40,7 +40,7 @@ Miscellaneous::checkIsLoggedIn();
             <p>You may enter the information for your time sheet here.</p>
         </div>						
         <ul >
-            <li id="is24HrShift" >
+            <li id="Is_24Hour_Shift" >
                 <label class="description" for="is24HrShift">Is this a 24 hour shift? </label>
                 <span>
                     <input id="is24HrShiftYes" name="is24HrShift" class="element radio" type="radio" value="1" checked="true" />
@@ -50,7 +50,7 @@ Miscellaneous::checkIsLoggedIn();
                 </span>
                 <p class="guidelines" id="guide_4"><small>This includes full sick days, vacation days, and personal days.</small></p> 
             </li>
-            <li id="isHoliday">
+            <li id="Is_Holiday">
                 <label class="description" for="isHoliday">Is this a holiday? </label>
                 <span>
                     <input id="isHolidayYes" name="isHoliday" class="element radio" type="radio" value="1" />
@@ -60,7 +60,7 @@ Miscellaneous::checkIsLoggedIn();
                 </span> 
             </li>
             <div id="ptoBox">
-                <li id="isPTO">
+                <li id="Is_PTO">
                     <label class="description" for="isPTO">Is this PTO time? </label>
                     <span>
                         <input id="isPTOYes" name="isPTO" class="element radio" type="radio" value="1" />
@@ -87,7 +87,7 @@ Miscellaneous::checkIsLoggedIn();
                     </div> 
                 </li>
             </div>
-            <li id="isNightRun">
+            <li id="Is_Night_Run">
                 <label class="description" for="isNightRun">Is this a night run? </label>
                 <span>
                     <input id="isNightRunYes" name="isNightRun" class="element radio" type="radio" value="1" />
