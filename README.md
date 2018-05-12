@@ -2,10 +2,13 @@ TABLE OF CONTENTS
 
 1.  Introduction
 2.  Description of Problem
-3.  Instructions for Installation
-4.  Acknowledgements
+3.  History of Project
+4.  Project Requirements
+5.  Installation Instructions
+6.  Acknowledgements
 
 1. INTRODUCTION
+
 This project is an extention of a project I started a long time ago.  This project
 aims to reduce the work for the employees of Gibson County Ambulance Service (GCAS) (AKA Gibson County
 Emergency Medical Service [GCEMS]) to fully, completely, and accurately complete
@@ -16,6 +19,7 @@ which introduces complexity into the time calculations.  Add, on top of that, ou
 union contract, and the calculations go to a whole new level.
 
 2.  DESCRIPTION OF PROBLEM
+
 According to United States federal law, people who work 24 hour shifts can be docked 8 hours of
 sleep time provided these people have the reasonable expectation to be able to get
 at least 5 hours sleep.  During that 8 hour sleep time, if they are required to work
@@ -44,7 +48,8 @@ by the Director of Operations.  He then audits the time sheets for accuracy and
 completeness.  After this, he must produce reports to send to the Auditor's office
 who then calculates taxes and issues paychecks.  
 
-HISTORY OF PROJECT
+3.  HISTORY OF PROJECT
+
 In the 1970's, when this service was first started, they started using the system
 mentioned above.  As technology progressed, a few people attempted to move
 the system to spreadsheets and to word processor forms.  These had their own set
@@ -73,14 +78,13 @@ After a month of research, trial and error, and false starts, I decided to write
 the front end using PHP.  That is where I am today.  I am learning PHP and writing
 this project.
 
-3.  INSTRUCTIONS FOR INSTALLATION
-Requirements for this project:
+4.  PROJECT REQUIREMENTS
 
     PHP 7.x (This project has not been tested on earlier versions.)
     Apache 2.4 with RewriteRules Mod enabled
     MySQL 5.7 or compatible database (the included .sql file was built with MySQL 5.7. If you want to use another database system, it will be your responsibility to convert the included .sql file to your system's needed format)
 
-Instructions
+5.  INSTALLATION INSTRUCTIONS
 
     clone the repo to you local environment (Instructions for Cloning)
     change the file named "config_example.php" to "config.php". Edit this file entering the information appropriate for your environment.
@@ -92,7 +96,8 @@ Instructions
     Follow the instructions to reset the password.
     Log in with the new user.
 
-4.  ACKNOWLEDGEMENTS
+6.  ACKNOWLEDGEMENTS
+
 __PHP and MySQL Web Development__ Fifth Edition,
 written by Luke Welling and Laura Thomson.
 
@@ -103,4 +108,4 @@ https://www.martinstoeckli.ch/php/php.html#passwordreset
 Special thanks to: https://github.com/flapjack17 Sean Roche for his invaluable 
 assistance on making the time entry page work as intended.
 
-(Updated April 24, 2018)
+(Updated May 11, 2018)
