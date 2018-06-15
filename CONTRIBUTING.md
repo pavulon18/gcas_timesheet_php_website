@@ -20,13 +20,10 @@ Due to the narrow scope of this project, it is suggested that you check with the
 
 As of this writing, this project does not have any official means of communication other than the issue tracker.  While this method is not ideal, it should serve the purpose until a better solution is presented and accepted.
 
-Please, don't use the issue tracker for [support questions]. Check whether the #pocoo IRC channel on Freenode can help with your issue. If your problem is not strictly Werkzeug or Flask specific, #python is generally more active. Stack Overflow is also worth considering.
-
 # Ground Rules
 
 Responsibilities
 * Ensure cross-platform compatibility for every change that's accepted. Windows, Mac, Debian & Ubuntu Linux.
-* Ensure that code that goes into core meets all requirements in this checklist: https://gist.github.com/audreyr/4feef90445b9680475f2
 * Create issues for any major changes and enhancements that you wish to make. Discuss things transparently and get community feedback.
 * Don't add any classes to the codebase unless absolutely needed. Err on the side of using functions.
 * Keep feature versions as small as possible, preferably one new feature per version.
@@ -71,7 +68,7 @@ When filing an issue, make sure to answer these five questions:
 
 # Feature or Enhancement Requests
 
-If you have an idea for a feature or an enchancement, please use the issue tracker system with the appropriate label.  If you would like to code the feature or enhancement, the project manager will give you the go ahead if the request fits the needs of the project.  Explain in detail why you think the enhancement is needed, how it will improve the project, and how it should work.
+If you have an idea for a feature or an enhancement, please use the issue tracker system with the appropriate label.  If you would like to code the feature or enhancement, the project manager will give you the go ahead if the request fits the needs of the project.  Explain in detail why you think the enhancement is needed, how it will improve the project, and how it should work.
 
 # Code review process
 
