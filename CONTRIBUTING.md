@@ -1,6 +1,6 @@
 # Introduction
 
-Thank you for contributing to the Gibson County Ambulance Serive Website.  This website will be very narrow in scope, due to the exacting requirements of their work and pay schedules.
+Thank you for contributing to the Gibson County Ambulance Service Website.  This website will be very narrow in scope, due to the exacting requirements of their work and pay schedules.
 
 ### Purpose of this Document
 
