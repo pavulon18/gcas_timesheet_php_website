@@ -40,7 +40,7 @@ Miscellaneous::checkIsLoggedIn();
             <p>You may enter the information for your time sheet here.</p>
         </div>						
         <ul >
-            <li id="Is_24Hour_Shift" >
+            <li id="is24HrShift" >
                 <label class="description" for="is24HrShift">Is this a 24 hour shift? </label>
                 <span>
                     <input id="is24HrShiftYes" name="is24HrShift" class="element radio" type="radio" value="1" checked="true" />
@@ -50,7 +50,7 @@ Miscellaneous::checkIsLoggedIn();
                 </span>
                 <p class="guidelines" id="guide_4"><small>This includes full sick days, vacation days, and personal days.</small></p> 
             </li>
-            <li id="Is_Holiday">
+            <li id="isHoliday">
                 <label class="description" for="isHoliday">Is this a holiday? </label>
                 <span>
                     <input id="isHolidayYes" name="isHoliday" class="element radio" type="radio" value="1" />
@@ -60,7 +60,7 @@ Miscellaneous::checkIsLoggedIn();
                 </span> 
             </li>
             <div id="ptoBox">
-                <li id="Is_PTO">
+                <li id="isPTO">
                     <label class="description" for="isPTO">Is this PTO time? </label>
                     <span>
                         <input id="isPTOYes" name="isPTO" class="element radio" type="radio" value="1" />
@@ -87,7 +87,7 @@ Miscellaneous::checkIsLoggedIn();
                     </div> 
                 </li>
             </div>
-            <li id="Is_Night_Run">
+            <li id="isNightRun">
                 <label class="description" for="isNightRun">Is this a night run? </label>
                 <span>
                     <input id="isNightRunYes" name="isNightRun" class="element radio" type="radio" value="1" />
@@ -210,3 +210,15 @@ Miscellaneous::checkIsLoggedIn();
     </div>
 </div>
 <script type="text/javascript" src="/assets/js/time-entry-page.js"></script>
+
+<?php
+/**
+ * For some reason, I had started to change variable naming convention so that
+ * all the variable use the same convention.  This caused a problem with the time
+ * entry page.  I've reverted the variable names back to the names that worked.
+ * 
+ * I will keep them this way until I can remember why I started to change them
+ * in the first place.
+ * July 3, 2018
+ */
+
