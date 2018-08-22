@@ -232,7 +232,8 @@ class Miscellaneous extends Model
             {
                 $regHours = new DateInterval("PT0H0M");
                 $otHours = new DateInterval("PT0H0M");
-                $nonWorkHours = new DateTimeImmutable('16:00');
+                $nonWorkHours = DateInterval("PT8H0M");  // I think this is the way it should be calculated.
+//                $nonWorkHours = new DateTimeImmutable('16:00'); // I think this might be wrong and might be causing me some errors.  I think it should be DateInterval just like the others
                 $nightHours = new DateInterval("PT0H0M");
                 return ["regHours" => $regHours,
                     "otHours" => $otHours,

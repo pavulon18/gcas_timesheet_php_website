@@ -273,6 +273,21 @@ class EmployeeModel extends Model
 
         if ($post['submit'])
         {
+            // Checks for null values.  If values are null, assign a value of 0
+            // Why is this here and not above the previous if block? (Aug 20, 2018)
+            if (!isset($post['isNightRun']))
+            {
+                $post['isNightRun'] = 0;
+            }
+            if (!isset($post['isPTO']))
+            {
+                $post['isPTO'] = 0;
+            }
+            if (!isset($post['isHoliday']))
+            {
+                $post['isHoliday'] = 0;
+            }
+            
             if ($post['is24HrShift'] == 1 && $post['isNightRun'] == 0)
             {
                 $post['startHour'] = 8;
@@ -302,19 +317,7 @@ class EmployeeModel extends Model
                 $endDateTime = $post['endYear'] . '-' . $post['endMonth'] . '-' . $post['endDay'] . ' ' . $post['endHour'] . ':' . $post['endMin'] . ':00';
             }
 
-            // Checks for null values.  If values are null, assign a value of 0
-            if (!isset($post['isNightRun']))
-            {
-                $post['isNightRun'] = 0;
-            }
-            if (!isset($post['isPTO']))
-            {
-                $post['isPTO'] = 0;
-            }
-            if (!isset($post['isHoliday']))
-            {
-                $post['isHoliday'] = 0;
-            }
+            
 
 
             if (new DateTimeImmutable($startDateTime) > new DateTimeImmutable($endDateTime))
@@ -365,35 +368,35 @@ class EmployeeModel extends Model
                  */
                 switch ($post['whichPTO'])
                 {
-                    case whichPTOVaca: // PTO Vacation Day
+                    case "whichPTOVaca": // PTO Vacation Day
                         $isVaca = 'Y';
                         $isPerson = 'N';
                         $isSick = 'N';
                         $isBerev = 'N';
                         $isFMLA = 'N';
                         break;
-                    case whichPTOPerson: // PTO Personal Day
+                    case "whichPTOPerson": // PTO Personal Day
                         $isVaca = 'N';
                         $isPerson = 'Y';
                         $isSick = 'N';
                         $isBerev = 'N';
                         $isFMLA = 'N';
                         break;
-                    case whichPTOSick;  // PTO Sick Day
+                    case "whichPTOSick";  // PTO Sick Day
                         $isVaca = 'N';
                         $isPerson = 'N';
                         $isSick = 'Y';
                         $isBerev = 'N';
                         $isFMLA = 'N';
                         break;
-                    case whichPTODead; // PTO Berevement Day
+                    case "whichPTODead"; // PTO Berevement Day
                         $isVaca = 'N';
                         $isPerson = 'N';
                         $isSick = 'N';
                         $isBerev = 'Y';
                         $isFMLA = 'N';
                         break;
-                    case whichPTOFMLA; // PTO FMLA Day
+                    case "whichPTOFMLA"; // PTO FMLA Day
                         $isVaca = 'N';
                         $isPerson = 'N';
                         $isSick = 'N';
