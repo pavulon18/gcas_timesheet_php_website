@@ -37,7 +37,7 @@ class UI extends \PHPUnit\TextUI\ResultPrinter
         $this->write($defect->getExceptionAsString());
         $this->writeNewLine();
 
-        $stackTrace = \PHPUnit\Util\Filter::getFilteredStacktrace($defect->thrownException(), false);
+        $stackTrace = \PHPUnit\Util\Filter::getFilteredStacktrace($defect->thrownException());
 
         foreach ($stackTrace as $i => $frame) {
             if (!isset($frame['file'])) {
@@ -89,6 +89,11 @@ class UI extends \PHPUnit\TextUI\ResultPrinter
     }
 
     public function addIncompleteTest(\PHPUnit\Framework\Test $test, \Throwable $e, float $time) : void
+    {
+        $this->lastTestFailed = true;
+    }
+
+    public function addRiskyTest(\PHPUnit\Framework\Test $test, \Throwable $e, float $time) : void
     {
         $this->lastTestFailed = true;
     }
