@@ -108,8 +108,9 @@ extract($viewmodel);
                 </tr>
             <?php endforeach; ?>
             <tr align='right'>
-                <td><?php echo 'Regular Time: ' . $totalsWeekOne['regularTimeTotal']; ?></td>
-                <td><?php echo 'OverTime: ' . $totalsWeekOne['overTimeTotal']; ?></td>
+                <td>Week One Totals:</td>
+                <td><?php echo 'Regular Time: ' . $totalsWeekOne['regularTimeTotal'] . ' hrs'; ?></td>
+                <td><?php echo 'OverTime: ' . $totalsWeekOne['overTimeTotal'] . ' hrs'; ?></td>
             </tr>
             <?php foreach ($weekTwo as $item) : ?>
                 <tr>
@@ -176,9 +177,12 @@ extract($viewmodel);
                 </tr>
             <?php endforeach; ?>
             <tr align='right'>
-                <td><?php echo 'Regular Time: ' . $totalsWeekTwo['regularTimeTotal']; ?></td>
-                <td><?php echo 'OverTime: ' . $totalsWeekTwo['overTimeTotal']; ?></td>
+                <td>Week Two Totals</td>
+                <td><?php echo 'Regular Time: ' . $totalsWeekTwo['regularTimeTotal'] . ' hrs'; ?></td>
+                <td><?php echo 'OverTime: ' . $totalsWeekTwo['overTimeTotal'] . ' hrs'; ?></td>
             </tr>
         </tbody>
     </table>
 </div>
+
+<a href="<?php echo ROOT_URL; ?>employees/recalculatetime" class="btn btn-default">Recalculate Times</a>

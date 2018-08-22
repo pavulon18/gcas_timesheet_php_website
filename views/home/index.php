@@ -1,6 +1,5 @@
 <?php
-
-/* 
+/*
  * The MIT License
  *
  * Copyright 2018 Jim Baize <pavulon@hotmail.com>.
@@ -23,7 +22,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 ?>
 <div class="text-center">
     <h2>Welcome to the home of Gibson County EMS Employee Web Portal</h2>
@@ -32,12 +30,12 @@
 <div class="text-info">
     <p class="text-left">Thank you for taking the time to look at our website.</p>
     <p class="text-left">Employees may login through this portal to access certain
-    work related functions.</p><br>
+        work related functions.</p><br>
 </div>
 <div class="center">
     <p>
-<a href="https://www.abuseipdb.com/user/19210" title="AbuseIPDB is an IP address blacklist for webmasters and sysadmins to report IP addresses engaging in abusive behavior on their networks" alt="AbuseIPDB Contributor Badge">
-	<img src="https://www.abuseipdb.com/contributor/19210.svg" style="width: 212px;border-radius: 5px;border-top: 5px solid #058403;border-right: 5px solid #111;border-bottom: 5px solid #111;border-left: 5px solid #058403;padding: 5px;">
-</a>
+        <a href="https://www.abuseipdb.com/user/19210" title="AbuseIPDB is an IP address blacklist for webmasters and sysadmins to report IP addresses engaging in abusive behavior on their networks" alt="AbuseIPDB Contributor Badge">
+            <img src="https://www.abuseipdb.com/contributor/19210.svg" style="width: 212px;border-radius: 5px;border-top: 5px solid #058403;border-right: 5px solid #111;border-bottom: 5px solid #111;border-left: 5px solid #058403;padding: 5px;">
+        </a>
     </p>
 </div>

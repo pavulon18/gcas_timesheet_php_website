@@ -1,0 +1,36 @@
+{
+  "name": "GCASTimesheet",
+  "version": "1.0.0",
+  "description": "TABLE OF CONTENTS",
+  "main": "karma.conf.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "jasmine": "^3.1.0",
+    "karma": "^2.0.2",
+    "karma-ie-launcher": "^1.0.0",
+    "karma-jasmine": "^1.1.2",
+    "karma-requirejs": "^1.1.0",
+    "requirejs": "^2.3.5"
+  },
+  "devDependencies": {
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-firefox-launcher": "^1.1.0",
+    "karma-safari-launcher": "^1.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://pavulon18@github.com/pavulon18/gcas_timesheet_php_website.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pavulon18/gcas_timesheet_php_website/issues"
+  },
+  "homepage": "https://github.com/pavulon18/gcas_timesheet_php_website#readme"
+}

@@ -210,3 +210,15 @@ Miscellaneous::checkIsLoggedIn();
     </div>
 </div>
 <script type="text/javascript" src="/assets/js/time-entry-page.js"></script>
+
+<?php
+/**
+ * For some reason, I had started to change variable naming convention so that
+ * all the variable use the same convention.  This caused a problem with the time
+ * entry page.  I've reverted the variable names back to the names that worked.
+ * 
+ * I will keep them this way until I can remember why I started to change them
+ * in the first place.
+ * July 3, 2018
+ */
+

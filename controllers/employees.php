@@ -93,15 +93,19 @@ class Employees extends Controller
     
     protected function knownwebsiteissues()
     {
-        
         $viewmodel = new EmployeeModel();
         $this->returnView($viewmodel->knownwebsiteissues(), true);
     }
     
     protected function timeentrypage()
     {
-        
         $viewmodel = new EmployeeModel();
         $this->returnView($viewmodel->timeentrypage(), true);
+    }
+    
+    protected function recalculatetime()
+    {
+        $viewmodel = new EmployeeModel();
+        $this->returnView($viewmodel->recalculatetime(), true);
     }
 }
