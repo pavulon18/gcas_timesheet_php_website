@@ -7,8 +7,8 @@
     "test": "tests"
   },
   "dependencies": {
-    "jasmine": "^3.1.0",
-    "karma": "^2.0.2",
+    "jasmine": "^3.2.0",
+    "karma": "^3.0.0",
     "karma-ie-launcher": "^1.0.0",
     "karma-jasmine": "^1.1.2",
     "karma-requirejs": "^1.1.0",
