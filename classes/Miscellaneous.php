@@ -527,4 +527,58 @@ class Miscellaneous extends Model
                     "start" => $startDateTime,
                     "end"   => $endDateTime];
     }
+    
+    public static function whichPTO($post)
+    {
+        switch ($post['whichPTO'])
+                {
+                    case "whichPTOVaca": // PTO Vacation Day
+                        $isVaca = 'Y';
+                        $isPerson = 'N';
+                        $isSick = 'N';
+                        $isBerev = 'N';
+                        $isFMLA = 'N';
+                        break;
+                    case "whichPTOPerson": // PTO Personal Day
+                        $isVaca = 'N';
+                        $isPerson = 'Y';
+                        $isSick = 'N';
+                        $isBerev = 'N';
+                        $isFMLA = 'N';
+                        break;
+                    case "whichPTOSick";  // PTO Sick Day
+                        $isVaca = 'N';
+                        $isPerson = 'N';
+                        $isSick = 'Y';
+                        $isBerev = 'N';
+                        $isFMLA = 'N';
+                        break;
+                    case "whichPTODead"; // PTO Berevement Day
+                        $isVaca = 'N';
+                        $isPerson = 'N';
+                        $isSick = 'N';
+                        $isBerev = 'Y';
+                        $isFMLA = 'N';
+                        break;
+                    case "whichPTOFMLA"; // PTO FMLA Day
+                        $isVaca = 'N';
+                        $isPerson = 'N';
+                        $isSick = 'N';
+                        $isBerev = 'N';
+                        $isFMLA = 'Y';
+                        break;
+                    default:
+                        $isVaca = 'N';
+                        $isPerson = 'N';
+                        $isSick = 'N';
+                        $isBerev = 'N';
+                        $isFMLA = 'N';
+                        break;
+                }
+                return ["vaca" => $isVaca,
+                    "person" => $isPerson,
+                    "sick" => $isSick,
+                    "berev" => $isBerev,
+                    "fmla" => $isFMLA];
+    }
 }

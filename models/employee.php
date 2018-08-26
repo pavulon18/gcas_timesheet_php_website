@@ -273,7 +273,7 @@ class EmployeeModel extends Model
 
         if ($post['submit'])
         {
-            // Checks for null values.  If values are null, assign a value of 0
+            // Checks for null or non-existant values.  If values are null or non-existant, assign a value of 0
             
             if (!isset($post['isNightRun']))
             {
@@ -340,51 +340,13 @@ class EmployeeModel extends Model
                  * 
                  * Only one of these can be true at a time.
                  */
-                switch ($post['whichPTO'])
-                {
-                    case "whichPTOVaca": // PTO Vacation Day
-                        $isVaca = 'Y';
-                        $isPerson = 'N';
-                        $isSick = 'N';
-                        $isBerev = 'N';
-                        $isFMLA = 'N';
-                        break;
-                    case "whichPTOPerson": // PTO Personal Day
-                        $isVaca = 'N';
-                        $isPerson = 'Y';
-                        $isSick = 'N';
-                        $isBerev = 'N';
-                        $isFMLA = 'N';
-                        break;
-                    case "whichPTOSick";  // PTO Sick Day
-                        $isVaca = 'N';
-                        $isPerson = 'N';
-                        $isSick = 'Y';
-                        $isBerev = 'N';
-                        $isFMLA = 'N';
-                        break;
-                    case "whichPTODead"; // PTO Berevement Day
-                        $isVaca = 'N';
-                        $isPerson = 'N';
-                        $isSick = 'N';
-                        $isBerev = 'Y';
-                        $isFMLA = 'N';
-                        break;
-                    case "whichPTOFMLA"; // PTO FMLA Day
-                        $isVaca = 'N';
-                        $isPerson = 'N';
-                        $isSick = 'N';
-                        $isBerev = 'N';
-                        $isFMLA = 'Y';
-                        break;
-                    default:
-                        $isVaca = 'N';
-                        $isPerson = 'N';
-                        $isSick = 'N';
-                        $isBerev = 'N';
-                        $isFMLA = 'N';
-                        break;
-                }
+                
+                $ptoTempArray = Miscellaneous::whichPTO($post);
+                $isVaca = $ptoTempArray['vaca'];
+                $isPerson = $ptoTempArray['person'];
+                $isSick = $ptoTempArray['sick'];
+                $isBerev = $ptoTempArray['berev'];
+                $isFMLA = $ptoTempArray['fmla'];
             }
             else
             {
