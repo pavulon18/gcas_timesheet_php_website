@@ -147,6 +147,8 @@ class Miscellaneous extends Model
         $regHours = 0;
         $nonWorkHours = 0;
         $nightHours = 0;
+        
+        
 
         $adjustedStartTime = new DateTimeImmutable($adjustedTime['startYear'] . '-' . $adjustedTime['startMonth'] . '-' . $adjustedTime['startDay'] . ' ' . $adjustedTime['startHour'] . ':' . $adjustedTime['startMin'] . ':00');
         $adjustedEndTime = new DateTimeImmutable($adjustedTime['endYear'] . '-' . $adjustedTime['endMonth'] . '-' . $adjustedTime['endDay'] . ' ' . $adjustedTime['endHour'] . ':' . $adjustedTime['endMin'] . ':00');
@@ -483,4 +485,46 @@ class Miscellaneous extends Model
         return $nightTime;
     }
 
+    public static function setStartEndTime($post)
+    {
+        // This method takes the input, decides if it is a pure 24 hour shift or
+        // something else.
+        // If it is a pure 24 hour shift, it sets the starting and ending variable times as 0800.
+        // If is is something different, it sets variable times as the times entered by the user.
+        if ($post['is24HrShift'] == 1 && $post['isNightRun'] == 0)
+            {
+                $post['startHour'] = 8;
+                $post['startMin'] = 0;
+                $post['endHour'] = 8;
+                $post['endMin'] = 0;
+                /*
+                 * first combine the $post[start data time] into a single unit.
+                 * then convert it to a DateTime object
+                 * add one day and assign that value to endDateTime
+                 * convert startDateTime back to a format usable by the database
+                 */
+                $startDateTime = new DateTimeImmutable($post['startYear'] . '-' . $post['startMonth'] . '-' . $post['startDay'] . ' 08:00:00');
+                $endDateTime = $startDateTime->modify('+1 day')->format('Y-m-d H:i:s');
+                $startDateTime = $startDateTime->format('Y-m-d H:i:s');
+                $endDTArray = date_parse($endDateTime);
+
+                $post['endYear'] = $endDTArray['year'];
+                $post['endMonth'] = $endDTArray['month'];
+                $post['endDay'] = $endDTArray['day'];
+                $post['endHour'] = $endDTArray['hour'];
+                $post['endMin'] = $endDTArray['minute'];
+                
+                            }
+            else
+            {
+                $startDateTime = $post['startYear'] . '-' . $post['startMonth'] . '-' . $post['startDay'] . ' ' . $post['startHour'] . ':' . $post['startMin'] . ':00';
+                $endDateTime = $post['endYear'] . '-' . $post['endMonth'] . '-' . $post['endDay'] . ' ' . $post['endHour'] . ':' . $post['endMin'] . ':00';
+            }
+            
+        // now return the updated information back to the calling method
+                
+            return ["post"  => $post,
+                    "start" => $startDateTime,
+                    "end"   => $endDateTime];
+    }
 }

@@ -274,7 +274,7 @@ class EmployeeModel extends Model
         if ($post['submit'])
         {
             // Checks for null values.  If values are null, assign a value of 0
-            // Why is this here and not above the previous if block? (Aug 20, 2018)
+            
             if (!isset($post['isNightRun']))
             {
                 $post['isNightRun'] = 0;
@@ -288,37 +288,11 @@ class EmployeeModel extends Model
                 $post['isHoliday'] = 0;
             }
             
-            if ($post['is24HrShift'] == 1 && $post['isNightRun'] == 0)
-            {
-                $post['startHour'] = 8;
-                $post['startMin'] = 0;
-                $post['endHour'] = 8;
-                $post['endMin'] = 0;
-                /*
-                 * first combine the $post[start data time] into a single unit.
-                 * then convert it to a DateTime object
-                 * add one day and assign that value to endDateTime
-                 * convert startDateTime back to a format usable by the database
-                 */
-                $startDateTime = new DateTimeImmutable($post['startYear'] . '-' . $post['startMonth'] . '-' . $post['startDay'] . ' 08:00:00');
-                $endDateTime = $startDateTime->modify('+1 day')->format('Y-m-d H:i:s');
-                $startDateTime = $startDateTime->format('Y-m-d H:i:s');
-                $endDTArray = date_parse($endDateTime);
-
-                $post['endYear'] = $endDTArray['year'];
-                $post['endMonth'] = $endDTArray['month'];
-                $post['endDay'] = $endDTArray['day'];
-                $post['endHour'] = $endDTArray['hour'];
-                $post['endMin'] = $endDTArray['minute'];
-            }
-            else
-            {
-                $startDateTime = $post['startYear'] . '-' . $post['startMonth'] . '-' . $post['startDay'] . ' ' . $post['startHour'] . ':' . $post['startMin'] . ':00';
-                $endDateTime = $post['endYear'] . '-' . $post['endMonth'] . '-' . $post['endDay'] . ' ' . $post['endHour'] . ':' . $post['endMin'] . ':00';
-            }
-
-            
-
+            // set the start and end times to a format needed for my calculations.
+            $tempArray = Miscellaneous::setStartEndTime($post); // I moved the if statement that was here to its own method in Miscellaneous.  
+            $post = $tempArray['post'];
+            $startDateTime = $tempArray['start'];
+            $endDateTime = $tempArray['end'];
 
             if (new DateTimeImmutable($startDateTime) > new DateTimeImmutable($endDateTime))
             {
@@ -434,7 +408,7 @@ class EmployeeModel extends Model
             {
                 Messages::setMsg('Invalid Entry.  Please Try again.', 'error');
             }
-
+            
             $adjustedTime = Miscellaneous::timeAdjust($post);      //Adjusts the time to the nearest 15 min in favor of the employee
 
             $calculatedTime = Miscellaneous::calculateTime($adjustedTime);  // Calculates the time for worked hours, overtime hours, non-worked hours, and night time hours
@@ -740,8 +714,35 @@ class EmployeeModel extends Model
 
         foreach ($results as $item)
         {
+            // put this array into a form that Miscellaneous::timeAdjust($item); will accept
+            // pass to Miscellaneous::calculateTime($item);
+            $startTime = new DateTime($item[DateTime_In]);
+            $endTime = new DateTime($item[DateTime_Out]);
+            $tempArray = array(
+                               "is24HrShift"    => $item[Is_24Hour_Shift],
+                               "isHoliday"      => $item[Is_Holiday],
+                               "isPTO"          => $item[],
+                               "whichPTO"       => $item[],
+                               "isNightRun"     => $item[Is_Night_Run],
+                               "reason"         => $item[Reason],
+                               "startMonth"     => $item[],
+                               "startDay"       => $item[],
+                               "startYear"      => $item[],
+                               "startHour"      => $item[],
+                               "startMin"       => $item[],
+                               "startSec"       => $item[],
+                               "endMonth"       => $item[],
+                               "endDay"         => $item[],
+                               "endYear"        => $item[],
+                               "endHour"        => $item[],
+                               "endMin"         => $item[],
+                               "endSec"         => $item[]
+                               
+            );
+            $adjustedTime = Miscellaneous::timeAdjust();
             $calculatedTime = Miscellaneous::calculateTime($item);
             $this->insertTime($startDateTime, $endDateTime, $is24, $isSick, $isVaca, $isPerson, $isHoliday, $isBerev, $isFMLA, $isNightRun, $regTime, $overTime, $nonWorkTime, $nightTime);
+            
         }
         return;
     }
