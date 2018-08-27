@@ -661,11 +661,11 @@ class EmployeeModel extends Model
         $definePayPeriod = Miscellaneous::definePayPeriod($now);
 
         $firstDayObject = DateTimeImmutable::createFromMutable($definePayPeriod['firstDay']);
-        $middleDayObject = DateTimeImmutable::createFromMutable($definePayPeriod['middleDay']);
+        //$middleDayObject = DateTimeImmutable::createFromMutable($definePayPeriod['middleDay']);
         $lastDayObject = DateTimeImmutable::createFromMutable($definePayPeriod['lastDay']);
         
         $firstDay = $firstDayObject->format('Y-m-d') . ' 08:00:00';
-        $middleDay = $middleDayObject->format('Y-m-d') . ' 08:00:00';
+        //$middleDay = $middleDayObject->format('Y-m-d') . ' 08:00:00';
         $lastDay = $lastDayObject->format('Y-m-d') . ' 08:00:00';
 
         $this->query('SELECT * from employee_payrollhours where Employee_Number = :empNum and DateTime_In >= :firstDay and DateTime_In < :lastDay');
@@ -677,34 +677,102 @@ class EmployeeModel extends Model
         foreach ($results as $item)
         {
             // put this array into a form that Miscellaneous::timeAdjust($item); will accept
-            // pass to Miscellaneous::calculateTime($item);
-            $startTime = new DateTime($item[DateTime_In]);
-            $endTime = new DateTime($item[DateTime_Out]);
-            $tempArray = array(
-                               "is24HrShift"    => $item[Is_24Hour_Shift],
-                               "isHoliday"      => $item[Is_Holiday],
-                               "isPTO"          => $item[],
-                               "whichPTO"       => $item[],
-                               "isNightRun"     => $item[Is_Night_Run],
-                               "reason"         => $item[Reason],
-                               "startMonth"     => $item[],
-                               "startDay"       => $item[],
-                               "startYear"      => $item[],
-                               "startHour"      => $item[],
-                               "startMin"       => $item[],
-                               "startSec"       => $item[],
-                               "endMonth"       => $item[],
-                               "endDay"         => $item[],
-                               "endYear"        => $item[],
-                               "endHour"        => $item[],
-                               "endMin"         => $item[],
-                               "endSec"         => $item[]
-                               
-            );
-            $adjustedTime = Miscellaneous::timeAdjust();
-            $calculatedTime = Miscellaneous::calculateTime($item);
-            $this->insertTime($startDateTime, $endDateTime, $is24, $isSick, $isVaca, $isPerson, $isHoliday, $isBerev, $isFMLA, $isNightRun, $regTime, $overTime, $nonWorkTime, $nightTime);
             
+            //$startTime = new DateTime($item['DateTime_In']);
+            //$endTime = new DateTime($item['DateTime_Out']);
+            $startDateTime = DateTime::createFromFormat('Y-m-d H:i:s', $item['DateTime_In']);
+            $endDateTime = DateTime::createFromFormat('Y-m-d H:i:s', $item['DateTime_Out']);
+            
+            $startHour = date_format($startDateTime, 'H');
+            $startMin = date_format($startDateTime, 'i');
+            $endHour = date_format($endDateTime, 'H');
+            $endMin = date_format($endDateTime, 'i');
+            
+            $unadjustedTime = [
+                            "startHour"      => $startHour,
+                            "startMin"       => $startMin,
+                            "endHour"        => $endHour,
+                            "endMin"         => $endMin
+                            ];
+            
+            $adjustedTime = Miscellaneous::timeAdjust($unadjustedTime);
+            
+            if ($item['Is_Sick_Day'] == 'Y')
+            {
+                $item['isPTO'] = 1;
+                $item['whichPTO'] = "whichPTOSick";
+            }
+            elseif ($item['Is_Vacation_Day'] == "Y")
+            {
+                $item['isPTO'] = 1;
+                $item['whichPTO'] = "whichPTOVaca";
+            }
+            elseif ($item['Is_Personal_Day'] == "Y")
+            {
+                $item['isPTO'] = 1;
+                $item['whichPTO'] = "whichPTOPerson";
+            }
+                elseif ($item['Is_Berevement_Day'] == "Y")
+            {
+                $item['isPTO'] = 1;
+                $item['whichPTO'] = "whichPTODead";
+            }
+            elseif ($item['Is_FMLA_Day'] == "Y")
+            {
+                $item['isPTO'] = 1;
+                $item['whichPTO'] = "whichPTOFMLA";
+            }
+            else
+            {
+                $item['isPTO'] = 0;
+                $item['whichPTO'] = 'None';
+            }
+            
+            
+            // pass to Miscellaneous::calculateTime($item);
+            $calculatedTime = Miscellaneous::calculateTime([
+                "is24HrShift"   => $item['Is_24Hour_Shift'],
+                "isHoliday"     => $item['Is_Holiday'],
+                "isPTO"         => $item['isPTO'],
+                "whichPTO"      => $item['whichPTO'],
+                "isNightRun"    => $item['Is_Night_Run'],
+                "reason"        => $item['Reason'],
+                "startMonth"    => date_format($startDateTime, 'm'),
+                "startDay"      => date_format($startDateTime, 'd'),
+                "startYear"     => date_format($startDateTime, 'Y'),
+                "startHour"     => $adjustedTime['startHour'],
+                "startMin"      => $adjustedTime['startMin'],
+                "startSec"      => "00",
+                "endMonth"      => date_format($endDateTime, 'm'),
+                "endDay"        => date_format($endDateTime, 'd'),
+                "endYear"       => date_format($endDateTime, 'Y'),
+                "endHour"       => $adjustedTime['endHour'],
+                "endMin"        => $adjustedTime['endMin'],
+                "endSec"        => "00",
+                "submit"        => "Submit"
+                    ]);
+            
+            
+            echo "calculatedTime ";
+            print_r($calculatedTime);
+            //die();
+            
+            /**
+            $this->insertTime($startDateTime, 
+                    $endDateTime, 
+                    $is24, 
+                    $isSick, 
+                    $isVaca, 
+                    $isPerson, 
+                    $isHoliday, 
+                    $isBerev, 
+                    $isFMLA, 
+                    $isNightRun, 
+                    $regTime, 
+                    $overTime, 
+                    $nonWorkTime, 
+                    $nightTime);
+            **/
         }
         return;
     }
