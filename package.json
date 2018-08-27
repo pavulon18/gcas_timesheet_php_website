@@ -7,19 +7,9 @@
     "test": "tests"
   },
   "dependencies": {
-    "https-proxy-agent": "^2.2.1",
-    "jasmine": "^3.2.0",
-    "karma": "^3.0.0",
-    "karma-ie-launcher": "^1.0.0",
-    "karma-jasmine": "^1.1.2",
-    "karma-requirejs": "^1.1.0",
     "requirejs": "^2.3.5"
   },
-  "devDependencies": {
-    "karma-chrome-launcher": "^2.2.0",
-    "karma-firefox-launcher": "^1.1.0",
-    "karma-safari-launcher": "^1.0.0"
-  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
