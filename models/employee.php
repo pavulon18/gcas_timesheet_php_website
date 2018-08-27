@@ -753,8 +753,8 @@ class EmployeeModel extends Model
                     ]);
             
             
-            echo "calculatedTime ";
-            print_r($calculatedTime);
+            //echo "calculatedTime ";
+            //print_r($calculatedTime);
             //die();
             
             /**
@@ -774,7 +774,7 @@ class EmployeeModel extends Model
                     $nightTime);
             **/
         }
-        return;
+        //return;
     }
 
 }
