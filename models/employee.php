@@ -699,32 +699,32 @@ class EmployeeModel extends Model
             
             if ($item['Is_Sick_Day'] == 'Y')
             {
-                $item['isPTO'] = 1;
+                $item['isPTO'] = 'Y';
                 $item['whichPTO'] = "whichPTOSick";
             }
             elseif ($item['Is_Vacation_Day'] == "Y")
             {
-                $item['isPTO'] = 1;
+                $item['isPTO'] = 'Y';
                 $item['whichPTO'] = "whichPTOVaca";
             }
             elseif ($item['Is_Personal_Day'] == "Y")
             {
-                $item['isPTO'] = 1;
+                $item['isPTO'] = 'Y';
                 $item['whichPTO'] = "whichPTOPerson";
             }
                 elseif ($item['Is_Berevement_Day'] == "Y")
             {
-                $item['isPTO'] = 1;
+                $item['isPTO'] = 'Y';
                 $item['whichPTO'] = "whichPTODead";
             }
             elseif ($item['Is_FMLA_Day'] == "Y")
             {
-                $item['isPTO'] = 1;
+                $item['isPTO'] = 'Y';
                 $item['whichPTO'] = "whichPTOFMLA";
             }
             else
             {
-                $item['isPTO'] = 0;
+                $item['isPTO'] = 'N';
                 $item['whichPTO'] = 'None';
             }
             
