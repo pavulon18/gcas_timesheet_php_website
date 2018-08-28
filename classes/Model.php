@@ -169,7 +169,7 @@ abstract class Model
         return;
     }
 
-    public function insertTime($startDateTime, $endDateTime, $is24, $isSick, $isVaca, $isPerson, $isHoliday, $isBerev, $isFMLA, $isNightRun, $regTime, $overTime, $nonWorkTime, $nightTime)
+    public function insertTime($startDateTime, $endDateTime, $is24, $isSick, $isVaca, $isPerson, $isHoliday, $isBerev, $isFMLA, $isNightRun, $regTime, $overTime, $nonWorkTime, $nightTime, $reason)
     {
         try
         {
@@ -196,6 +196,7 @@ abstract class Model
             $this->bind(':overTime', $overTime);
             $this->bind(':nonWorkTime', $nonWorkTime);
             $this->bind(':nightTime', $nightTime);
+            $this->bind(':reason', $reason);
             $this->execute();
 
             $this->transactionCommit();

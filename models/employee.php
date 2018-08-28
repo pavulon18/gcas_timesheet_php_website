@@ -381,7 +381,7 @@ class EmployeeModel extends Model
             $nonWorkTime = $calculatedTime["ptoHours"]->h + $calculatedTime["ptoHours"]->i / 60;
             $nightTime = $calculatedTime["nightHours"]->h + $calculatedTime["nightHours"]->i / 60;
 
-            $this->insertTime($startDateTime, $endDateTime, $is24, $isSick, $isVaca, $isPerson, $isHoliday, $isBerev, $isFMLA, $isNightRun, $regTime, $overTime, $nonWorkTime, $nightTime);
+            $this->insertTime($startDateTime, $endDateTime, $is24, $isSick, $isVaca, $isPerson, $isHoliday, $isBerev, $isFMLA, $isNightRun, $regTime, $overTime, $nonWorkTime, $nightTime, $post['Reason']);
             /**
              * going to try to move this to a function since I need to use it again
              * elsewhere.
@@ -752,28 +752,27 @@ class EmployeeModel extends Model
                 "submit"        => "Submit"
                     ]);
             
-            
-            //echo "calculatedTime ";
-            //print_r($calculatedTime);
-            //die();
-            
-            /**
-            $this->insertTime($startDateTime, 
+            $this->insertTime(
+                    $startDateTime, 
                     $endDateTime, 
-                    $is24, 
-                    $isSick, 
-                    $isVaca, 
-                    $isPerson, 
-                    $isHoliday, 
-                    $isBerev, 
-                    $isFMLA, 
-                    $isNightRun, 
-                    $regTime, 
-                    $overTime, 
-                    $nonWorkTime, 
-                    $nightTime);
-            **/
+                    $item['Is_24Hour_Shift'], 
+                    $item['Is_Sick_Day'], 
+                    $item['Is_Vacation_Day'], 
+                    $item['Is_Personal_Day'], 
+                    $item['Is_Holiday'],
+                    $item['Is_Berevement_Day'], 
+                    $item['Is_FMLA_Day'],
+                    $item['Is_Night_Run'],
+                    $calculatedTime['regHours'], 
+                    $calculatedTime['otHours'], 
+                    $calculatedTime['ptoHours'], 
+                    $calculatedTime['nightHours'],
+                    $item['Reason']
+                    );
+            
         }
+        //Redirect
+                header('Location: ' . ROOT_URL . 'employees/currentpay');
         //return;
     }
 
