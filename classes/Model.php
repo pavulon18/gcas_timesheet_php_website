@@ -177,9 +177,9 @@ abstract class Model
 
             $this->query('INSERT INTO employee_payrollhours '
                     . '(Employee_Number, DateTime_In, DateTime_Out, Is_24Hour_Shift, Is_Sick_Day, Is_Vacation_Day, Is_Personal_Day, '
-                    . 'Is_Holiday, Is_Berevement_Day, Is_FMLA_Day, Is_Night_Run, RegularTime, OverTime, NonWorkTime, NightTime) '
+                    . 'Is_Holiday, Is_Berevement_Day, Is_FMLA_Day, Is_Night_Run, RegularTime, OverTime, NonWorkTime, NightTime, Reason) '
                     . 'VALUES (:empNum, :startTime, :endTime, :is24, :isSick, :isVaca, :isPersonal, :isHoliday, :isBereve, :isFMLA, :isNight, '
-                    . ':regTime, :overTime, :nonWorkTime, :nightTime)');
+                    . ':regTime, :overTime, :nonWorkTime, :nightTime, :reason)');
             $this->bind(':empNum', $_SESSION['user_data']['empNum']);
             $this->bind(':startTime', $startDateTime);
             $this->bind(':endTime', $endDateTime);

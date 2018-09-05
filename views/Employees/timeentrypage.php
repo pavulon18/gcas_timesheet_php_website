@@ -43,9 +43,9 @@ Miscellaneous::checkIsLoggedIn();
             <li id="is24HrShift" >
                 <label class="description" for="is24HrShift">Is this a 24 hour shift? </label>
                 <span>
-                    <input id="is24HrShiftYes" name="is24HrShift" class="element radio" type="radio" value="1" checked="true" />
+                    <input id="is24HrShiftYes" name="is24HrShift" class="element radio" type="radio" value="Y" checked="true" />
                     <label class="choice" for="is24HrShiftYes">Yes</label>
-                    <input id="is24HrShiftNo" name="is24HrShift" class="element radio" type="radio" value="0"/>
+                    <input id="is24HrShiftNo" name="is24HrShift" class="element radio" type="radio" value="N"/>
                     <label class="choice" for="is24HrShiftNo">No</label>
                 </span>
                 <p class="guidelines" id="guide_4"><small>This includes full sick days, vacation days, and personal days.</small></p> 
@@ -53,9 +53,9 @@ Miscellaneous::checkIsLoggedIn();
             <li id="isHoliday">
                 <label class="description" for="isHoliday">Is this a holiday? </label>
                 <span>
-                    <input id="isHolidayYes" name="isHoliday" class="element radio" type="radio" value="1" />
+                    <input id="isHolidayYes" name="isHoliday" class="element radio" type="radio" value="Y" />
                     <label class="choice" for="isHolidayYes">Yes</label>
-                    <input id="isHolidayNo" name="isHoliday" class="element radio" type="radio" value="0" checked="true" />
+                    <input id="isHolidayNo" name="isHoliday" class="element radio" type="radio" value="N" checked="true" />
                     <label class="choice" for="isHolidayNo">No</label>
                 </span> 
             </li>
@@ -63,9 +63,9 @@ Miscellaneous::checkIsLoggedIn();
                 <li id="isPTO">
                     <label class="description" for="isPTO">Is this PTO time? </label>
                     <span>
-                        <input id="isPTOYes" name="isPTO" class="element radio" type="radio" value="1" />
+                        <input id="isPTOYes" name="isPTO" class="element radio" type="radio" value="Y" />
                         <label class="choice" for="isPTOYes">Yes</label>
-                        <input id="isPTONo" name="isPTO" class="element radio" type="radio" value="0" checked="true"/>
+                        <input id="isPTONo" name="isPTO" class="element radio" type="radio" value="N" checked="true"/>
                         <label class="choice" for="isPTONo">No</label>
                     </span>
                     <p class="guidelines" id="guide_7">
@@ -90,9 +90,9 @@ Miscellaneous::checkIsLoggedIn();
             <li id="isNightRun">
                 <label class="description" for="isNightRun">Is this a night run? </label>
                 <span>
-                    <input id="isNightRunYes" name="isNightRun" class="element radio" type="radio" value="1" />
+                    <input id="isNightRunYes" name="isNightRun" class="element radio" type="radio" value="Y" />
                     <label class="choice" for="isNightRunYes">Yes</label>
-                    <input id="isNightRunNo" name="isNightRun" class="element radio" type="radio" value="0" checked="true"/>
+                    <input id="isNightRunNo" name="isNightRun" class="element radio" type="radio" value="N" checked="true"/>
                     <label class="choice" for="isNightRunNo">No</label>
                 </span>
                 <p class="guidelines" id='nightRun'>

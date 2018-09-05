@@ -277,15 +277,15 @@ class EmployeeModel extends Model
             
             if (!isset($post['isNightRun']))
             {
-                $post['isNightRun'] = 0;
+                $post['isNightRun'] = 'N';
             }
             if (!isset($post['isPTO']))
             {
-                $post['isPTO'] = 0;
+                $post['isPTO'] = 'N';
             }
             if (!isset($post['isHoliday']))
             {
-                $post['isHoliday'] = 0;
+                $post['isHoliday'] = 'N';
             }
             
             // set the start and end times to a format needed for my calculations.
@@ -300,11 +300,11 @@ class EmployeeModel extends Model
                 return; // do I want a return statement or do I want something different?
             }
 
-            if ($post['is24HrShift'] == 0)
+            if ($post['is24HrShift'] == 'N')
             {
                 $is24 = 'N';
             }
-            else if ($post['is24HrShift'] == 1)
+            else if ($post['is24HrShift'] == 'Y')
             {
                 $is24 = 'Y';
             }
@@ -313,11 +313,11 @@ class EmployeeModel extends Model
                 Messages::setMsg('Invalid Entry.  Please Try again.', 'error');
             }
 
-            if ($post['isHoliday'] == 0)
+            if ($post['isHoliday'] == 'N')
             {
                 $isHoliday = 'N';
             }
-            else if ($post['isHoliday'] == 1)
+            else if ($post['isHoliday'] == 'Y')
             {
                 $isHoliday = 'Y';
             }
@@ -326,11 +326,11 @@ class EmployeeModel extends Model
                 Messages::setMsg('Invalid Entry.  Please Try again.', 'error');
             }
 
-            if ($post['isPTO'] == 0)
+            if ($post['isPTO'] == 'N')
             {
                 $isPTO = 'N';
             }
-            else if ($post['isPTO'] == 1)
+            else if ($post['isPTO'] == 'Y')
             {
                 $isPTO = 'Y';
 
@@ -358,11 +358,11 @@ class EmployeeModel extends Model
                 $isNightRun = 'N';
                 $post['isNightRun'] = 'N';
             }
-            else if ($post['isNightRun'] == 0)
+            else if ($post['isNightRun'] == 'N')
             {
                 $isNightRun = 'N';
             }
-            else if ($post['isNightRun'] == 1)
+            else if ($post['isNightRun'] == 'Y')
             {
                 $isNightRun = 'Y';
             }
@@ -381,7 +381,7 @@ class EmployeeModel extends Model
             $nonWorkTime = $calculatedTime["ptoHours"]->h + $calculatedTime["ptoHours"]->i / 60;
             $nightTime = $calculatedTime["nightHours"]->h + $calculatedTime["nightHours"]->i / 60;
 
-            $this->insertTime($startDateTime, $endDateTime, $is24, $isSick, $isVaca, $isPerson, $isHoliday, $isBerev, $isFMLA, $isNightRun, $regTime, $overTime, $nonWorkTime, $nightTime, $post['Reason']);
+            $this->insertTime($startDateTime, $endDateTime, $is24, $isSick, $isVaca, $isPerson, $isHoliday, $isBerev, $isFMLA, $isNightRun, $regTime, $overTime, $nonWorkTime, $nightTime, $post['reason']);
             /**
              * going to try to move this to a function since I need to use it again
              * elsewhere.
@@ -605,23 +605,6 @@ class EmployeeModel extends Model
 
         $now = new DateTime("now");
 
-        /**
-         * Refactoring some code.  This was the original code.  I wanted to keep
-         * it until I was sure the refactored code was working properly.
-         * May 5, 2018
-         * 
-         * $firstDayObject = Miscellaneous::determineFirstDay($now);
-         *
-         *
-         * $lastDayObject = new DateTime($firstDayObject->format('Y-m-d'));
-         * $lastDayObject->add(new DateInterval('P14D'))->setTime(8,00,00);
-         *
-         * 
-         *       
-         * $middleDayObject = new DateTime($firstDayObject->format('Y-m-d'));
-         * $middleDayObject->add(new DateInterval('P7D'))->setTime(8,00,00);
-         * 
-         */
         $definePayPeriod = Miscellaneous::definePayPeriod($now);
 
         $firstDayObject = DateTimeImmutable::createFromMutable($definePayPeriod['firstDay']);
@@ -661,11 +644,9 @@ class EmployeeModel extends Model
         $definePayPeriod = Miscellaneous::definePayPeriod($now);
 
         $firstDayObject = DateTimeImmutable::createFromMutable($definePayPeriod['firstDay']);
-        //$middleDayObject = DateTimeImmutable::createFromMutable($definePayPeriod['middleDay']);
         $lastDayObject = DateTimeImmutable::createFromMutable($definePayPeriod['lastDay']);
         
         $firstDay = $firstDayObject->format('Y-m-d') . ' 08:00:00';
-        //$middleDay = $middleDayObject->format('Y-m-d') . ' 08:00:00';
         $lastDay = $lastDayObject->format('Y-m-d') . ' 08:00:00';
 
         $this->query('SELECT * from employee_payrollhours where Employee_Number = :empNum and DateTime_In >= :firstDay and DateTime_In < :lastDay');
@@ -683,11 +664,20 @@ class EmployeeModel extends Model
             $startDateTime = DateTime::createFromFormat('Y-m-d H:i:s', $item['DateTime_In']);
             $endDateTime = DateTime::createFromFormat('Y-m-d H:i:s', $item['DateTime_Out']);
             
-            $startHour = date_format($startDateTime, 'H');
-            $startMin = date_format($startDateTime, 'i');
-            $endHour = date_format($endDateTime, 'H');
-            $endMin = date_format($endDateTime, 'i');
             
+            $item['startHour'] = date_format($startDateTime, 'H');
+            $item['startMin'] = date_format($startDateTime, 'i');
+            $item['endHour'] = date_format($endDateTime, 'H');
+            $item['endMin'] = date_format($endDateTime, 'i');
+            
+            /**
+            $item['startHour'] = date_format($item['DateTime_In'], 'H');
+            $item['startMin'] = date_format($item['DateTime_In'], 'i');
+            $item['endHour'] = date_format($item['DateTime_Out'], 'H');
+            $item['endMin'] = date_format($item['DateTime_Out'], 'i');
+             */
+            
+            /**
             $unadjustedTime = [
                             "startHour"      => $startHour,
                             "startMin"       => $startMin,
@@ -695,7 +685,12 @@ class EmployeeModel extends Model
                             "endMin"         => $endMin
                             ];
             
-            $adjustedTime = Miscellaneous::timeAdjust($unadjustedTime);
+             * 
+             */
+
+            //$adjustedTime = Miscellaneous::timeAdjust($unadjustedTime);
+            $adjustedTime = Miscellaneous::timeAdjust($item);
+            
             
             if ($item['Is_Sick_Day'] == 'Y')
             {
@@ -724,7 +719,7 @@ class EmployeeModel extends Model
             }
             else
             {
-                $item['isPTO'] = 'N';
+                $item['isPTO'] = 'Y';
                 $item['whichPTO'] = 'None';
             }
             
@@ -752,9 +747,29 @@ class EmployeeModel extends Model
                 "submit"        => "Submit"
                     ]);
             
+            //$calculatedTime = Miscellaneous::calculateTime([$adjustedTimeArray]);
+            
+            /**
+            echo '<pre>';
+            print_r($calculatedTime);
+            echo '</pre>';
+            die();
+             * 
+             */
+            
+            $startDT = date_format($startDateTime, 'Y-m-d H:i:s');
+            $endDT = date_format($endDateTime, 'Y-m-d H:i:s');
+            
+            $regTime = ($calculatedTime["regHours"]->h) + ($calculatedTime["regHours"]->i) / 60;
+            $overTime = $calculatedTime["otHours"]->h + $calculatedTime["otHours"]->i / 60;
+            $nonWorkTime = $calculatedTime["ptoHours"]->h + $calculatedTime["ptoHours"]->i / 60;
+            $nightTime = $calculatedTime["nightHours"]->h + $calculatedTime["nightHours"]->i / 60;
+            
+            
+            
             $this->insertTime(
-                    $startDateTime, 
-                    $endDateTime, 
+                    $startDT, 
+                    $endDT, 
                     $item['Is_24Hour_Shift'], 
                     $item['Is_Sick_Day'], 
                     $item['Is_Vacation_Day'], 
@@ -763,10 +778,10 @@ class EmployeeModel extends Model
                     $item['Is_Berevement_Day'], 
                     $item['Is_FMLA_Day'],
                     $item['Is_Night_Run'],
-                    $calculatedTime['regHours'], 
-                    $calculatedTime['otHours'], 
-                    $calculatedTime['ptoHours'], 
-                    $calculatedTime['nightHours'],
+                    $regTime, 
+                    $overTime, 
+                    $nonWorkTime, 
+                    $nightTime,
                     $item['Reason']
                     );
             

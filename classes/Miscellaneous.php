@@ -140,14 +140,17 @@ class Miscellaneous extends Model
          * adjustments worked hours > 40 for the week will be made elsewhere.
          */
         
-        //print_r($adjustedTime);
-        //die();
+        /**
+        echo '<pre>';
+        print_r($adjustedTime);
+        echo '</pre>';
+        die();
         
         $otHours = 0;
         $regHours = 0;
         $nonWorkHours = 0;
         $nightHours = 0;
-        
+        **/
         
 
         $adjustedStartTime = new DateTimeImmutable($adjustedTime['startYear'] . '-' . $adjustedTime['startMonth'] . '-' . $adjustedTime['startDay'] . ' ' . $adjustedTime['startHour'] . ':' . $adjustedTime['startMin'] . ':00');
@@ -155,7 +158,7 @@ class Miscellaneous extends Model
 
         if ($adjustedTime['is24HrShift'])
         {
-            if (!$adjustedTime['isNightRun'] && !$adjustedTime['isHoliday'] && !$adjustedTime['isPTO'])
+            if ($adjustedTime['isNightRun'] === 'N' && $adjustedTime['isHoliday'] === 'N' && $adjustedTime['isPTO'] ==='N')
             {
                 $regHours = new DateInterval("PT16H0M");
                 $otHours = new DateInterval("PT0H0M");
@@ -166,7 +169,7 @@ class Miscellaneous extends Model
                     "ptoHours" => $nonWorkHours,
                     "nightHours" => $nightHours];
             }
-            else if ($adjustedTime['isNightRun'] && !$adjustedTime['isHoliday'] && !$adjustedTime['isPTO'])
+            else if ($adjustedTime['isNightRun'] === 'Y' && $adjustedTime['isHoliday'] === 'N' && $adjustedTime['isPTO'] === 'N')
             {
                 // if the night run starts and ends within the designated sleep time (2300 - 0700)
                 if ((($adjustedStartTime->format('H:i') >= '23:00' && $adjustedStartTime->format('H:i') <= '23:59') || ($adjustedStartTime->format('H:i') >= '00:00' && $adjustedStartTime->format('H:i') <= '07:00')) && (($adjustedEndTime->format('H:i') >= '23:00' && $adjustedEndTime->format('H:i') <= '23:59') || ($adjustedEndTime->format('H:i') >= '00:00' && $adjustedEndTime->format('H:i') <= '07:00')))
@@ -219,7 +222,7 @@ class Miscellaneous extends Model
                         "nightHours" => $nightHours];
                 }
             }
-            else if (!$adjustedTime['isNightRun'] && $adjustedTime['isHoliday'] && !$adjustedTime['isPTO'])
+            else if ($adjustedTime['isNightRun'] === 'N' && $adjustedTime['isHoliday'] === 'Y' && $adjustedTime['isPTO'] === 'N')
             {
                 $regHours = new DateInterval("PT0H0M");
                 $otHours = new DateInterval("PT16H0M");
@@ -230,7 +233,7 @@ class Miscellaneous extends Model
                     "ptoHours" => $nonWorkHours,
                     "nightHours" => $nightHours];
             }
-            else if (!$adjustedTime['isNightRun'] && !$adjustedTime['isHoliday'] && $adjustedTime['isPTO'])
+            else if ($adjustedTime['isNightRun'] ==='N' && $adjustedTime['isHoliday'] === 'N' && $adjustedTime['isPTO'] === 'Y')
             {
                 $regHours = new DateInterval("PT0H0M");
                 $otHours = new DateInterval("PT0H0M");
@@ -243,9 +246,9 @@ class Miscellaneous extends Model
                     "nightHours" => $nightHours];
             }
         }
-        else if (!$adjustedTime['is24HrShift'])
+        else if ($adjustedTime['is24HrShift'] === 'N')
         {
-            if (!$adjustedTime['isNightRun'] && !$adjustedTime['isHoliday'] && $adjustedTime['isPTO'])
+            if ($adjustedTime['isNightRun'] === 'N' && $adjustedTime['isHoliday'] === 'N' && $adjustedTime['isPTO'] === 'Y')
             {
                 $regHours = new DateInterval("PT0H0M");
                 $otHours = new DateInterval("PT0H0M");
@@ -256,7 +259,7 @@ class Miscellaneous extends Model
                     "ptoHours" => $nonWorkHours,
                     "nightHours" => $nightHours];
             }
-            else if (!$adjustedTime['isNightRun'] && $adjustedTime['isHoliday'] && !$adjustedTime['isPTO']) // Need to differentiate between when one works and does not work
+            else if ($adjustedTime['isNightRun'] === 'N' && $adjustedTime['isHoliday'] === 'Y' && $adjustedTime['isPTO'] === 'N') // Need to differentiate between when one works and does not work
             {
                 $regHours = new DateInterval("PT0H0M");
                 $otHours = $adjustedEndTime->diff($adjustedStartTime);
@@ -267,7 +270,7 @@ class Miscellaneous extends Model
                     "ptoHours" => $nonWorkHours,
                     "nightHours" => $nightHours];
             }
-            else if (!$adjustedTime['isNightRun'] && !$adjustedTime['isHoliday'] && !$adjustedTime['isPTO']) // Need to differentiate between when one works and does not work
+            else if ($adjustedTime['isNightRun'] === 'N' && $adjustedTime['isHoliday'] === 'N' && $adjustedTime['isPTO'] === 'N') // Need to differentiate between when one works and does not work
             {
                 $regHours = $adjustedEndTime->diff($adjustedStartTime);
                 $otHours = new DateInterval("PT0H0M");
@@ -491,7 +494,7 @@ class Miscellaneous extends Model
         // something else.
         // If it is a pure 24 hour shift, it sets the starting and ending variable times as 0800.
         // If is is something different, it sets variable times as the times entered by the user.
-        if ($post['is24HrShift'] == 1 && $post['isNightRun'] == 0)
+        if ($post['is24HrShift'] == 'Y' && $post['isNightRun'] == 'N')
             {
                 $post['startHour'] = 8;
                 $post['startMin'] = 0;
