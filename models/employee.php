@@ -375,6 +375,7 @@ class EmployeeModel extends Model
 
             $calculatedTime = Miscellaneous::calculateTime($adjustedTime);  // Calculates the time for worked hours, overtime hours, non-worked hours, and night time hours
             // for this one entry only.
+            
 
             $regTime = ($calculatedTime["regHours"]->h) + ($calculatedTime["regHours"]->i) / 60;
             $overTime = $calculatedTime["otHours"]->h + $calculatedTime["otHours"]->i / 60;
@@ -719,7 +720,7 @@ class EmployeeModel extends Model
             }
             else
             {
-                $item['isPTO'] = 'Y';
+                $item['isPTO'] = 'N';
                 $item['whichPTO'] = 'None';
             }
             
@@ -747,27 +748,30 @@ class EmployeeModel extends Model
                 "submit"        => "Submit"
                     ]);
             
-            //$calculatedTime = Miscellaneous::calculateTime([$adjustedTimeArray]);
+           
+            $startDT = date_format($startDateTime, 'Y-m-d H:i:s');
+            $endDT = date_format($endDateTime, 'Y-m-d H:i:s');
             
             /**
             echo '<pre>';
             print_r($calculatedTime);
+            print_r($calculatedTime['regHours']);
             echo '</pre>';
             die();
              * 
              */
             
-            $startDT = date_format($startDateTime, 'Y-m-d H:i:s');
-            $endDT = date_format($endDateTime, 'Y-m-d H:i:s');
-            
-            $regTime = ($calculatedTime["regHours"]->h) + ($calculatedTime["regHours"]->i) / 60;
+            $regTime = ($calculatedTime['regHours']->h) + ($calculatedTime['regHours']->i) / 60;
             $overTime = $calculatedTime["otHours"]->h + $calculatedTime["otHours"]->i / 60;
             $nonWorkTime = $calculatedTime["ptoHours"]->h + $calculatedTime["ptoHours"]->i / 60;
             $nightTime = $calculatedTime["nightHours"]->h + $calculatedTime["nightHours"]->i / 60;
             
+            if (!isset($item['Reason']))
+            {
+                $item['Reason'] = ' ';
+            }
             
-            
-            $this->insertTime(
+            $this->updateTime(
                     $startDT, 
                     $endDT, 
                     $item['Is_24Hour_Shift'], 

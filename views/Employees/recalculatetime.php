@@ -24,4 +24,4 @@
  * THE SOFTWARE.
  */
 
-header( 'Location: https://www.yoursite.com/new_page.html' ) ;
+//header( 'Location: https://www.yoursite.com/new_page.html' ) ;
