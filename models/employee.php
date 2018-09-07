@@ -671,27 +671,7 @@ class EmployeeModel extends Model
             $item['endHour'] = date_format($endDateTime, 'H');
             $item['endMin'] = date_format($endDateTime, 'i');
             
-            /**
-            $item['startHour'] = date_format($item['DateTime_In'], 'H');
-            $item['startMin'] = date_format($item['DateTime_In'], 'i');
-            $item['endHour'] = date_format($item['DateTime_Out'], 'H');
-            $item['endMin'] = date_format($item['DateTime_Out'], 'i');
-             */
-            
-            /**
-            $unadjustedTime = [
-                            "startHour"      => $startHour,
-                            "startMin"       => $startMin,
-                            "endHour"        => $endHour,
-                            "endMin"         => $endMin
-                            ];
-            
-             * 
-             */
-
-            //$adjustedTime = Miscellaneous::timeAdjust($unadjustedTime);
             $adjustedTime = Miscellaneous::timeAdjust($item);
-            
             
             if ($item['Is_Sick_Day'] == 'Y')
             {
@@ -766,9 +746,11 @@ class EmployeeModel extends Model
             $nonWorkTime = $calculatedTime["ptoHours"]->h + $calculatedTime["ptoHours"]->i / 60;
             $nightTime = $calculatedTime["nightHours"]->h + $calculatedTime["nightHours"]->i / 60;
             
+            $item['Reason'] = '2';
+            
             if (!isset($item['Reason']))
             {
-                $item['Reason'] = ' ';
+                $item['Reason'] = '1';
             }
             
             $this->updateTime(
@@ -786,7 +768,8 @@ class EmployeeModel extends Model
                     $overTime, 
                     $nonWorkTime, 
                     $nightTime,
-                    $item['Reason']
+                    $item['Reason'],
+                    $item['Inserted_at']
                     );
             
         }
