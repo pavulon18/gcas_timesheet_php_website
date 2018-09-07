@@ -43,9 +43,9 @@ function comboCheck(e) {
 
     const nightRuns = Array.from(document.getElementsByName('isNightRun'));
 
-    if (shift === '0') {
+    if (shift === 'N') {
         nightRuns.forEach(x => {
-            if (x.value === '0')
+            if (x.value === 'N')
                 x.checked = true;
             x.disabled = true;
         });
@@ -55,9 +55,9 @@ function comboCheck(e) {
 
     const ptos = Array.from(document.getElementsByName('isPTO'));
 
-    if (shift === '1' && nightRun === '1') {
+    if (shift === 'Y' && nightRun === 'Y') {
         ptos.forEach(x => {
-            if (x.value === '0')
+            if (x.value === 'N')
                 x.checked = true;
             x.disabled = true;
         });
@@ -65,9 +65,9 @@ function comboCheck(e) {
         ptos.forEach(x => x.disabled = false);
     }
 
-    if (pto === '1') {
+    if (pto === 'Y') {
         nightRuns.forEach(x => {
-            if (x.value === '0')
+            if (x.value === 'N')
                 x.checked = true;
             x.disabled = true;
         });
@@ -87,8 +87,8 @@ function hideShowLogic(e) {
     const liStartTime = document.getElementById('startTime');
     const liEndTimeBlock = document.getElementById('endTimeBlock');
 
-    if (shift === '1') {
-        if (nightRun === '0' && pto === '0')
+    if (shift === 'Y') {
+        if (nightRun === 'N' && pto === 'N')
         {
             isNightRun.style.display = '';// show isNightRun
             liReason.style.display = 'none';// hide reason
@@ -98,7 +98,7 @@ function hideShowLogic(e) {
             liStartTime.style.display = 'none';// hide startTime
             liEndTimeBlock.style.display = 'none';// hide endTimeBlock
         }
-        if (nightRun === '1' && pto === '0')
+        if (nightRun === 'Y' && pto === 'N')
         {
             isNightRun.style.display = '';// show isNightRun
             liReason.style.display = '';// show reason
@@ -108,7 +108,7 @@ function hideShowLogic(e) {
             liStartTime.style.display = '';// hide startTime
             liEndTimeBlock.style.display = '';// hide endTimeBlock
         }
-        if (nightRun === '0' && pto === '1')
+        if (nightRun === 'N' && pto === 'Y')
         {
             isNightRun.style.display = 'none';// hide isNightRun
             liReason.style.display = 'none';// hide reason
@@ -119,8 +119,8 @@ function hideShowLogic(e) {
             liEndTimeBlock.style.display = 'none';// hide endTimeBlock
         }
     }
-    if (shift === '0') {
-        if (nightRun === '0' && pto === '0')
+    if (shift === 'N') {
+        if (nightRun === 'N' && pto === 'N')
         {
             isNightRun.style.display = 'none';// hide isNightRun
             liReason.style.display = '';// show reason
@@ -130,7 +130,7 @@ function hideShowLogic(e) {
             liStartTime.style.display = '';// hide startTime
             liEndTimeBlock.style.display = '';// hide endTimeBlock
         }
-        if (nightRun === '0' && pto === '1')
+        if (nightRun === 'N' && pto === 'Y')
         {
             isNightRun.style.display = 'none';// hide isNightRun
             liReason.style.display = 'none';// hide reason
