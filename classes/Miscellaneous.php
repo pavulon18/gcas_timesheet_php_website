@@ -215,7 +215,11 @@ class Miscellaneous extends Model
                     $regHours = new DateInterval("PT0H0M");
                     $otHours = new DateInterval("PT0H0M");
                     $nonWorkHours = new DateInterval("PT0H0M");
-                    $nightHours = new DateTime($adjustedEndTime->diff(new DateTime($adjustedStartTime->setTime(23, 00, 00))));
+                    $adjustedStartTime -> setTime(23, 00, 00);
+                    
+                    $nightHours = $adjustedStartTime -> diff($adjustedEndTime);
+                    
+                    //$nightHours = new DateTime($adjustedEndTime->diff($adjustedStartTime));
                     return ["regHours" => $regHours,
                         "otHours" => $otHours,
                         "ptoHours" => $nonWorkHours,
@@ -432,9 +436,17 @@ class Miscellaneous extends Model
 
         foreach ($array as $counter)
         {
+            /**
+             * We need to lump all of the night's runs together.  In this method,
+             * we will scan each of the entries for a 24 hour shift.  If the entry
+             * is a 24 hour shift, check for any other entries that begin or end
+             * during the sleep time.   These entries should be the night runs.
+             * For each 24 hour shift, sum the night runs.  If they are equal to
+             * or greater than 3 hours, set the night to 8 hours.
+             */
             if ($counter['Is_Night_Run'] == 'N' && $counter['Is_24Hour_Shift'] == 'Y')
             {
-                $nightTime = Miscellaneous::sumNightHours($counter['DateTime_In'], $array);
+                $nightTime = Miscellaneous::sumNightHours($counter['DateTime_In'], $array); // The night hours will be added to the over time hours before the end of this method.
                 $regularTime += $counter['RegularTime'];
                 $overTime += $counter['OverTime'];
                 $nonWorkTime += $counter['NonWorkTime'];
@@ -480,7 +492,7 @@ class Miscellaneous extends Model
                 $nightTime += $item['NightTime'];
                 if ($nightTime >= 3)
                 {
-                    $nightTime += 8;
+                    $nightTime += 8; // I think this line should be $nightTime = 8;  I'll need to revisit this.
                     break;
                 }
             }
