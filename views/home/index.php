@@ -32,6 +32,12 @@
     <p class="text-left">Employees may login through this portal to access certain
         work related functions.</p><br>
 </div>
+<div class="text-info">
+    <p class="text-left">NOTICE:  September 9, 2018</p>
+    <p class="text-left">The database has been totally reset.  Any employee 
+    wishing to log into the system will need to contact me with the appropriate
+    information for inclusion into the new database.</p>
+</div>
 <div class="center">
     <p>
         <a href="https://www.abuseipdb.com/user/19210" title="AbuseIPDB is an IP address blacklist for webmasters and sysadmins to report IP addresses engaging in abusive behavior on their networks" alt="AbuseIPDB Contributor Badge">
