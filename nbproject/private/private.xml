@@ -5,13 +5,12 @@
         <group>
             <file>file:/C:/wamp64/www/GCASTimesheet/classes/Controller.php</file>
             <file>file:/C:/wamp64/www/GCASTimesheet/index.php</file>
-            <file>file:/C:/wamp64/www/GCASTimesheet/models/jobtitle.php</file>
             <file>file:/C:/wamp64/www/GCASTimesheet/models/employee.php</file>
             <file>file:/C:/wamp64/www/GCASTimesheet/classes/Model.php</file>
             <file>file:/C:/wamp64/www/GCASTimesheet/classes/Miscellaneous.php</file>
+            <file>file:/C:/wamp64/www/GCASTimesheet/views/Employees/forgotpassword.php</file>
+            <file>file:/C:/wamp64/www/GCASTimesheet/classes/StoPasswordReset.php</file>
             <file>file:/C:/wamp64/www/GCASTimesheet/views/Employees/recalculatetime.php</file>
-            <file>file:/C:/wamp64/www/GCASTimesheet/classes/Messages.php</file>
-            <file>file:/C:/wamp64/www/GCASTimesheet/controllers/employees.php</file>
         </group>
     </open-files>
 </project-private>
