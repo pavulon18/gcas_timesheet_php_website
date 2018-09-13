@@ -47,20 +47,42 @@ class Miscellaneous extends Model
 
     public static function notify_password($email, $link)
     {
-        $from = "From: jbaize@gibsoncounty-in.gov \r\n";
+        require_once('Mail.php');
+        require_once('Mail/mime.php');
+        $from = "GCEMS Website Admin <www-data@gcems.duckdns.org>";
         $mesg = "Someone has requested that your Gibson County Web Portal password be changed" . PHP_EOL
                 . "Please click on the following link to change your password." . PHP_EOL
                 . "<a href=" . $link . "></a>";
+        $subj = "Gibson County Ambulance Service Login Information";
+        $mime = new Mail_mime();
+        $mime->setTXTBody($mesg);
+        $body = $mime->get();
 
-        if (mail($email, 'Gibson County Ambulance Service login information', $mesg, $from))
+        $headers = array('From' => $from,
+            'To' => $email,
+            'Subject' => $subj);
+        $headers = $mime->headers($headers);
+
+
+        $smtp = Mail::factory('smtp', array('host' => SMTP_HOST,
+                    'port' => SMTP_PORT,
+                    'auth' => true,
+                    'username' => SMTP_USER,
+                    'password' => SMTP_PASS));
+
+        $mail = $smtp->send($email, $headers, $body);
+
+        if (PEAR::isError($mail))
         {
-            return true;
+            Messages::setMsg($mail->getMessage(), 'error');
         }
         else
         {
-            throw new Exception('Could not send email.');
-        }
+            //echo("
 
+              //  Message successfully sent!
+               // ");
+        }
         return;
     }
 
@@ -139,26 +161,23 @@ class Miscellaneous extends Model
          * This method does not look at the total hours for a week.  The overtime
          * adjustments worked hours > 40 for the week will be made elsewhere.
          */
-        
         /**
-        echo '<pre>';
-        print_r($adjustedTime);
-        echo '</pre>';
-        die();
-        
-        $otHours = 0;
-        $regHours = 0;
-        $nonWorkHours = 0;
-        $nightHours = 0;
-        **/
-        
+          echo '<pre>';
+          print_r($adjustedTime);
+          echo '</pre>';
+          die();
 
+          $otHours = 0;
+          $regHours = 0;
+          $nonWorkHours = 0;
+          $nightHours = 0;
+         * */
         $adjustedStartTime = new DateTimeImmutable($adjustedTime['startYear'] . '-' . $adjustedTime['startMonth'] . '-' . $adjustedTime['startDay'] . ' ' . $adjustedTime['startHour'] . ':' . $adjustedTime['startMin'] . ':00');
         $adjustedEndTime = new DateTimeImmutable($adjustedTime['endYear'] . '-' . $adjustedTime['endMonth'] . '-' . $adjustedTime['endDay'] . ' ' . $adjustedTime['endHour'] . ':' . $adjustedTime['endMin'] . ':00');
 
         if ($adjustedTime['is24HrShift'] === 'Y')
         {
-            if ($adjustedTime['isNightRun'] === 'N' && $adjustedTime['isHoliday'] === 'N' && $adjustedTime['isPTO'] ==='N')
+            if ($adjustedTime['isNightRun'] === 'N' && $adjustedTime['isHoliday'] === 'N' && $adjustedTime['isPTO'] === 'N')
             {
                 $regHours = new DateInterval("PT16H0M");
                 $otHours = new DateInterval("PT0H0M");
@@ -215,10 +234,10 @@ class Miscellaneous extends Model
                     $regHours = new DateInterval("PT0H0M");
                     $otHours = new DateInterval("PT0H0M");
                     $nonWorkHours = new DateInterval("PT0H0M");
-                    $adjustedStartTime -> setTime(23, 00, 00);
-                    
-                    $nightHours = $adjustedStartTime -> diff($adjustedEndTime);
-                    
+                    $adjustedStartTime->setTime(23, 00, 00);
+
+                    $nightHours = $adjustedStartTime->diff($adjustedEndTime);
+
                     //$nightHours = new DateTime($adjustedEndTime->diff($adjustedStartTime));
                     return ["regHours" => $regHours,
                         "otHours" => $otHours,
@@ -237,7 +256,7 @@ class Miscellaneous extends Model
                     "ptoHours" => $nonWorkHours,
                     "nightHours" => $nightHours];
             }
-            else if ($adjustedTime['isNightRun'] ==='N' && $adjustedTime['isHoliday'] === 'N' && $adjustedTime['isPTO'] === 'Y')
+            else if ($adjustedTime['isNightRun'] === 'N' && $adjustedTime['isHoliday'] === 'N' && $adjustedTime['isPTO'] === 'Y')
             {
                 $regHours = new DateInterval("PT0H0M");
                 $otHours = new DateInterval("PT0H0M");
@@ -507,93 +526,93 @@ class Miscellaneous extends Model
         // If it is a pure 24 hour shift, it sets the starting and ending variable times as 0800.
         // If is is something different, it sets variable times as the times entered by the user.
         if ($post['is24HrShift'] == 'Y' && $post['isNightRun'] == 'N')
-            {
-                $post['startHour'] = 8;
-                $post['startMin'] = 0;
-                $post['endHour'] = 8;
-                $post['endMin'] = 0;
-                /*
-                 * first combine the $post[start data time] into a single unit.
-                 * then convert it to a DateTime object
-                 * add one day and assign that value to endDateTime
-                 * convert startDateTime back to a format usable by the database
-                 */
-                $startDateTime = new DateTimeImmutable($post['startYear'] . '-' . $post['startMonth'] . '-' . $post['startDay'] . ' 08:00:00');
-                $endDateTime = $startDateTime->modify('+1 day')->format('Y-m-d H:i:s');
-                $startDateTime = $startDateTime->format('Y-m-d H:i:s');
-                $endDTArray = date_parse($endDateTime);
+        {
+            $post['startHour'] = 8;
+            $post['startMin'] = 0;
+            $post['endHour'] = 8;
+            $post['endMin'] = 0;
+            /*
+             * first combine the $post[start data time] into a single unit.
+             * then convert it to a DateTime object
+             * add one day and assign that value to endDateTime
+             * convert startDateTime back to a format usable by the database
+             */
+            $startDateTime = new DateTimeImmutable($post['startYear'] . '-' . $post['startMonth'] . '-' . $post['startDay'] . ' 08:00:00');
+            $endDateTime = $startDateTime->modify('+1 day')->format('Y-m-d H:i:s');
+            $startDateTime = $startDateTime->format('Y-m-d H:i:s');
+            $endDTArray = date_parse($endDateTime);
 
-                $post['endYear'] = $endDTArray['year'];
-                $post['endMonth'] = $endDTArray['month'];
-                $post['endDay'] = $endDTArray['day'];
-                $post['endHour'] = $endDTArray['hour'];
-                $post['endMin'] = $endDTArray['minute'];
-                
-                            }
-            else
-            {
-                $startDateTime = $post['startYear'] . '-' . $post['startMonth'] . '-' . $post['startDay'] . ' ' . $post['startHour'] . ':' . $post['startMin'] . ':00';
-                $endDateTime = $post['endYear'] . '-' . $post['endMonth'] . '-' . $post['endDay'] . ' ' . $post['endHour'] . ':' . $post['endMin'] . ':00';
-            }
-            
+            $post['endYear'] = $endDTArray['year'];
+            $post['endMonth'] = $endDTArray['month'];
+            $post['endDay'] = $endDTArray['day'];
+            $post['endHour'] = $endDTArray['hour'];
+            $post['endMin'] = $endDTArray['minute'];
+        }
+        else
+        {
+            $startDateTime = $post['startYear'] . '-' . $post['startMonth'] . '-' . $post['startDay'] . ' ' . $post['startHour'] . ':' . $post['startMin'] . ':00';
+            $endDateTime = $post['endYear'] . '-' . $post['endMonth'] . '-' . $post['endDay'] . ' ' . $post['endHour'] . ':' . $post['endMin'] . ':00';
+        }
+
         // now return the updated information back to the calling method
-                
-            return ["post"  => $post,
-                    "start" => $startDateTime,
-                    "end"   => $endDateTime];
+
+        return ["post" => $post,
+            "start" => $startDateTime,
+            "end" => $endDateTime];
     }
-    
+
     public static function whichPTO($post)
     {
         switch ($post['whichPTO'])
-                {
-                    case "whichPTOVaca": // PTO Vacation Day
-                        $isVaca = 'Y';
-                        $isPerson = 'N';
-                        $isSick = 'N';
-                        $isBerev = 'N';
-                        $isFMLA = 'N';
-                        break;
-                    case "whichPTOPerson": // PTO Personal Day
-                        $isVaca = 'N';
-                        $isPerson = 'Y';
-                        $isSick = 'N';
-                        $isBerev = 'N';
-                        $isFMLA = 'N';
-                        break;
-                    case "whichPTOSick";  // PTO Sick Day
-                        $isVaca = 'N';
-                        $isPerson = 'N';
-                        $isSick = 'Y';
-                        $isBerev = 'N';
-                        $isFMLA = 'N';
-                        break;
-                    case "whichPTODead"; // PTO Berevement Day
-                        $isVaca = 'N';
-                        $isPerson = 'N';
-                        $isSick = 'N';
-                        $isBerev = 'Y';
-                        $isFMLA = 'N';
-                        break;
-                    case "whichPTOFMLA"; // PTO FMLA Day
-                        $isVaca = 'N';
-                        $isPerson = 'N';
-                        $isSick = 'N';
-                        $isBerev = 'N';
-                        $isFMLA = 'Y';
-                        break;
-                    default:
-                        $isVaca = 'N';
-                        $isPerson = 'N';
-                        $isSick = 'N';
-                        $isBerev = 'N';
-                        $isFMLA = 'N';
-                        break;
-                }
-                return ["vaca" => $isVaca,
-                    "person" => $isPerson,
-                    "sick" => $isSick,
-                    "berev" => $isBerev,
-                    "fmla" => $isFMLA];
+        {
+            case "whichPTOVaca": // PTO Vacation Day
+                $isVaca = 'Y';
+                $isPerson = 'N';
+                $isSick = 'N';
+                $isBerev = 'N';
+                $isFMLA = 'N';
+                break;
+            case "whichPTOPerson": // PTO Personal Day
+                $isVaca = 'N';
+                $isPerson = 'Y';
+                $isSick = 'N';
+                $isBerev = 'N';
+                $isFMLA = 'N';
+                break;
+            case "whichPTOSick";  // PTO Sick Day
+                $isVaca = 'N';
+                $isPerson = 'N';
+                $isSick = 'Y';
+                $isBerev = 'N';
+                $isFMLA = 'N';
+                break;
+            case "whichPTODead"; // PTO Berevement Day
+                $isVaca = 'N';
+                $isPerson = 'N';
+                $isSick = 'N';
+                $isBerev = 'Y';
+                $isFMLA = 'N';
+                break;
+            case "whichPTOFMLA"; // PTO FMLA Day
+                $isVaca = 'N';
+                $isPerson = 'N';
+                $isSick = 'N';
+                $isBerev = 'N';
+                $isFMLA = 'Y';
+                break;
+            default:
+                $isVaca = 'N';
+                $isPerson = 'N';
+                $isSick = 'N';
+                $isBerev = 'N';
+                $isFMLA = 'N';
+                break;
+        }
+        return ["vaca" => $isVaca,
+            "person" => $isPerson,
+            "sick" => $isSick,
+            "berev" => $isBerev,
+            "fmla" => $isFMLA];
     }
+
 }
