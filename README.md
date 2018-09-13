@@ -95,6 +95,11 @@ this project.
     Browse to "Login" and click "Forgot password"
     Follow the instructions to reset the password.
     Log in with the new user.
+    Install PEAR **note** I had to use "php -d phar.require_hash=0 go-pear.phar" to download pear
+        pear install Mail
+        pear install Net_SMTP
+        pear install Net_Socket
+        pear install Mail_Mime
 
 6.  ACKNOWLEDGEMENTS
 
