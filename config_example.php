@@ -43,3 +43,9 @@ define("PAGE_TITLE", "Gibson County Ambuance Service Web Portal");
 // Define Reference Date.  This is the first day of a pay period.
 // This value will be used to calculate every other pay period.
 define("REFERENCE_DATE", "2015-02-12 08:00:00");
+
+// Define SMTP Parameters
+define("SMTP_USER", "user");
+define("SMTP_PASS", "password");
+define("SMTP_HOST", "smtp_host");
+define("SMTP_PORT", "25");
