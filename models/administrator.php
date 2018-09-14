@@ -112,6 +112,7 @@ class AdministratorModel extends Model
                 {
                     //Redirect
                     header('Location: ' . ROOT_URL . 'administrators/roster');
+                    die();
                 }
             }
         }
@@ -188,6 +189,7 @@ class AdministratorModel extends Model
                     
                     Messages::setMsg('Password successfully changed', 'success');
                     header('Location: ' . ROOT_URL . 'administrators');
+                    die();
                 }
                 catch (PDOException $ex)
                 {

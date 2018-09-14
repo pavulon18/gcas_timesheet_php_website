@@ -66,6 +66,7 @@ class EmployeeModel extends Model
                 //Checking if the password has been expired.  If yes then the password will need to be changed.
                 // Need to add this functionality
                 header('Location: ' . ROOT_URL . 'employees');
+                die();
             }
             else
             {
@@ -161,6 +162,7 @@ class EmployeeModel extends Model
             $_SESSION['empNum'] = $result['Employee_Number'];
 
             header('Location: ' . ROOT_URL . 'employees/changeforgottenpassword');
+            die();
             /*
              * That brings up another thought.  How to restrict the number of requests?
              * What is a reasonable rate limit?
@@ -196,11 +198,13 @@ class EmployeeModel extends Model
                 {
                     //Redirect -- Need to come up with a solution to make this work.
                     // Under my current DB design, this system does not work.
-                    header('Location: ' . ROOT_URL . 'employees');
+                    header('Location: ' . ROOT_URL . 'employees/login');
+                    die();
                 }
             }
         }
-        header('Location: ' . ROOT_URL . 'employees');
+        //header('Location: ' . ROOT_URL . 'employees');
+        //die();
 
         return;
     }
@@ -246,6 +250,7 @@ class EmployeeModel extends Model
                 {
                     //Redirect
                     header('Location: ' . ROOT_URL . 'employees');
+                    die();
                 }
             }
         }
@@ -775,6 +780,7 @@ class EmployeeModel extends Model
         }
         //Redirect
                 header('Location: ' . ROOT_URL . 'employees/currentpay');
+                die();
         //return;
     }
 
