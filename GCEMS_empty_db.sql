@@ -250,6 +250,25 @@ ALTER TABLE `employee_securityroles`
 --
 ALTER TABLE `recoveryemails_enc`
   ADD CONSTRAINT `FK_rec_email_employee` FOREIGN KEY (`Employee_Number`) REFERENCES `employees` (`Employee_Number`) ON UPDATE CASCADE;
+
+--
+-- Add default user information into the system
+-- This section was manually added by Jim Baize
+-- Sept 14, 2018
+--
+
+INSERT INTO `employees`
+  (`Employee_Number`, `First_Name`,`Last_Name`, `username`, `password`, `email`)
+  VALUES (000000000, `Admin_First`, `Admin_Last`, `root`, `default_pass`, `default_email`);
+
+INSERT INTO `employee_securityroles`
+  (`Employee_Number`, `Security_Role_ID`)
+  VALUES (000000000, 2);
+
+--
+-- End of the added section
+--
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
