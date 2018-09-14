@@ -31,29 +31,29 @@ session_start();
 
 if (checkIsLocalIP())
 {
-    require('configlocal.php');
+    require_once('configlocal.php');
 }
 else
 {
-    require('config.php');
+    require_once('config.php');
 }
 
-require('classes/Bootstrap.php');
-require('classes/Controller.php');
-require('classes/Model.php');
-require('classes/Messages.php');
-require('classes/Miscellaneous.php');
-require('classes/StoPasswordReset.php');
+require_once('classes/Bootstrap.php');
+require_once('classes/Controller.php');
+require_once('classes/Model.php');
+require_once('classes/Messages.php');
+require_once('classes/Miscellaneous.php');
+require_once('classes/StoPasswordReset.php');
 
-require('controllers/home.php');
-require('controllers/employees.php');
-require('controllers/jobtitles.php');
-require('controllers/administrators.php');
+require_once('controllers/home.php');
+require_once('controllers/employees.php');
+require_once('controllers/jobtitles.php');
+require_once('controllers/administrators.php');
 
-require('models/home.php');
-require('models/employee.php');
-require('models/jobtitle.php');
-require('models/administrator.php');
+require_once('models/home.php');
+require_once('models/employee.php');
+require_once('models/jobtitle.php');
+require_once('models/administrator.php');
 
 $bootstrap = new Bootstrap($_GET);
 $controller = $bootstrap->createController();

@@ -5,3 +5,6 @@
 /nbproject/
 /configlocal.php
 /tests/acceptance/SigninCest.php
+/classes/pear/
+/classes/Mail/
+/Mail/

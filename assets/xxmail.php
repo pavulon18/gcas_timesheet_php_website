@@ -54,14 +54,20 @@ function xxmail($to, $subject, $body, $headers)
 // Header
     fwrite($smtp, 'To: ' . $to . $c);
     if (strlen($subject))
+    {
         fwrite($smtp, 'Subject: ' . $subject . $c);
+    }
     if (strlen($headers))
+    {
         fwrite($smtp, $headers); // Must be \r\n (delimited)
+    }
     fwrite($smtp, $headers . $c);
 
 // Body
     if (strlen($body))
+    {
         fwrite($smtp, $body . $c);
+    }
     fwrite($smtp, $c . '.' . $c);
     $junk = fgets($smtp, $B);
 

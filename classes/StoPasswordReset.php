@@ -126,7 +126,6 @@ class StoPasswordReset
         {
             // We take advantage of the fast base64 encoding
             $binaryLength = (int) ($remainingLength * 3 / 4 + 1);
-            //$binaryString = mcrypt_create_iv($binaryLength, MCRYPT_DEV_URANDOM);  mcrypt_create_iv has been deprecated.  I am removing this line
             $binaryString = random_bytes($binaryLength);
             $base64String = base64_encode($binaryString);
 
