@@ -259,7 +259,7 @@ ALTER TABLE `recoveryemails_enc`
 
 INSERT INTO `employees`
   (`Employee_Number`, `First_Name`,`Last_Name`, `username`, `password`, `email`)
-  VALUES (000000000, `Admin_First`, `Admin_Last`, `root`, `default_pass`, `default_email`);
+  VALUES (000000000, `Admin_First`, `Admin_Last`, `default_user`, `default_pass`, `default_email`);
 
 INSERT INTO `employee_securityroles`
   (`Employee_Number`, `Security_Role_ID`)
