@@ -113,4 +113,7 @@ https://www.martinstoeckli.ch/php/php.html#passwordreset
 Special thanks to: https://github.com/flapjack17 Sean Roche for his invaluable 
 assistance on making the time entry page work as intended.
 
-(Updated May 11, 2018)
+For the image gallery:
+http://startbootstrap.com/template-overviews/thumbnail-gallery/
+https://github.com/BlackrockDigital/startbootstrap-thumbnail-gallery
+(Updated Sept 16, 2018)

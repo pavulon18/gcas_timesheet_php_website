@@ -250,6 +250,7 @@ ALTER TABLE `employee_securityroles`
 --
 ALTER TABLE `recoveryemails_enc`
   ADD CONSTRAINT `FK_rec_email_employee` FOREIGN KEY (`Employee_Number`) REFERENCES `employees` (`Employee_Number`) ON UPDATE CASCADE;
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

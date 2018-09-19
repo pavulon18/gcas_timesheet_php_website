@@ -49,11 +49,13 @@ require_once('controllers/home.php');
 require_once('controllers/employees.php');
 require_once('controllers/jobtitles.php');
 require_once('controllers/administrators.php');
+require_once('controllers/galleries.php');
 
 require_once('models/home.php');
 require_once('models/employee.php');
 require_once('models/jobtitle.php');
 require_once('models/administrator.php');
+require_once('models/gallery.php');
 
 $bootstrap = new Bootstrap($_GET);
 $controller = $bootstrap->createController();
