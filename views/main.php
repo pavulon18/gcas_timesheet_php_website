@@ -61,6 +61,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="<?php echo ROOT_URL; ?>employees"> Employees </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?php echo ROOT_URL; ?>galleries"> Picture Gallery </a>
+                        </li>
                         <?php if ($_SESSION['user_data']['securityRole'] === '2') : ?>
                         <li class="nav-item">
                             <a class="nav-link" href="<?php echo ROOT_URL; ?>administrators"> Administrators </a>
